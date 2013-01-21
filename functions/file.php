@@ -90,6 +90,19 @@ function m_file_put($local, $remote) {
  */
 function m_file_delete($remote) {
 	if (is_dir($remote)) {
-        exec("rm -fr " . escapeshellarg($remote));
+        m_rmdir($remote);
     }
+}
+
+/**
+ * Renames files in a remote place (creates directories if needed)
+ * @param  [type] $source [description]
+ * @param  [type] $dest   [description]
+ * @return [type]         [description]
+ */
+function m_file_rename($source, $dest) {
+	if(!is_dir(dirname($dest))) {
+		mkdir(dirname($dest), 0777, true);
+	}
+	return rename($source, $dest);
 }
