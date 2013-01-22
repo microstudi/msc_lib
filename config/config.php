@@ -6,6 +6,8 @@
 * Global vars used in the framework
 *
 */
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
+
 ///Global var $CONFIG
 $CONFIG = new stdClass;
 $CONFIG->version = 0.5;
@@ -40,6 +42,7 @@ $CONFIG->lang_error_sufix = '';
 
 $CONFIG->file_remote_type = 'local';
 $CONFIG->file_remote_options = array();
+$CONFIG->file_remote_fp = null;
 
 ///cache image
 $CONFIG->image_cache_dir = null;

@@ -9,14 +9,25 @@
 function m_file_set_remote($service = 'local', $options=array()) {
 	global $CONFIG;
 
+	if($CONFIG->file_remote_fp instanceOf mFile) $CONFIG->file_remote_fp->close();
+
 	$CONFIG->file_remote_type = $service;
+	$CONFIG->file_remote_fp   = null;
+	$default_ops              = array();
 	switch ($service) {
+		case 'file':
+		case 'local':
+			$default_ops = array('rootpath' => '', 'rooturl' => '');
+			$CONFIG->file_remote_type = 'file';
+			break;
 		case 'ftp':
-			$default_ops = array('host' => '', 'user' => '', 'password' => '', 'rootpath' => '', 'rooturl' => '');
+			$default_ops = array('host' => '', 'port' => 21, 'user' => '', 'password' => '', 'rootpath' => '', 'rooturl' => '');
 			break;
 
+		case 'ssh':
 		case 'ssh2':
-			$default_ops = array('host' => '', 'user' => '', 'password' => '', 'rootpath' => '', 'rooturl' => '');
+			$default_ops = array('host' => '', 'port' => 22, 'user' => '', 'password' => '', 'rootpath' => '', 'rooturl' => '');
+			$CONFIG->file_remote_type = 'ssh';
 			break;
 
 		case 's3':
@@ -26,6 +37,10 @@ function m_file_set_remote($service = 'local', $options=array()) {
 		default:
 			$CONFIG->file_remote_type = 'local';
 			break;
+	}
+	$CONFIG->file_remote_options = $default_ops;
+	foreach($options as $k => $v) {
+		if(array_key_exists($k, $default_ops)) $CONFIG->file_remote_options[$k] = $v;
 	}
 }
 /**
@@ -63,17 +78,56 @@ function m_file_url($file) {
 	return false;
 }
 
+/**
+ * Gets the file size (in bytes) from a remote place
+ * @param  string $file the file to search (relative to the root directory)
+ * @return int       the size
+ */
 function m_file_size($file) {
 	global $CONFIG;
 
-	return @filesize($file);
+	if( !($CONFIG->file_remote_fp instanceOf mFile ) ) {
+		$CONFIG->file_remote_fp = new mFile(
+			$CONFIG->file_remote_type,
+			$CONFIG->file_remote_options['host'],
+			$CONFIG->file_remote_options['port'],
+			$CONFIG->file_remote_options['user'],
+			$CONFIG->file_remote_options['password'],
+			$CONFIG->file_remote_options['rootpath']
+			);
+	}
+	return $CONFIG->file_remote_fp->size($file, true);
 }
 
 /**
+ * Copy a file from remote place to local
+ * @param  string $local  the local file
+ * @param  string $remote the remote file
+ * @return boolean        true if ok
+ */
+function m_file_get($remote, $local) {
+	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile ) ) {
+		$CONFIG->file_remote_fp = new mFile(
+			$CONFIG->file_remote_type,
+			$CONFIG->file_remote_options['host'],
+			$CONFIG->file_remote_options['port'],
+			$CONFIG->file_remote_options['user'],
+			$CONFIG->file_remote_options['password'],
+			$CONFIG->file_remote_options['rootpath']
+			);
+	}
+
+	return $CONFIG->file_remote_fp->download($remote, $local);
+	return false;
+
+}
+/**
  * Copy a file to a remote place
  * Autocreates destination tree of directories
- * @param  [type] $local  the local file
- * @param  [type] $remote the remote file
+ * @param  string $local  the local file
+ * @param  string $remote the remote file
  * @return boolean        true if ok
  */
 function m_file_put($local, $remote) {
@@ -92,6 +146,7 @@ function m_file_delete($remote) {
 	if (is_dir($remote)) {
         m_rmdir($remote);
     }
+    else unlink($remote);
 }
 
 /**

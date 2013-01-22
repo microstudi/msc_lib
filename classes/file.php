@@ -16,6 +16,7 @@
 	public $last_error = '', $last_path = '', $last_local = '', $last_remote = '';
 	public $ssh_mode = 'auto'; //auto, phpseclib, ssh2
 	private $libsec = false;
+	private $quiet_mode = false;
 
 	/**
 	 * Sets the initial parameters to work
@@ -51,6 +52,10 @@
 		}
 	}
 
+	function error_mode($mode = 'exception') {
+		if($mode == 'exception') $this->quiet_mode = false;
+		elseif($mode == 'quiet') $this->quiet_mode = true;
+	}
 	/**
 	 * Returns false if cannot connect o change to specified path
 	 * */
@@ -65,7 +70,7 @@
 					}
 					else {
 						$this->link = false;
-						$this->last_error = 'file-chdir-error';
+						$this->throwError('file-chdir-error');
 					}
 				break;
 
@@ -74,12 +79,12 @@
 						if(@ftp_login($this->link, $this->user, $this->pass)) {
 							//test path
 							if($this->realpath($this->path)) return true;
-							else $this->last_error = 'ftp-chdir-error';
+							else $this->throwError('ftp-chdir-error');
 						}
-						else $this->last_error = 'ftp-auth-error';
+						else $this->throwError('ftp-auth-error');
 
 					}
-					else $this->last_error = 'ftp-connection-error';
+					else $this->throwError('ftp-connection-error');
 				break;
 
 			case 'ssh':
@@ -88,22 +93,22 @@
 						if ($this->link->login($this->user, $this->pass)) {
 							if($this->realpath($this->path))	return true;
 							else {
-								$this->last_error = 'ssh2-chdir-error';
+								$this->throwError('ssh2-chdir-error');
 								$this->link = false;
 							}
 						}
-						else $this->last_error = 'ssh2-auth-error';
+						else $this->throwError('ssh2-auth-error');
 					}
 					else {
 						if($this->link = @ssh2_connect($this->host, $this->port ? $this->port : 22)) {
 							if(ssh2_auth_password($this->link, $this->user, $this->pass)) {
 								if($this->realpath($this->path))	return true;
-								else $this->last_error = 'ssh2-chdir-error';
+								else $this->throwError('ssh2-chdir-error');
 							}
-							else $this->last_error = 'ssh2-auth-error';
+							else $this->throwError('ssh2-auth-error');
 
 						}
-						else $this->last_error = 'ssh2-connection-error';
+						else $this->throwError('ssh2-connection-error');
 					}
 				break;
 
@@ -112,14 +117,29 @@
 	}
 
 	/**
-	 * returns a complete path
-	 * ensures /foo/bar/ not /foo/bar or /foobar/
-	 * */
-	function path($path='') {
-		if($path{0} == '/') $path = substr($path,1);
-		$path = $this->path . $path;
-		if(substr($path, -1, 1) != '/') $path .= "/";
-		return $path;
+	 * Close the current connection
+	 * @return [type] [description]
+	 */
+	function close() {
+		if(!is_resource($this->link)) return false;
+
+		$ok = true;
+		switch($this->type) {
+			case 'ftp':
+					$ok = ftp_close($this->link);
+				break;
+
+			case 'ssh':
+					if($this->libsec) {
+						$ok = $this->link->disconnect();
+					}
+					else {
+						$ok = ssh2_exec($this->link, "exit");
+					}
+				break;
+		}
+		$this->link = null;
+		return $ok;
 	}
 
 	/**
@@ -137,7 +157,7 @@
 			switch($this->type) {
 				case 'file':
 						if( !($realpath = realpath($path)) ) {
-							$this->last_error = "$path not found: " . $this->last_error;
+							$this->throwError("$path not found: " . $this->last_error);
 							return false;
 						}
 					break;
@@ -145,22 +165,24 @@
 				case 'ftp':
 						$p = @ftp_pwd($this->link);
 						if(@ftp_chdir($this->link, $path)) {
-							if($p) @ftp_chdir($this->link, $p);
 							$realpath = ftp_pwd($this->link);
+							@ftp_chdir($this->link, $p);
 						}
 						else {
-							$this->last_error = "$path not found: " . $this->last_error;
+							$this->throwError("$path not found: " . $this->last_error);
 							return false;
 						}
 					break;
 
 				case 'ssh':
 						if($this->libsec) {
+							$p = $this->link->pwd();
 							if($this->link->chdir($path)) {
 								$realpath = $this->link->pwd();
+								$this->link->chdir($p);
 							}
 							else {
-								$this->last_error = "$path not found: " . $this->last_error;
+								$this->throwError("$path not found: " . $this->last_error);
 								return false;
 							}
 						}
@@ -177,7 +199,7 @@
 							//echo "$path [$stdout][$stderr]";die;
 							if(!$stderr) $realpath = $stdout;
 							else {
-								$this->last_error = $stderr . ": " . $this->last_error;
+								$this->throwError($stderr . ": " . $this->last_error);
 								return false;
 							}
 						}
@@ -197,6 +219,7 @@
 	 */
 	function upload($local, $remote) {
 		if(!$this->connect()) return false;
+		$remote = $this->path . $remote;
 		$this->last_local  = $local;
 		$this->last_remote = $remote;
 		$name              = basename($local);
@@ -213,30 +236,30 @@
 		}
 
 		if(!is_file($local)) {
-			$this->last_error = "local-file-not-exists: $local";
+			$this->throwError("local-file-not-exists: $local");
 			return false;
 		}
 		switch($this->type) {
 			case 'file':
 					if(copy($local, $remote)) $ok = true;
-					else $this->last_error = "file-error-uploading-to: " . $this->last_error;
+					else $this->throwError("file-error-uploading-to: " . $this->last_error);
 				break;
 
 			case 'ftp':
 					$dir = dirname($remote);
 					if($dir != '.') ftp_chdir($this->link, $dir);
-					if(ftp_put($this->link,basename($remote), $local,FTP_BINARY)) $ok = true;
-					else $this->last_error = "ftp-error-uploading-to: " . $this->last_error;
+					if(ftp_put($this->link, basename($remote), $local, FTP_BINARY)) $ok = true;
+					else $this->throwError("ftp-error-uploading-to: " . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($this->libsec) {
 						if($this->link->put($remote, $local, NET_SFTP_LOCAL_FILE)) $ok = true;
-						else $this->last_error = "ssh2-error-uploading-to: " . $this->last_error;
+						else $this->throwError("ssh2-error-uploading-to: " . $this->last_error);
 					}
 					else {
 						if(ssh2_scp_send($this->link, $local, $remote)) $ok = true;
-						else $this->last_error = "ssh2-error-uploading-to: " . $this->last_error;
+						else $this->throwError("ssh2-error-uploading-to: " . $this->last_error);
 					}
 				break;
 		}
@@ -258,25 +281,25 @@
 		switch($this->type) {
 			case 'file':
 					if(unlink($remote)) $ok = true;
-					else $this->last_error = "file-error-deleting-to: " . $this->last_error;
+					else $this->throwError("file-error-deleting-to: " . $this->last_error);
 				break;
 
 			case 'ftp':
 					$dir = dirname($remote);
 					if($dir != '.') ftp_chdir($this->link, $dir);
-					if(ftp_delete($this->link,basename($remote))) $ok = true;
-					else $this->last_error = "ftp-error-deleting-to: " . $this->last_error;
+					if(ftp_delete($this->link, basename($remote))) $ok = true;
+					else $this->throwError("ftp-error-deleting-to: " . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($this->libsec) {
 						if($this->link->delete($remote, false)) $ok = true;
-						else $this->last_error = "ssh2-error-deleting-to: " . $this->last_error;
+						else $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
 					}
 					else {
 						if($sftp = ssh2_sftp($this->link)) {
 							if(ssh2_sftp_unlink($sftp, $remote)) $ok = true;
-							else $this->last_error = "ssh2-error-deleting-to: " . $this->last_error;
+							else $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
 						}
 					}
 				break;
@@ -294,6 +317,7 @@
 	 */
 	function download($remote, $local) {
 		if(!$this->connect()) return false;
+		$remote = $this->path . $remote;
 		$this->last_local = $local;
 		$this->last_remote = $remote;
 		$name = basename($local);
@@ -309,24 +333,24 @@
 		switch($this->type) {
 			case 'file':
 					if(copy($remote, $local)) $ok = true;
-					else $this->last_error = "file-error-downloading-from: " . $this->last_error;
+					else $this->throwError("file-error-downloading-from: " . $this->last_error);
 				break;
 
 			case 'ftp':
 					$dir = dirname($remote);
 					if($dir != '.') ftp_chdir($this->link, $dir);
-					if(ftp_get($this->link, $local,basename($remote),FTP_BINARY)) $ok = true;
-					else $this->last_error = "ftp-error-downloading-from: " . $this->last_error;
+					if(ftp_get($this->link, $local, basename($remote), FTP_BINARY)) $ok = true;
+					else $this->throwError("ftp-error-downloading-from: " . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($this->libsec) {
 						if($this->link->get($remote, $local)) $ok = true;
-						else $this->last_error = "ssh2-error-downloading-from: " . $this->last_error;
+						else $this->throwError("ssh2-error-downloading-from: " . $this->last_error);
 					}
 					else {
 						if(ssh2_scp_recv($this->link, $remote, $local)) $ok = true;
-						else $this->last_error = "ssh2-error-downloading-from: " . $this->last_error;
+						else $this->throwError("ssh2-error-downloading-from: " . $this->last_error);
 					}
 				break;
 		}
@@ -342,6 +366,7 @@
 	 */
 	function size($remote, $force=false) {
 		if(!$this->connect()) return false;
+		$remote = $this->path . $remote;
 		$this->last_remote = $remote;
 		$size = -1;
 		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
@@ -354,12 +379,15 @@
 			case 'ftp':
 					$dir = dirname($remote);
 					if($dir != '.') ftp_chdir($this->link, $dir);
-					$size = ftp_size($this->link,basename($remote));
+					$size = ftp_size($this->link, basename($remote));
 					if($size == -1 && $force) {
 						//try to download the file and check the filesize
-						$tmp = tempnam();
+						$tmp = tempnam(sys_get_temp_dir(), 'file');
 						if($this->download($remote, $tmp)) {
-							if(is_file($tmp)) $size = filesize($tmp);
+							if(is_file($tmp)) {
+								$size = filesize($tmp);
+								unlink($tmp);
+							}
 						}
 					}
 				break;
@@ -381,7 +409,7 @@
 						//echo "$path [$stdout][$stderr]";
 						if(!$stderr) $size = (int)$stdout;
 						else {
-							$this->last_error = $stderr;
+							$this->throwError($stderr);
 						}
 					}
 				break;
@@ -397,6 +425,11 @@
 		$this->last_error = "$errstr";
 		//echo "\n\n".$this->error."\n\n";
 		return true;
+	}
+
+	protected function throwError($msg) {
+		$this->last_error = "$msg";
+		if(!$this->quiet_mode) throw new Exception($msg);
 	}
 }
 ?>
