@@ -1,3 +1,4 @@
 test/*
+doc/*
 examples/cache/*
 !examples/cache/.htaccess

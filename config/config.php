@@ -40,10 +40,6 @@ $CONFIG->lang_error_prefix = '';
 ///sufix to be added to the string code in case of lang error (by default \b })
 $CONFIG->lang_error_sufix = '';
 
-$CONFIG->file_remote_type = 'local';
-$CONFIG->file_remote_options = array();
-$CONFIG->file_remote_fp = null;
-
 ///cache image
 $CONFIG->image_cache_dir = null;
 $CONFIG->image_fallback_type = null;
@@ -53,8 +49,8 @@ $CONFIG->image_fallback_text = null;
 $CONFIG->router = null;
 
 ///File
-$CONFIG->file = null;
 $CONFIG->file_url_prefix = null;
+$CONFIG->file_remote_fp = null;
 
 ///php mailer
 $CONFIG->mailer = null;

@@ -15,7 +15,7 @@
 	private $link = '', $type = '', $host = '', $port = '', $user = '', $pass = '', $path = '', $realpath = '';
 	public $last_error = '', $last_path = '', $last_local = '', $last_remote = '';
 	public $ssh_mode = 'auto'; //auto, phpseclib, ssh2
-	private $libsec = false;
+	public $libsec = false;
 	private $quiet_mode = false;
 
 	/**
@@ -35,8 +35,21 @@
 		$this->pass = $pass;
 		if(substr($path, -1, 1) != '/') $path .= "/";
 		$this->path = $path;
+	}
+
+	function error_mode($mode = 'exception') {
+		if($mode == 'exception') $this->quiet_mode = false;
+		elseif($mode == 'quiet') $this->quiet_mode = true;
+	}
+
+	/**
+	 * Returns false if cannot connect o change to specified path
+	 * */
+	function connect() {
+		if(is_resource($this->link) || ($this->link && ($this->type == 'file' || $this->libsec))) return true;
+
 		//SSH library to use
-		if($type == 'ssh' && ($this->ssh_mode = 'phpseclib' || ($this->ssh_mode == 'auto' && !extension_loaded('ssh2')))) {
+		if($this->type == 'ssh' && ($this->ssh_mode == 'phpseclib' || ($this->ssh_mode == 'auto' && !extension_loaded('ssh2')))) {
 			$this->libsec = true;
 			include_once('phpseclib/Math/BigInteger.php');
 			include_once('phpseclib/Crypt/Random.php');
@@ -50,17 +63,6 @@
 			include_once('phpseclib/Net/SSH2.php');
 			include_once('phpseclib/Net/SFTP.php');
 		}
-	}
-
-	function error_mode($mode = 'exception') {
-		if($mode == 'exception') $this->quiet_mode = false;
-		elseif($mode == 'quiet') $this->quiet_mode = true;
-	}
-	/**
-	 * Returns false if cannot connect o change to specified path
-	 * */
-	function connect() {
-		if(is_resource($this->link) || ($this->link && ($this->type == 'file' || $this->libsec))) return true;
 
 		switch($this->type) {
 			case 'file':
@@ -143,6 +145,17 @@
 	}
 
 	/**
+	 * Ensures a valid path without duplicates /
+	 * @param  [type] $remote [description]
+	 * @return [type]         [description]
+	 */
+	protected function get_path($remote) {
+		while($remote{0} == '/') $remote = substr($remote, 1);
+		if(substr($this->path, -1, 1) != '/') $this->path .= '/';
+		return $this->path . $remote;
+	}
+
+	/**
 	 * Tests a path on the active connection
 	 * @param  string $path the path for to check existence
 	 * @return string       returns the real path directory or false on failure
@@ -215,18 +228,18 @@
 	 * stores file on remote (overwrites)
 	 * @param  string $local  local file (must be absolute or relative to the working document)
 	 * @param  string $remote remote file (relative to $this->path)
+	 * @param  boolean $auto_create_dirs if true tries to autocreates the directory structure on remote
+	 *                                   on S3 has no effect as AWS has no concept of "directory" (always true)
 	 * @return boolean        returns true if success, false otherwise
 	 */
-	function upload($local, $remote) {
+	function upload($local, $remote, $auto_create_dirs = true) {
 		if(!$this->connect()) return false;
-		$remote = $this->path . $remote;
+		$remote = $this->get_path($remote);
 		$this->last_local  = $local;
 		$this->last_remote = $remote;
-		$name              = basename($local);
-
 
 		$ok = false;
-		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
+		set_error_handler(array($this,'error_handler'), E_ALL & ~E_NOTICE);
 
 		//if local is a stream, copy locally
 		if(substr($local,0,7) == 'http://') {
@@ -241,18 +254,26 @@
 		}
 		switch($this->type) {
 			case 'file':
+					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote));
 					if(copy($local, $remote)) $ok = true;
 					else $this->throwError("file-error-uploading-to: " . $this->last_error);
 				break;
 
 			case 'ftp':
 					$dir = dirname($remote);
-					if($dir != '.') ftp_chdir($this->link, $dir);
+					$odir = '';
+					if($auto_create_dirs) $this->mkdir_recursive($dir);
+					if($dir != '.') {
+						$odir = ftp_pwd($this->link);
+						ftp_chdir($this->link, $dir);
+					}
 					if(ftp_put($this->link, basename($remote), $local, FTP_BINARY)) $ok = true;
-					else $this->throwError("ftp-error-uploading-to: " . $this->last_error);
+					if($odir) ftp_chdir($this->link, $odir);
+					if(!$ok) $this->throwError("ftp-error-uploading-to: " . $this->last_error);
 				break;
 
 			case 'ssh':
+					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote));
 					if($this->libsec) {
 						if($this->link->put($remote, $local, NET_SFTP_LOCAL_FILE)) $ok = true;
 						else $this->throwError("ssh2-error-uploading-to: " . $this->last_error);
@@ -269,37 +290,55 @@
 
 	/**
 	 * deletes file on remote
-	 * @param  string $remote remote file (relative to $this->path) that will be deleted
+	 * @param  string  $remote remote file (relative to $this->path) that will be deleted
+	 * @param  boolean $auto_delete_dirs if true deletes empty the directory containing the remote file
+	 *                                   if it is empty on AWS S3, is always true
 	 * @return boolean        returns true if success, false otherwise
 	 */
-	function delete($remote) {
+	function delete($remote, $auto_delete_dirs = true) {
 		if(!$this->connect()) return false;
+		$remote = $this->get_path($remote);
 		$this->last_remote = $remote;
 
 		$ok = false;
 		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
 		switch($this->type) {
 			case 'file':
-					if(unlink($remote)) $ok = true;
+					if(unlink($remote)) {
+						$ok = true;
+						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote));
+					}
 					else $this->throwError("file-error-deleting-to: " . $this->last_error);
 				break;
 
 			case 'ftp':
 					$dir = dirname($remote);
-					if($dir != '.') ftp_chdir($this->link, $dir);
+					$odir = '';
+					if($dir != '.') {
+						$odir = ftp_pwd($this->link);
+						ftp_chdir($this->link, $dir);
+					}
 					if(ftp_delete($this->link, basename($remote))) $ok = true;
-					else $this->throwError("ftp-error-deleting-to: " . $this->last_error);
+					if($odir) ftp_chdir($this->link, $odir);
+					if($auto_delete_dirs) $this->delete_empty_dir($dir);
+					if(!$ok) $this->throwError("ftp-error-deleting-to: " . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($this->libsec) {
-						if($this->link->delete($remote, false)) $ok = true;
-						else $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
+						if($this->link->delete($remote, false)) {
+							$ok = true;
+							if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote));
+						}
+						if(!$ok) $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
 					}
 					else {
 						if($sftp = ssh2_sftp($this->link)) {
-							if(ssh2_sftp_unlink($sftp, $remote)) $ok = true;
-							else $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
+							if(ssh2_sftp_unlink($sftp, $remote)) {
+								$ok = true;
+								if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote));
+							}
+							if(!$ok) $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
 						}
 					}
 				break;
@@ -310,6 +349,97 @@
 	}
 
 	/**
+	 * Deletes a directory if its empty on remote place
+	 * @param  string $remote absolute remote dir!
+	 * @return [type]         [description]
+	 */
+	protected function delete_empty_dir($remote_dir) {
+		if(!$this->connect()) return false;
+		//never delete the root path
+		if($remote_dir == $this->path) return true;
+
+		switch ($this->type) {
+			case 'file':
+				if(is_dir($remote_dir) && count(scandir($remote_dir)) == 2) {
+					if(@rmdir($remote_dir)) return $this->delete_empty_dir(dirname($remote_dir));
+				}
+				break;
+
+			case 'ftp':
+				if(@ftp_rmdir($this->link, $remote_dir)) return $this->delete_empty_dir(dirname($remote_dir));
+				break;
+
+			case 'ssh':
+					if($this->libsec) {
+						if($this->link->rmdir($remote_dir)) return $this->delete_empty_dir(dirname($remote_dir));
+					}
+					else {
+						if($sftp = ssh2_sftp($this->link)) {
+							if(@ssh2_sftp_rmdir($sftp, $remote_dir)) return $this->delete_empty_dir(dirname($remote_dir));
+						}
+					}
+				break;
+		}
+		return true;
+	}
+
+	/**
+	 * Creates a dir in remote recursively
+	 * @param  string $remote_dir absolute remote dir!
+	 * @return [type]             [description]
+	 */
+	protected function mkdir_recursive($remote_dir) {
+		if(!$this->connect()) return false;
+		switch($this->type) {
+			case 'file':
+					if(!is_dir($remote_dir)) @mkdir($remote_dir, 0777, true);
+					return is_dir($remote_dir);
+				break;
+
+			case 'ftp':
+					$dir = $remote_dir;
+					$odir = ftp_pwd($this->link);
+					$parts = explode("/", $dir);
+			        $ok = true;
+			        $fullpath = "";
+			        foreach($parts as $part){
+		                if(empty($part)) {
+	                        $fullpath .= "/";
+	                        continue;
+		                }
+		                $fullpath .= $part."/";
+		                if(@ftp_chdir($this->link, $fullpath)){
+		                	ftp_chdir($this->link, $fullpath);
+		                }
+		                else {
+		                	if(ftp_chdir($this->link, $part)) continue;
+		                    elseif(@ftp_mkdir($this->link, $part)){
+		                        ftp_chdir($this->link, $part);
+		                    }
+		                    else {
+		                        $ok = false;
+		                    }
+		                }
+			        }
+			        if($odir) ftp_chdir($this->link, $odir);
+			        return $ok;
+			    break;
+
+			case 'ssh':
+					if($this->libsec) {
+						return $this->link->mkdir($remote_dir);
+					}
+					else {
+						if($sftp = ssh2_sftp($this->link)) {
+							return ssh2_sftp_mkdir($sftp, $remote_dir, 0777, true);
+						}
+						return false;
+					}
+				break;
+		}
+	}
+
+	/**
 	 * retrieves file from remote (overwrites)
 	 * @param  string $remote remote file (relative to $this->path)
 	 * @param  string $local  local file (must be absolute or relative to the working document)
@@ -317,10 +447,9 @@
 	 */
 	function download($remote, $local) {
 		if(!$this->connect()) return false;
-		$remote = $this->path . $remote;
+		$remote = $this->get_path($remote);
 		$this->last_local = $local;
 		$this->last_remote = $remote;
-		$name = basename($local);
 
 		$ok = false;
 		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
@@ -338,9 +467,14 @@
 
 			case 'ftp':
 					$dir = dirname($remote);
-					if($dir != '.') ftp_chdir($this->link, $dir);
+					$odir = '';
+					if($dir != '.') {
+						$odir = ftp_pwd($this->link);
+						ftp_chdir($this->link, $dir);
+					}
 					if(ftp_get($this->link, $local, basename($remote), FTP_BINARY)) $ok = true;
-					else $this->throwError("ftp-error-downloading-from: " . $this->last_error);
+					if($odir) ftp_chdir($this->link, $odir);
+					if(!$ok) $this->throwError("ftp-error-downloading-from: " . $this->last_error);
 				break;
 
 			case 'ssh':
@@ -358,15 +492,79 @@
 
 		return $ok;
 	}
+
+	/**
+	 * Rename files on remote (overwrites)
+	 * @param  string $remote_source remote file origin
+	 * @param  string $remote_dest   remote file destination
+	 * @param  boolean $auto_create_dirs if true tries to autocreates the directory structure on remote
+	 *                                   on S3 has no effect as AWS has no concept of "directory" (always true)
+	 * @return boolean        returns true if success, false otherwise
+	 */
+	function rename($remote_source, $remote_dest, $auto_create_dirs = true, $auto_delete_dirs = true) {
+		if(!$this->connect()) return false;
+		$remote_source     = $this->get_path($remote_source);
+		$remote_dest       = $this->get_path($remote_dest);
+		$this->last_remote = $remote_source;
+
+		$ok = false;
+		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
+
+		switch($this->type) {
+			case 'file':
+					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote_dest));
+					if(rename($remote_source, $remote_dest)) {
+						$ok = true;
+						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
+					}
+					else $this->throwError("file-error-renaming-to: " . $this->last_error);
+				break;
+
+			case 'ftp':
+					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote_dest));
+					if(ftp_rename($this->link, $remote_source, $remote_dest)) {
+						$ok = true;
+						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
+					}
+					else $this->throwError("ftp-error-renaming-to: " . $this->last_error);
+				break;
+
+			case 'ssh':
+					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote_dest));
+					if($this->libsec) {
+						if($this->link->rename($remote_source, $remote_dest)) {
+							$ok = true;
+							if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
+						}
+						if(!$ok) $this->throwError("ssh2-error-renaming-to: " . $this->last_error);
+					}
+					else {
+						if($sftp = ssh2_sftp($this->link)) {
+							if(ssh2_sftp_rename($sftp, $remote_source, $remote_dest)) {
+								$ok = true;
+								if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
+							}
+						}
+						if(!$ok) $this->throwError("ssh2-error-renaming-to: " . $this->last_error);
+					}
+				break;
+		}
+
+		restore_error_handler();
+
+		if($ok) $this->last_remote = $remote_dest;
+		return $ok;
+	}
+
 	/**
 	 * retrieves filesize from remote
 	 * @param  string  $remote remote file to check file size
 	 * @param  boolean $force  if it is true, then will try to download the file from ftp if ftp_size fails
 	 * @return int         		returns -1 on error, file size otherwise
 	 */
-	function size($remote, $force=false) {
+	function size($remote_original, $force=false) {
 		if(!$this->connect()) return false;
-		$remote = $this->path . $remote;
+		$remote = $this->get_path($remote_original);
 		$this->last_remote = $remote;
 		$size = -1;
 		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
@@ -378,12 +576,17 @@
 
 			case 'ftp':
 					$dir = dirname($remote);
-					if($dir != '.') ftp_chdir($this->link, $dir);
+					$odir = '';
+					if($dir != '.') {
+						$odir = ftp_pwd($this->link);
+						ftp_chdir($this->link, $dir);
+					}
 					$size = ftp_size($this->link, basename($remote));
+					if($odir) ftp_chdir($this->link, $odir);
 					if($size == -1 && $force) {
 						//try to download the file and check the filesize
 						$tmp = tempnam(sys_get_temp_dir(), 'file');
-						if($this->download($remote, $tmp)) {
+						if($this->download($remote_original, $tmp)) {
 							if(is_file($tmp)) {
 								$size = filesize($tmp);
 								unlink($tmp);
@@ -422,7 +625,8 @@
 	 * Handle function errors
 	 * */
 	public function error_handler($errno, $errstr, $errfile, $errline, $errcontext) {
-		$this->last_error = "$errstr";
+		if(error_reporting() === 0) return;
+		$this->last_error = "[$errno line $errline] $errstr";
 		//echo "\n\n".$this->error."\n\n";
 		return true;
 	}
