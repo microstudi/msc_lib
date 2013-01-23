@@ -136,7 +136,7 @@ function m_sql_objects($sql, $class='') {
 		}
 	}
 	elseif($CONFIG->debug) {
-		print_r($CONFIG->db->getError());
+		//print_r($CONFIG->db->getError());
 		return $CONFIG->db->getError();
 	}
 	return $ret;

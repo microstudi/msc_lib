@@ -22,13 +22,18 @@ m_file_set_remote('ftp', array(
 	                                                      //    on http://myhost.com/public/start/folder/image.png
 	));
 //uploading a file
-m_file_put('myfile.png', 'myfile.png');
-//accessing to the public link
-$link = m_file_url('myfile.png');
-//echo html code
-echo '&lt;a href="' . $link . '"&gt;My File link&lt;/a&gt;';
+$ok = m_file_put('myfile.png', 'myfile.png');
+if($ok === true) {
+	//accessing to the public link
+	$link = m_file_url('myfile.png');
+	//echo html code
+	echo '&lt;a href="' . $link . '"&gt;My File link&lt;/a&gt;';
+}
+else {
+	echo "Error uploading: $ok";
+}
 ?&gt;</pre>
-<p>This will produce the html code:  <code class="prettyprint">&lt;a href="http://myhost.com/public/start/folder/myfile.png"&gt;My File link&lt;/a&gt;</code></p>
+<p>If it goes fine, this will produce the html code:  <code class="prettyprint">&lt;a href="http://myhost.com/public/start/folder/myfile.png"&gt;My File link&lt;/a&gt;</code></p>
 </li>
 </ol>
 </section>

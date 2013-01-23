@@ -31,7 +31,9 @@ function m_file_set_remote($service = 'local', $options=array()) {
 			break;
 
 		case 's3':
-			// TODO code...
+		case 'S3':
+			$default_ops = array('endpoint' => 's3-eu-west-1.amazonaws.com', 'bucket' => '', 'key' => '', 'secret' => '', 'prefix' => '');
+			$type = 's3';
 			break;
 
 		default:
@@ -43,8 +45,15 @@ function m_file_set_remote($service = 'local', $options=array()) {
 		if(!array_key_exists($k, $options)) $options[$k] = $v;
 	}
 
-	$CONFIG->file_remote_fp = new mFile($type, $options['host'], $options['port'], $options['user'], $options['password'], $options['rootpath']);
-
+	if($type == 's3') {
+		$options['host']     = $options['endpoint'];
+		$options['user']     = $options['key'];
+		$options['password'] = $options['secret'];
+		$options['rootpath'] = $options['prefix'];
+		$options['port']     = $options['bucket'];
+	}
+	$CONFIG->file_remote_fp = new mFile($type, $options['host'], $options['user'], $options['password'], $options['rootpath'], $options['port']);
+	$CONFIG->file_remote_fp->error_mode('string');
 }
 /**
  * Sets the prefix for a the returned url
