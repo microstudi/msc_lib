@@ -62,7 +62,7 @@ class mMySQL extends mSQL {
 	function open (){
 		if($this->is_open()) return $this->conn;
 		try {
-			if($this->conn = @mysql_connect ($this->host, $this->user, $this->pass)) {
+			if($this->conn = @mysql_connect ($this->host, $this->user, $this->pass, true)) {
 				if(@mysql_select_db ($this->name, $this->conn)) {
 					return $this->conn;
 				}
@@ -86,6 +86,7 @@ class mMySQL extends mSQL {
 	function close (){
 		if($this->conn){
 			mysql_close($this->conn);
+			$this->conn = null;
 		}
 		else {
 			$this->throwError("Error: No connection has been established to the database. Cannot close connection.");

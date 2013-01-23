@@ -37,19 +37,16 @@
 */
 
 ///Include global vars & definitions
-include_once(dirname(__FILE__)."/config/config.php");
+include_once(__DIR__ . "/config.php");
 
-/// Include config tools
-include_once(dirname(__FILE__)."/config/settings.php");
-include_once(dirname(__FILE__)."/config/db_conn.php");
 
 /// Include libs
 foreach($CONFIG->inc_classes as $mod) {
-	include_once(dirname(__FILE__)."/classes/$mod.php");
+	include_once(__DIR__ . "/classes/$mod.php");
 
 }
 foreach($CONFIG->inc_functions as $mod) {
-	include_once(dirname(__FILE__)."/functions/$mod.php");
+	include_once(__DIR__ . "/functions/$mod.php");
 }
 
 ?>

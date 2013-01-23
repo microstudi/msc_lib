@@ -12,7 +12,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 $CONFIG = new stdClass;
 $CONFIG->version = 0.5;
 ///set to true to show errors
-$CONFIG->debug = false;
+$CONFIG->debug = true;
 
 ///database conection class var
 $CONFIG->db = null;
@@ -20,7 +20,7 @@ $CONFIG->db = null;
 $CONFIG->default_database = 'mysql';
 
 ///views path
-$CONFIG->views_path = dirname(dirname(__FILE__))."/views";
+$CONFIG->views_path = __DIR__ . "/views";
 ///default view (subdirectory in views path)
 $CONFIG->default_view = "html5";
 ///fallback view for non-existing views

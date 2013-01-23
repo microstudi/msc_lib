@@ -6,11 +6,6 @@
 * This functions uses the class mMySQL defined in the file classes/mysql.php
 *
 * @section usage Usage
-* //sets the connection data:\n
-* $CONFIG->dbhost = "localhost";\n
-* $CONFIG->dbname = "my_database";\n
-* $CONFIG->dbuser = "my_username";\n
-* $CONFIG->dbpass = "my_password";\n
 * \n
 * $list = m_sql_list("users",0,10,false,'*','active=1');\n
 * print_r($list);
@@ -18,31 +13,20 @@
 function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $type='mysql') {
 	global $CONFIG;
 
-	//print_r("Set DB: " . $dbhost . " " . $dbname . " " . $dbuser . " " . $dbpass . " " );
-	$CONFIG->dbhost = $dbhost;
-	$CONFIG->dbname = $dbname;
-	$CONFIG->dbuser = $dbuser;
-	$CONFIG->dbpass = $dbpass;
-
+	//only mysql at this time
 	$CONFIG->default_database = 'mysql';
+	if($CONFIG->db instanceOf mMySQL) $CONFIG->db->close();
+
+	$CONFIG->db = new mMySQL($dbhost, $dbname, $dbuser, $dbpass);
+
 }
 /**
  * Opens a database connection, returns the link resource
- * @param $type Database type (currently only \b mysql)
  */
-function m_sql_open($type='') {
+function m_sql_open( ) {
 	global $CONFIG;
 
-	if(empty($type)) $type = $CONFIG->default_database;
-	if($type == 'mysql') {
-		// Aixo no va amb les funcions mysql_ (que estan obsoletes!)
-		// if($CONFIG->db instanceOf mMySQL) {
-		// 	if($CONFIG->db->is_same($CONFIG->dbhost, $CONFIG->dbname, $CONFIG->dbuser, $CONFIG->dbpass) ) {
-		// 		return $CONFIG->db->open();
-		// 	}
-		// }
-		$CONFIG->db = new mMySQL($CONFIG->dbhost, $CONFIG->dbname, $CONFIG->dbuser, $CONFIG->dbpass);
-	}
+	if( !($CONFIG->db instanceOf mMySQL) ) return false;
 
 	return $CONFIG->db->open();
 }
@@ -127,19 +111,16 @@ function m_auto_create_table($table, $array=array()){
 function m_sql_objects($sql, $class='') {
 	global $CONFIG;
 	//open connection if not opened
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$ret = array();
 	if($res = $CONFIG->db->query($sql)) {
 		while($ob = $CONFIG->db->fetch($res,false, $class ? $class : 'stdClass')) {
 			$ret[] = $ob;
 		}
+		return $ret;
 	}
-	elseif($CONFIG->debug) {
-		//print_r($CONFIG->db->getError());
-		return $CONFIG->db->getError();
-	}
-	return $ret;
+	return false;
 }
 
 /**
@@ -198,7 +179,7 @@ function m_sql_list($table, $offset=0, $limit=100, $count=false, $fields='*', $w
 function m_sql_exec($sql, $mode='') {
 	global $CONFIG;
 	//open connection if not opened
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$res = $CONFIG->db->query($sql, $mode);
 
@@ -212,7 +193,7 @@ function m_sql_exec($sql, $mode='') {
  */
 function m_sql_delete($table, $where='') {
 	global $CONFIG;
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$sql = "DELETE FROM `$table`";
 	if($where) {
@@ -237,7 +218,7 @@ function m_sql_delete($table, $where='') {
  */
 function m_sql_insert($table, $insert=array(), $as_insert=true, $escape=true) {
 	global $CONFIG;
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$inserts = array();
 	foreach($insert as $k => $v) {
@@ -263,7 +244,7 @@ function m_sql_insert($table, $insert=array(), $as_insert=true, $escape=true) {
  */
 function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_only_affected_rows=false) {
 	global $CONFIG;
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$updates = array();
 	foreach($insert as $k => $v) {
@@ -299,7 +280,7 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
  */
 function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_update='') {
 	global $CONFIG;
-	m_sql_open();
+	if(!m_sql_open()) return false;
 
 	$updates = array();
 	$inserts = array();

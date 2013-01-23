@@ -51,16 +51,19 @@ function m_file_set_remote($service = 'local', $options=array()) {
 		$options['password'] = $options['secret'];
 		$options['rootpath'] = $options['prefix'];
 		$options['port']     = $options['bucket'];
+		$options['rooturl']  = $options['bucket'] . "." . $options['endpoint'] . "/" . $options['prefix'];
 	}
 	$CONFIG->file_remote_fp = new mFile($type, $options['host'], $options['user'], $options['password'], $options['rootpath'], $options['port']);
 	$CONFIG->file_remote_fp->error_mode('string');
+
+	//configure the prefix
+	m_file_url_prefix($options['rooturl']);
 }
 /**
  * Sets the prefix for a the returned url
  * @param  string $prefix the prefix wanted (usually http://something)
- *                        if null then the prefix will be autoextracte from current path
+ *                        if null then the prefix will be autoextracted from current path
  * @return string 		  Returns the prefix
- * TODO
  */
 function m_file_url_prefix($prefix = null) {
 	global $CONFIG;
@@ -79,17 +82,17 @@ function m_file_url_prefix($prefix = null) {
  * Returns the public url from a file with the default prefix
  * @param  string $file [description]
  * @return string       [description]
- * TODO
  */
 function m_file_url($file) {
 	global $CONFIG;
 	$prefix = $CONFIG->file_url_prefix;
 	if(empty($prefix) && substr($file, 0, 4) != 'http') {
-		$prefix = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']) . ($file{0} == '/' ? "" : "/") ;
+		$prefix = "http://" . $_SERVER['HTTP_HOST'] . dirname($_SERVER['SCRIPT_NAME']);
 	}
-	if(is_file($file)) return $prefix . $file;
 
-	return false;
+	if(substr($prefix, -1,1) != '/') $prefix .= "/";
+
+	return $prefix . $file;
 }
 
 /**
