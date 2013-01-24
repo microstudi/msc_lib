@@ -143,6 +143,7 @@ function m_list_dir($dir,$iterative=true){
 }
 
 function m_url_exists($url) {
+	$url = dirname($url)."/".rawurlencode(basename($url));
 	$hdrs = @get_headers($url);
     $handle = is_array($hdrs) ? preg_match('/^HTTP\\/\\d+\\.\\d+\\s+2\\d\\d\\s+.*$/',$hdrs[0]) : false;
     if($handle) return true;
