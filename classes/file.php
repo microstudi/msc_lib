@@ -177,17 +177,27 @@
 
 	/**
 	 * Ensures a valid path without duplicates /
+	 * @param  [type] $path [description]
+	 * @return [type]         [description]
+	 */
+	static function path($path) {
+		while($path{0} == '/') $path = substr($path, 1);
+		if(substr($path, -1, 1) != '/') $path .= '/';
+		return $path;
+	}
+
+	/**
+	 * Ensures a valid absolute path without duplicates /
 	 * @param  [type] $remote [description]
 	 * @return [type]         [description]
 	 */
-	protected function get_path($remote) {
-		while($remote{0} == '/') $remote = substr($remote, 1);
-		if(substr($this->path, -1, 1) != '/') $this->path .= '/';
+	public function get_path($remote='') {
+		while($remote{0} == '/') $remote = substr($remote,1);
 		return $this->path . $remote;
 	}
 
 	/**
-	 * Tests a path on the active connection
+	 * Tests a absolute path on the active connection
 	 * @param  string $path the path for to check existence
 	 * @return string       returns the real path directory or false on failure
 	 */

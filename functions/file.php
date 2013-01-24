@@ -74,6 +74,7 @@ function m_file_url_prefix($prefix = null) {
 		$prefix = "http://" . $_SERVER['HTTP_HOST'] . $prefix;
 	}
 
+	while(substr($prefix, -1,1) == '/') $prefix = substr($prefix, 0 , -1);
 	$CONFIG->file_url_prefix = $prefix;
 
 	return $prefix;
@@ -155,4 +156,10 @@ function m_file_rename($remote_source, $remote_dest, $auto_create_dirs = true) {
 	global $CONFIG;
 
 	return $CONFIG->file_remote_fp->rename($remote_source, $remote_dest, $auto_create_dirs);
+}
+
+function m_file_errors() {
+	global $CONFIG;
+
+	return $CONFIG->file_remote_fp->last_error;
 }
