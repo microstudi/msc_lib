@@ -147,6 +147,17 @@ function m_file_delete($remote, $auto_delete_dirs = true) {
 }
 
 /**
+ * Deletes a remote dir recursively (deletes all files inside)
+ * @param  string $remote_dir the remote dir, on s3, the remote prefix which simulates the dir
+ * @return boolean             [description]
+ */
+function m_file_rmdir($remote_dir) {
+	global $CONFIG;
+
+	return $CONFIG->file_remote_fp->rmdir($remote_dir, $auto_delete_dirs);
+}
+
+/**
  * Renames files in a remote place (creates directories if needed)
  * @param  [type] $remote_source [description]
  * @param  [type] $remote_dest   [description]
@@ -158,7 +169,7 @@ function m_file_rename($remote_source, $remote_dest, $auto_create_dirs = true) {
 	return $CONFIG->file_remote_fp->rename($remote_source, $remote_dest, $auto_create_dirs);
 }
 
-function m_file_errors() {
+function m_file_error() {
 	global $CONFIG;
 
 	return $CONFIG->file_remote_fp->last_error;

@@ -404,6 +404,94 @@
 	}
 
 	/**
+	 * Deletes a remote directory recursively
+	 * @param  string $remote_dir the remote dir
+	 * @return boolean        returns true if success, false otherwise
+	 */
+	public function rmdir($remote_dir_original) {
+		if(!$this->connect()) return false;
+		if(!$remote_dir_original) return false;
+		$remote = $this->get_path($remote_dir_original);
+		//never delete the working path
+		if($remote == $this->get_path()) return false;
+		$this->last_remote = $remote;
+
+		$ok = false;
+		set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
+		switch($this->type) {
+			case 'file':
+					if(m_rmdir($remote)) {
+						$ok = true;
+					}
+					else return $this->throwError("file-error-rmdir-to: " . $this->last_error);
+				break;
+
+			case 'ftp':
+					//try to delete the dir or file
+					$ok = false;
+					 if( !(@ftp_rmdir($this->link, $remote) || @ftp_delete($this->link, $remote)) ) {
+					 	//if the attempt to delete fails, get the file listing
+						$filelist = @ftp_nlist($this->link, $remote);
+						//loop through the file list and recursively delete the FILE in the list
+						foreach($filelist as $file) {
+							$file = preg_replace("/^" . str_replace("/", "\/", quotemeta($this->path)) . "/", "", $file);
+							$this->rmdir($file);
+						}
+						//if the file list is empty, delete the DIRECTORY we passed
+						$ok = $this->rmdir($remote_dir_original);
+					}
+					else $ok = true;
+					if(!$ok) return $this->throwError("ftp-error-rmdir-to: " . $this->last_error);
+				break;
+
+			case 'ssh':
+					if($this->libsec) {
+						if($this->link->delete($remote, true)) {
+							$ok = true;
+						}
+						if(!$ok) return $this->throwError("ssh2-error-rmdir-to: " . $this->last_error);
+					}
+					else {
+						$stream = ssh2_exec($this->link,"rm -rf " . escapeshellarg($remote));
+						$errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
+						// Enable blocking for both streams
+						stream_set_blocking($errorStream, true);
+						stream_set_blocking($stream, true);
+						$stdout = trim(stream_get_contents($stream));
+						$stderr = stream_get_contents($errorStream);
+						fclose($errorStream);
+						fclose($stream);
+						//echo "$path [$stdout][$stderr]";
+						if(!$stderr) $size = (int)$stdout;
+						else {
+							return $this->throwError("ssh2-error-rmdir-to: " . $stderr);
+						}
+					}
+				break;
+
+			case 's3':
+					try {
+						$ok = false;
+						while (($contents = $this->link->getBucket($this->bucket, $remote)) !== false) {
+					        foreach ($contents as $object) {
+					            $this->link->deleteObject($this->bucket, $object['name']);
+					        }
+					       	if(count($contents)<1000) {
+								$ok = true;
+								break;
+							}
+					    }
+					} catch(S3Exception $e) {
+						return $this->throwError("s3-error-deleting-to: " . $e->getMessage());
+					}
+				break;
+
+		}
+		restore_error_handler();
+		return $ok;
+	}
+
+	/**
 	 * Deletes a directory if its empty on remote place
 	 * @param  string $remote absolute remote dir!
 	 * @return [type]         [description]
