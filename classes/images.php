@@ -481,6 +481,10 @@ class mImage {
 	 * @return [type]       [description]
 	 */
 	static function stream($file) {
+		//redirection if is http stream
+		if(substr($file, 0 , 7) == 'http://' || substr($file, 0 , 8) == 'https://') {
+			m_forward($file);
+		}
 		list($width, $height, $type, $attr) = @getimagesize( $file );
 		if(!$type && function_exists( 'exif_imagetype' ) ) {
 			$type = exif_imagetype($file);

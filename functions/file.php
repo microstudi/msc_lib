@@ -68,7 +68,11 @@ function m_file_set_remote($service = 'local', $options=array()) {
 function m_file_url_prefix($prefix = null) {
 	global $CONFIG;
 
+
 	if(is_null($prefix))	 {
+		//return current conf if exists
+		if($CONFIG->file_url_prefix) return $CONFIG->file_url_prefix;
+
 		$prefix = dirname($_SERVER['SCRIPT_NAME']);
 		if($prefix != '/') $prefix .= "/";
 		$prefix = "http://" . $_SERVER['HTTP_HOST'] . $prefix;

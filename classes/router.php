@@ -4,11 +4,11 @@
 * @author Ivan Vergés
 * @brief mRouter connection class\n
 * Inspiration: http://cesar.la/mvc-hecho-en-casa-simple-lindo-y-efectivo.html
-* 
+*
 * @section usage Usage
 * $db = new mRouter();\n
-* $db->addRoute('/user\/([0-9]+)$/i',"user_controller");\n //where user_controller is a function
-* $db->addRoute('/user\/([0-9]+)$/i',"file_controller.php");\n //file_controler.php is a file
+* $db->addRoute('/user\/([0-9]+)$/i', "user_controller");\n //where user_controller is a function
+* $db->addRoute('/user\/([0-9]+)$/i', "file_controller.php");\n //file_controler.php is a file
 *
 */
 
@@ -23,18 +23,20 @@ class mRouter {
 	function setBasePath($path) {
 		$this->base_path = $path;
 	}
-    function addRoute($reg_expr,$action) {
+    function addRoute($reg_expr, $action) {
 		if (!is_callable($action) && !is_file($action))
             return false;
-        
+
         $this->route[$reg_expr] = $action;
-        
     }
 
     function findAction($url) {
-		$url = preg_replace("/^".str_replace("/","\/",quotemeta($this->base_path))."/","",$url);
+    	//url without base path
+		$url = preg_replace("/^" . str_replace("/", "\/", quotemeta($this->base_path)) . "/", "", $url);
+		//url without query part
 		$this->current_url = $url;
-		//echo "[$url]";
+		$url = strtok($url, "?");
+		// echo "[$url]";
         foreach($this->route as $reg_expr => $action) {
 			if($reg_expr == $url) {
 			    $ret = true;
@@ -43,12 +45,12 @@ class mRouter {
                 else
                     include($action);
                 return true;
-            
+
 			}
-            elseif (@preg_match($reg_expr,$url,$params)) {
+            elseif (@preg_match($reg_expr, $url, $vars)) {
                 $ret = true;
                 if (is_callable($action))
-                    $ret = call_user_func($action,$params);
+                    $ret = call_user_func($action, $vars);
                 else
                     include($action);
                 return true;
@@ -59,15 +61,15 @@ class mRouter {
         return false;
 
     }
-    
+
     function errorAction($action) {
 		if (!is_callable($action) && !is_file($action))
             return false;
-            
+
 		$this->error_action = $action;
-		
+
 	}
-    
+
     /**
 	 * Show the last error
 	 */
@@ -79,9 +81,9 @@ class mRouter {
 	 */
 	function throwError($msg='') {
 		$this->last_error = $msg;
-		
+
 		if(!is_null($this->error_action)) {
-			
+
 			header("HTTP/1.1 404 Not Found");
 
 			if(is_callable($this->error_action)) $ret = call_user_func($this->error_action);

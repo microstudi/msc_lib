@@ -12,15 +12,20 @@
 /**
  * Sets the cache folder (or tries to create it if not exists)
  * */
-function m_image_cache_dir($dir='', $type='local') {
+function m_image_cache($dir='', $type='local') {
 	global $CONFIG;
 
-	if(!is_dir($dir)) {
-		if(mkdir($dir, true)) @chmod($dir, 0777);
+	if($type == 'remote' && $CONFIG->file_remote_fp instanceOf mFile) {
+		$CONFIG->image_cache = new mCache($dir, $CONFIG->file_remote_fp, m_file_url_prefix());
 	}
-	if(substr($dir, -1, 1) != "/") $dir = "$dir/";
-	$CONFIG->image_cache_dir = $dir;
+	else {
+		$CONFIG->image_cache = new mCache($dir, 'local');
+	}
+
+	return $CONFIG->image_cache;
+
 }
+
 function m_image_set_fallback($type='auto', $text=null) {
 	global $CONFIG;
 	$CONFIG->image_fallback_type = $type;
@@ -45,16 +50,16 @@ function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $
 	global $CONFIG;
 
 	$cache_file = false;
-	if($file && in_array($return, array('flush', 'data')) && $CONFIG->image_cache_dir && !mImage::is_gd($file)) {
+	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
 		$dir = dirname($_file);
 		if($dir == '.') $dir = "";
 		elseif($dir) $dir .= "/";
 		$name = ((int)$width) . "x" . ((int)$height) . "-$proportional-$quality-" . basename($_file);
-		$cache_file = $CONFIG->image_cache_dir . $dir . $name;
-
-		if($f = m_file_url($cache_file)) {
+		$cache_file = $dir . $name;
+		//returns the file or url if exists
+		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);
 		}
 	}
@@ -66,10 +71,11 @@ function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $
 
 	$im->resize($width, $height);
 
+	//save the cache
 	if($cache_file && !$im->has_errors()) {
 		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
-			m_file_put($tmp, $cache_file);
+			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);
 		}
 		else die("error saving cache: $cache_file");
@@ -121,16 +127,17 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 	}
 
 	$cache_file = false;
-	if($file && in_array($return, array('flush', 'data')) && $CONFIG->image_cache_dir && !mImage::is_gd($file)) {
+	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
 		$dir = dirname($_file);
 		if($dir == '.') $dir = "";
 		elseif($dir) $dir .= "/";
 		$name = md5(serialize($mix) . serialize($options)) . basename($_file);
-		$cache_file = $CONFIG->image_cache_dir . $dir . $name;
 
-		if($f = m_file_url($cache_file)) {
+		$cache_file = $dir . $name;
+		//returns the file or url if exists
+		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);
 		}
 
@@ -157,7 +164,7 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 	if($cache_file) {
 		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
-			m_file_put($tmp, $cache_file);
+			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);
 		}
 		else die("error saving cache: $cache_file");
@@ -178,7 +185,7 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 function m_image_string($file, $options = array(), $return='flush') {
 	global $CONFIG;
 	$cache_file = false;
-	if(in_array($return, array('flush', 'data')) && $CONFIG->image_cache_dir && !mImage::is_gd($file)) {
+	if(in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
 		$dir = dirname($_file);
@@ -186,11 +193,13 @@ function m_image_string($file, $options = array(), $return='flush') {
 		elseif($dir) $dir .= "/";
 		if(!$_file) $_file = $options['text'];
 		$name = md5(serialize($options)).basename($_file);
-		$cache_file = $CONFIG->image_cache_dir . $dir . $name;
 
-		if($f = m_file_url($cache_file)) {
+		$cache_file = $dir . $name;
+		//returns the file or url if exists
+		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);
 		}
+
 	}
 	$default_ops = array('text' => '', 'color' => '000000', 'size' => 2, 'bgcolor' => 'transparent', 'margins' => array(1, 1, 1, 1));
 	if(is_string($options)) $options = array('text' => $options) + $default_ops;
@@ -205,7 +214,7 @@ function m_image_string($file, $options = array(), $return='flush') {
 	if($cache_file) {
 		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
-			m_file_put($tmp, $cache_file);
+			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);
 		}
 		else die("error saving cache: $cache_file");

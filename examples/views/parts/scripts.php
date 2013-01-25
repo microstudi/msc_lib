@@ -9,7 +9,7 @@ $(function(){
 	$('a.image-modal').click(function(e){
 		e.preventDefault();
 		var h = $(this).attr('href');
-		$('#modal .modal-body').html('<a href="' + h + '"><img src="' + h + '"></a><p>Click on the image to view it directly</p>');
+		$('#modal .modal-body').html('<a href="' + h + '"><img src="' + h + '"></a><p><a href="' + h + '">Click to view the image directly</a></p>');
 		$('#modal').modal('show');
 	});
 	//add dropdown menus

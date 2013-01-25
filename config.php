@@ -41,7 +41,9 @@ $CONFIG->lang_error_prefix = '';
 $CONFIG->lang_error_sufix = '';
 
 ///cache image
+$CONFIG->image_cache = null;
 $CONFIG->image_cache_dir = null;
+$CONFIG->image_cache_type = 'local';
 $CONFIG->image_fallback_type = null;
 $CONFIG->image_fallback_text = null;
 
@@ -64,7 +66,7 @@ $CONFIG->css_compressor = null;
 $CONFIG->custom_vars = array();
 
 ///default classes included
-$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompressor", "JavaScriptPacker", "CSSCompressor", "class.phpmailer", "htmLawed", 'router');
+$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompressor", "JavaScriptPacker", "CSSCompressor", "class.phpmailer", "htmLawed", 'router', 'cache');
 
 ///default functions included
 $CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router');
