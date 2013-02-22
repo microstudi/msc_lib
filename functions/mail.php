@@ -6,8 +6,47 @@
 * This functions uses the classes PHPMailer defined in the file classes/phpmailer.php
 *
 * @section usage Usage
-* m_mail_send("me@email.com","My subject","My TEXT body","My <b>HTML</b> body","you@email.com","she@email.com");\n
+* m_mail_send("me@email.com", "My subject", "My TEXT body", "My <b>HTML</b> body", "you@email.com", "she@email.com");\n
 */
+
+/**
+ * Setups the mailer sender params
+ * params for gmail:
+ * m_mail_set_smtp("smtp.gmail.com", "username@gmail.com", "password", "ssl", 465);
+ * 
+ * @param  string $host     smtp1.site.com;smtp2.site.com
+ * @param  string $username [description]
+ * @param  string $password [description]
+ * @param  string $secure   '', 'ssl' or 'tls'
+ * @param  string $port     [description]
+ * @return [type]           [description]
+ */
+function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '', $port='') {
+	global $CONFIG;
+
+	require_once(dirname(__DIR__) . "/classes/phpmailer/class.phpmailer.php");
+	
+	//reset the mailer if instantiated
+	$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
+	try {
+		$CONFIG->mailer->IsSMTP(); // telling the class to use SMTP
+		$CONFIG->mailer->Host          = $host; // sets the SMTP server
+		$CONFIG->mailer->SMTPKeepAlive = true;  // SMTP connection will not close after each email sent
+		if($username) {
+			$CONFIG->mailer->SMTPAuth = true;      // enable SMTP authentication
+			$CONFIG->mailer->Username = $username; // SMTP account username
+			$CONFIG->mailer->Password = $password; // SMTP account password
+		}
+		if(in_array($secure, array('', "ssl", "tls"))) $CONFIG->mailer->SMTPSecure = $secure;   // sets the security
+		if($port) $CONFIG->mailer->Port = $port; // set the SMTP port
+
+	} catch (phpmailerException $e) {
+	  return $e->errorMessage(); //Pretty error messages from PHPMailer
+	} catch (Exception $e) {
+	  return $e->getMessage(); //Boring error messages from anything else!
+	}
+	return true;
+}
 
 /**
  * Sends a mail
@@ -19,58 +58,69 @@
  * @param $replyTo reply-to email
  * @return the error or empty string if sent is ok
  */
-function m_mail_send($email,$subject,$body,$html='',$from='',$replyto='') {
+function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 	global $CONFIG;
 
-	//reset the mailer if instantiated
-	$CONFIG->mailer = new PHPMailer();
+	require_once(dirname(__DIR__) . "/classes/phpmailer/class.phpmailer.php");
 
-	$CONFIG->mailer->Priority = 3;
-	$CONFIG->mailer->Encoding = "8bit";
-	$CONFIG->mailer->CharSet = "utf-8";
+	if( !($CONFIG->mailer instanceOf PHPMailer) ) {
+		$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
+	}
+	try {
+  
+		$CONFIG->mailer->Priority = 3;
+		$CONFIG->mailer->Encoding = "8bit";
+		$CONFIG->mailer->CharSet = "utf-8";
+		$CONFIG->mailer->WordWrap = 0;
 
-	if($from) {
-		if(strpos($from,"<") !== false) {
-			$CONFIG->mailer->FromName = trim(str_replace('"','',substr($from,0,strpos($from,"<"))));
-			$CONFIG->mailer->From = trim(str_replace(">","",substr($from,strpos($from,"<")+1)));
+		if($from) {
+			if(strpos($from, "<") !== false) {
+				$CONFIG->mailer->SetFrom(trim(str_replace(">", "", substr($from, strpos($from, "<") + 1))), trim(str_replace('"', '', substr($from, 0, strpos($from, "<")))));
+			}
+			else {
+				$CONFIG->mailer->SetFrom($from);
+			}
+		}
+
+		$CONFIG->mailer->Subject = $subject;
+
+		if($html) {
+			//is html email?
+			$CONFIG->mailer->MsgHTML($html);
+			$CONFIG->mailer->AltBody = $body;
 		}
 		else {
-			$CONFIG->mailer->From = $from;
-			$CONFIG->mailer->FromName = '';
+			$CONFIG->mailer->Body = $body;
 		}
+		if(strpos($email, "<") !== false) {
+			$e = trim(str_replace(">", "", substr($email, strpos($email, "<") + 1)));
+			$n = trim(str_replace('"', '', substr($email, 0, strpos($email, "<"))));
+			//echo "$email $n $e";
+			$CONFIG->mailer->AddAddress($e, $n);
+		}
+		else {
+			$CONFIG->mailer->AddAddress($email);
+		}
+
+		if($replyto) {
+			if(strpos($replyto, "<") !== false) {
+				$CONFIG->mailer->AddReplyTo(trim(str_replace(">", "", substr($replyto, strpos($replyto, "<") + 1))), trim(str_replace('"', '', substr($replyto, 0, strpos($replyto, "<")))));
+			}
+			else {
+				$CONFIG->mailer->AddReplyTo($replyto);
+			}
+		}
+		//print_r($CONFIG->mailer);
+
+		$result =  $CONFIG->mailer->Send();
+
+	} catch (phpmailerException $e) {
+	  return $e->errorMessage(); //Pretty error messages from PHPMailer
+	} catch (Exception $e) {
+	  return $e->getMessage(); //Boring error messages from anything else!
 	}
 
-	$CONFIG->mailer->WordWrap = 0;
-	$CONFIG->mailer->Subject = $subject;
-
-	if($html) {
-		//is html email?
-		$CONFIG->mailer->Body = $html;
-		$CONFIG->mailer->isHTML(true);
-		$CONFIG->mailer->AltBody = $body;
-	}
-	else {
-		$CONFIG->mailer->Body = $body;
-	}
-	if(strpos($email,"<") !== false) {
-		$e = trim(str_replace(">","",substr($email,strpos($email,"<")+1)));
-		$n = trim(str_replace('"','',substr($email,0,strpos($email,"<"))));
-		//echo "$email $n $e";
-		$CONFIG->mailer->AddAddress($e,$n);
-	}
-	else {
-		$CONFIG->mailer->AddAddress($email);
-	}
-
-	if($replyto) {
-		$CONFIG->mailer->AddReplyTo($replyto);
-	}
-	//print_r($CONFIG->mailer);
-
-	$result =  $CONFIG->mailer->Send();
-
-	if($CONFIG->mailer->IsError()) return $CONFIG->mailer->ErrorInfo;
-	return '';
+	return true;
 }
 
 /**
@@ -78,7 +128,7 @@ function m_mail_send($email,$subject,$body,$html='',$from='',$replyto='') {
  * @param $email email to check
  * @param $check_dns if \b true searches for dns domain existence
  * */
-function m_valid_email($email,$check_dns=true) {
+function m_valid_email($email, $check_dns=true) {
 	//comprovacio de caracters
 	if(!preg_match("/^([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}/i", $email)) return false;
 

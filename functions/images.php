@@ -53,11 +53,8 @@ function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
-		$dir = dirname($_file);
-		if($dir == '.') $dir = "";
-		elseif($dir) $dir .= "/";
-		$name = ((int)$width) . "x" . ((int)$height) . "-$proportional-$quality-" . basename($_file);
-		$cache_file = $dir . $name;
+		$name = md5(dirname($_file))."-".((int)$width) . "x" . ((int)$height) . "-$proportional-$quality-" . basename($_file);
+		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);
@@ -130,12 +127,9 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
-		$dir = dirname($_file);
-		if($dir == '.') $dir = "";
-		elseif($dir) $dir .= "/";
-		$name = md5(serialize($mix) . serialize($options)) . basename($_file);
+		$name = md5(dirname($_file)."-".serialize($mix) . serialize($options)) . basename($_file);
 
-		$cache_file = $dir . $name;
+		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);
@@ -188,13 +182,10 @@ function m_image_string($file, $options = array(), $return='flush') {
 	if(in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
 		$_file = $file;
 		if($file instanceOf mImage) $_file = $file->file();
-		$dir = dirname($_file);
-		if($dir == '.') $dir = "";
-		elseif($dir) $dir .= "/";
 		if(!$_file) $_file = $options['text'];
-		$name = md5(serialize($options)).basename($_file);
+		$name = md5(dirname($_file)."-".serialize($options)).basename($_file);
 
-		$cache_file = $dir . $name;
+		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			mImage::stream($f);

@@ -10,7 +10,7 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
 ///Global var $CONFIG
 $CONFIG = new stdClass;
-$CONFIG->version = 0.5;
+$CONFIG->version = 0.7;
 ///set to true to show errors
 $CONFIG->debug = true;
 
@@ -66,10 +66,10 @@ $CONFIG->css_compressor = null;
 $CONFIG->custom_vars = array();
 
 ///default classes included
-$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompressor", "JavaScriptPacker", "CSSCompressor", "class.phpmailer", "htmLawed", 'router', 'cache');
+$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompressor", "JavaScriptPacker", "CSSCompressor", "htmLawed", 'router', 'cache', 'media_embed');
 
 ///default functions included
-$CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router');
+$CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router', 'media_embed');
 
 //sets global
 global $CONFIG;

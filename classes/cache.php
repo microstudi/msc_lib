@@ -43,7 +43,7 @@ class mCache {
 		if($this->type == 'remote') {
 			if($this->url_prefix) {
 				if(m_url_exists($this->url_prefix . "/". $f)) {
-					return $this->url_prefix . $f;
+					return $this->url_prefix . "/" . $f;
 				}
 			}
 			else {

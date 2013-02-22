@@ -42,18 +42,23 @@ echo '>';
 if($body) echo $body;
 elseif(is_array($vars['items'])) {
 	foreach($vars['items'] as $item) {
+		echo m_view("li", $item);
+		/*
 		if(is_array($item)) {
 			echo '<li';
 			echo ($item['id'] ? ' id="' . htmlspecialchars($item['id']) . '"' : '');
 			echo ($item['class'] ? ' class="' . htmlspecialchars($item['class']) . '"' : '');
 			echo ($item['style'] ? ' style="' . htmlspecialchars($item['style']) . '"' : '');
 			echo ($item['title'] ? ' title="' . htmlspecialchars($item['title']) . '"' : '');
-			echo ($item['value'] ? ' value="' . intval($item['value']) . '"' : '');
+			foreach($item as $_k => $_v) {
+				if(strpos($_k,'data-') === 0) echo " $_k=\"" . htmlspecialchars($_v) . '"';
+			}
 			echo '>'.$item['body'].'</li>';
 		}
 		else {
 			echo '<li>'.$item.'</li>';
 		}
+		*/
 	}
 }
 ?>

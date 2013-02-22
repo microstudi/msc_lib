@@ -32,7 +32,7 @@ function m_file_set_remote($service = 'local', $options=array()) {
 
 		case 's3':
 		case 'S3':
-			$default_ops = array('endpoint' => 's3-eu-west-1.amazonaws.com', 'bucket' => '', 'key' => '', 'secret' => '', 'prefix' => '');
+			$default_ops = array('endpoint' => 's3-eu-west-1.amazonaws.com', 'bucket' => '', 'key' => '', 'secret' => '', 'prefix' => '', 'rooturl' => ''); //root url will be autofilled if empty
 			$type = 's3';
 			break;
 
@@ -51,7 +51,7 @@ function m_file_set_remote($service = 'local', $options=array()) {
 		$options['password'] = $options['secret'];
 		$options['rootpath'] = $options['prefix'];
 		$options['port']     = $options['bucket'];
-		$options['rooturl']  = $options['bucket'] . "." . $options['endpoint'] . "/" . $options['prefix'];
+		if(empty($options['rooturl'])) $options['rooturl']  = "http://" . $options['endpoint'] . "/" . $options['bucket'] ."/" . $options['prefix'];
 	}
 	$CONFIG->file_remote_fp = new mFile($type, $options['host'], $options['user'], $options['password'], $options['rootpath'], $options['port']);
 	$CONFIG->file_remote_fp->error_mode('string');

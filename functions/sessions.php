@@ -15,22 +15,50 @@
 * Starts session
 * @param $name Session name
 * @param $dir where to save the session files (leave empty for default), tries to create it if not exists
+*        if is array could be a redis server
+*        $dir = array(
+*        	'handler' => "redis" //to be added: dynamodb
+*        )
 */
-function m_session_start($name='',$dir='') {
+function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, 'gc_divisor' => 100, 'gc_maxlifetime' => 3600)) {
 	global $CONFIG;
+
+	$start_session = true;
 	if($dir) {
-		if(!is_dir($dir)) {
-			@mkdir($dir);
+		if(is_array($dir)) {
+			if($dir['handler'] == 'redis' && $dir['port'] && $dir['host']) {
+				// SessionHandlerInterface
+				if (!interface_exists('SessionHandlerInterface')) {
+    				require_once(dirname(__DIR__) . "/classes/SessionHandlerInterface.php");
+				}
+   				require_once(dirname(__DIR__) . "/classes/predis/autoload.php");
+
+   				// Instantiate a new client just like you would normally do. We'll prefix our session keys here.
+				$client = new Predis\Client(array('host' => $dir['host'], 'port' => $dir['port'], 'password' => $dir['password'], 'database' => $dir['database']), array('prefix' => $dir['prefix'] ? $dir['prefix'] : 'sessions:'));
+				// Set gc_ vars
+				$handler = new Predis\Session\SessionHandler($client, $gc);
+				// Register our session handler (it uses `session_set_save_handler()` internally).
+				$handler->register();
+			}
 		}
-		if(is_dir($dir)) {
-			session_save_path($dir);
-			ini_set('session.gc_probability', 1);
-			ini_set('session.gc_divisor', 100);
-			ini_set('session.gc_maxlifetime',   3600);  // one hour time limit
+		else {
+			if(!is_dir($dir)) {
+				@mkdir($dir);
+			}
+			if(is_dir($dir)) {
+				session_save_path($dir);
+			}
 		}
 	}
-	if($name) session_name($name);
-	session_start();
+
+	if($start_session) {
+		foreach($gc as $k => $v) {
+			ini_set("session.$k", $v);
+		}
+		if($name) session_name($name);
+		session_start();
+	}
+
 	if(empty($_SESSION['start'])) $_SESSION['start'] = time();
 
 }

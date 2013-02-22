@@ -16,6 +16,7 @@
 	public  $last_error = '', $last_path = '', $last_local = '', $last_remote = '';
 	public  $ssh_mode = 'auto'; //auto, phpseclib, ssh2
 	public  $libsec = false;
+	public  $ftp_pasv = true;
 	private $quiet_mode = false;
 
 	/**
@@ -89,6 +90,8 @@
 
 					if($this->link = @ftp_connect($this->host,(string)($this->port ? $this->port : 21) )) {
 						if(@ftp_login($this->link, $this->user, $this->pass)) {
+							// activate passive
+							if($this->ftp_pasv) ftp_pasv($this->link, true);
 							//test path
 							if($this->realpath($this->path)) return true;
 							else $this->throwError('ftp-chdir-error');
@@ -129,7 +132,7 @@
 				break;
 
 			case 's3':
-					if($this->link instanceOf S3) return true;
+					//Allways create a new instance due the static nature of vars in S3 class
 					$this->link = new S3($this->user, $this->pass, false, $this->host);
 					$this->link->setExceptions(true);
 					try {
@@ -253,6 +256,9 @@
 								return $this->throwError($stderr . ": " . $this->last_error);
 							}
 						}
+					break;
+				case 's3':
+						return $this->get_path($path);
 					break;
 			}
 			if(substr($realpath, 1, -1)!='/') $realpath .= "/";
@@ -725,7 +731,7 @@
 	 * @return int         		returns -1 on error, file size otherwise
 	 */
 	function size($remote_original, $force=false) {
-		if(!$this->connect()) return $this->last_error;
+		if(!$this->connect()) return -1;
 		$remote = $this->get_path($remote_original);
 		$this->last_remote = $remote;
 		$size = -1;
@@ -753,7 +759,9 @@
 								$size = filesize($tmp);
 								unlink($tmp);
 							}
+							else $size = -1;
 						}
+						else $size = -1;
 					}
 				break;
 
@@ -774,16 +782,18 @@
 						//echo "$path [$stdout][$stderr]";
 						if(!$stderr) $size = (int)$stdout;
 						else {
-							return $this->throwError($stderr);
+							$size = -1;
+							//return $this->throwError($stderr);
 						}
 					}
 				break;
 			case 's3':
 					try {
 						$info = $this->link->getObjectInfo($this->bucket, $remote);
-						$size = (int) $info['size'];
+						if(is_array($info) && array_key_exists('size', $info)) $size = (int) $info['size'];
 					}catch(S3Exception $e) {
-						return $this->throwError($e->getMessage());
+						$size = -1;
+						//return $this->throwError($e->getMessage());
 					}
 				break;
 		}

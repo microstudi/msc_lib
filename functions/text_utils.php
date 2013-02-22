@@ -13,8 +13,8 @@
  * @param $options htmlLawed options: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm#s2.2
  * @param $spec htmlLawed options for attributes: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm#s2.3
  * */
-function m_htmlawed($in, $options=array('safe'=>1, 'elements'=>'a, b, strong, i, em, li, ol, ul'),$spec=array()) {
-	 return htmLawed::hl($in,$options,$spec);
+function m_htmlawed($in, $options=array('safe'=>1, 'elements'=>'a, b, strong, i, em, li, ol, ul'), $spec=array()) {
+	 return htmLawed::hl($in, $options, $spec);
 }
 
 /**
@@ -80,7 +80,7 @@ function m_trim($var) {
  * - 'years' => "%s years ago"
  * @return The friendly time
  */
-function m_friendly_time($time,$titles=array(
+function m_friendly_time($time, $titles=array(
 	'seconds'=> "just now",
 	'minute' => "a minute ago",
 	'minutes' => "%s minutes ago",
@@ -154,7 +154,7 @@ function m_decrypt($str, $key) {
  * @param $add = to add something in the link tag (per exemple:  onclick="window.open(this.href);return false;")
  * @param $add_not_tohost = in this host the add property will not be applied
  */
-function m_txt_parse_links($text,$add='',$add_not_tohost='') {
+function m_txt_parse_links($text, $add='', $add_not_tohost='') {
 	global $CONFIG;
 
 	//$text = " $text";
@@ -220,7 +220,7 @@ function m_convert_to_utf8($str) {
 	//return $encoding;
 	//return $str;
 	if( $encoding != "UTF-8" ) {
-		return  mb_convert_encoding($str,"UTF-8",$encoding);
+		return  mb_convert_encoding($str,"UTF-8", $encoding);
 	}
 	else {
 		return $str;
@@ -247,7 +247,7 @@ function m_compute_char($value) {
 function m_reverse_date($date) {
 	$d=$c1=$m=$c2=$y=$c3=$hora='';
 
-	preg_match("/([0-9]+)([^0-9]{1,1})([0-9]+)([^0-9]{1,1})([0-9]+)(.*)/i",$date,$matches);
+	preg_match("/([0-9]+)([^0-9]{1,1})([0-9]+)([^0-9]{1,1})([0-9]+)(.*)/i", $date, $matches);
 	$d = $matches[1];
 	$c1 = $matches[2];
 	$m = $matches[3];
@@ -256,7 +256,7 @@ function m_reverse_date($date) {
 	$c3 = $matches[6]{0};
 	$hora = substr($matches[6],1);
 
-	$ret = sprintf("%d%s%d%s%d",$y,$c1,$m,$c2,$d);
+	$ret = sprintf("%d%s%d%s%d", $y, $c1, $m, $c2, $d);
 	if($hora) $ret .= "$c3$hora";
 	return $ret;
 }
@@ -302,7 +302,7 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 	if($mode=='middle' && mb_strlen($string) > $size) {
 		$t1 = limitLength($string,intval($size/2+2));
 		$t2 = limitLength($string,intval($size/2+1),'reverse');
-		$out = mb_str_replace("......","...",$t1.$t2);
+		$out = mb_str_replace("......","...", $t1.$t2);
 
 		//if($encoding == 'UTF-8') $out = utf8_encode($out);
 		return $out;
@@ -315,12 +315,12 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 	$closetag = false;
 	$ultim = "";
 	$l = mb_strlen($string);
-	for($i=0,$j=0; $i<$l ; $i++) {
-		$c = mb_substr($string,$i,1);
+	for($i=0, $j=0; $i<$l ; $i++) {
+		$c = mb_substr($string, $i,1);
 		if($mode != 'reverse') {
 			if($c == '<' ) $tag = true;
 			if($tag) {
-				if(mb_substr($string,$i-1,1) == '<' && $c == '/') {
+				if(mb_substr($string, $i-1,1) == '<' && $c == '/') {
 					$closetag = true;
 					$ultim = "<";
 				}

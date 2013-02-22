@@ -12,7 +12,42 @@
 * @param body html content inside \<b>...\</b>
 */
 
-$tag = "dl";
-require("_generic_tag.php");
+if(is_array($vars)) $body = $vars['body'];
+else {
+	$body = $vars;
+	$vars = array();
+}
+
+echo '<dl';
+
+require("_common_html5_attributes.php");
+require("_common_html5_event_attributes.php");
+
+echo '>';
+
+if($body) echo $body;
+elseif(is_array($vars['items'])) {
+	if(is_array($vars['items']['dt'])) {
+		foreach($vars['items']['dt'] as $i => $dt) {
+			echo m_view("dt", $dt);
+			if(is_array($vars['items']['dd']) && array_key_exists($i, $vars['items']['dd'])) {
+				echo m_view("dd", $vars['items']['dd'][$i]);
+			}
+		}
+	}
+	elseif(is_array($vars['items']['dd'])) {
+		foreach($vars['items']['dd'] as $i => $dd) {
+			echo m_view("dd", $dd);
+		}
+	}
+	else {
+		foreach($vars['items'] as $dt => $dd) {
+			echo m_view("dt", $dt);
+			echo m_view("dd", $dd);
+		}
+	}
+}
+
+echo '</dl>';
 
 ?>

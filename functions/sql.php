@@ -7,7 +7,7 @@
 *
 * @section usage Usage
 * \n
-* $list = m_sql_list("users",0,10,false,'*','active=1');\n
+* $list = m_sql_list("users",0,10,'*','active=1');\n
 * print_r($list);
 */
 function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $type='mysql') {
@@ -133,10 +133,19 @@ function m_sql_objects($sql, $class='') {
  * @param $where WHERE clause (filters)
  * @param $order order part of the SELECT
  */
-function m_sql_list($table, $offset=0, $limit=100, $count=false, $fields='*', $where='', $order='', $class='') {
+function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $order='', $class='', $old_compat='') {
 	global $CONFIG;
 	$offset = (int) $offset;
 	$limit = (int) $limit;
+	$count = false;
+	//for compatibility with versions < 0.7
+	if(is_bool($fields)) {
+		$count  = $fields;
+		$fields = $where;
+		$where  = $order;
+		$order  = $class;
+		$class  = $old_compat;
+	}
 
 	if($count) {
 		$sql = "SELECT COUNT($fields) AS total FROM $table";
@@ -165,6 +174,35 @@ function m_sql_list($table, $offset=0, $limit=100, $count=false, $fields='*', $w
 		$rows = m_sql_objects($sql, $class);
 		return $rows;
 	}
+}
+
+/**
+ * Returns a number of results from a sql SELECT list result
+ * @param  string $table  table to list
+ * @param  string $where  where clausule
+ * @param  string $fields fields to embed in COUNT() * by default
+ * @return integer        number of results (>=0)
+ */
+function m_sql_count($table, $where='', $fields='*') {
+	global $CONFIG;
+
+	$sql = "SELECT COUNT($fields) AS total FROM $table";
+
+	if($where) {
+		if(is_array($where)) {
+			$w = array();
+			foreach($where as $k => $v) {
+				$w[] = "`$k` = '".m_sql_escape($v)."'";
+			}
+			$where = implode(" AND ", $w);
+		}
+		$sql .= " WHERE $where";
+	}
+
+	//echo $sql;
+	$rows = m_sql_objects($sql);
+	return $rows[0]->total;
+
 }
 
 /**
