@@ -15,10 +15,22 @@
 * Starts session
 * @param $name Session name
 * @param $dir where to save the session files (leave empty for default), tries to create it if not exists
-*        if is array could be a redis server
+*        if is array could be a redis server:
 *        $dir = array(
-*        	'handler' => "redis" //to be added: dynamodb
+*        	'handler' => "redis",
+*        	'port' => redis_port,
+*        	'host' => "redis_host",
+*        	'password' => "redis_password",
+*        	'database' => "redis_database", //optional
+*        	'prefix' => 'sessions' //optional
 *        )
+*        or a IronCache (http://www.iron.io/cache)
+*        $dir = array(
+*        	'handler' => "ironcache",
+*        	'token' => "token secret",
+*        	'project_id' => "project_id"
+*        )
+*        //to be added: dynamodb
 */
 function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, 'gc_divisor' => 100, 'gc_maxlifetime' => 3600)) {
 	global $CONFIG;
@@ -34,11 +46,25 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
    				require_once(dirname(__DIR__) . "/classes/predis/autoload.php");
 
    				// Instantiate a new client just like you would normally do. We'll prefix our session keys here.
-				$client = new Predis\Client(array('host' => $dir['host'], 'port' => $dir['port'], 'password' => $dir['password'], 'database' => $dir['database']), array('prefix' => $dir['prefix'] ? $dir['prefix'] : 'sessions:'));
+				$client = new Predis\Client(array('host' => $dir['host'], 'port' => $dir['port'], 'password' => $dir['password'], 'database' => $dir['database']), array('prefix' => $dir['prefix'] ? $dir['prefix'] : 'm_sessions:'));
 				// Set gc_ vars
 				$handler = new Predis\Session\SessionHandler($client, $gc);
 				// Register our session handler (it uses `session_set_save_handler()` internally).
 				$handler->register();
+			}
+			if($dir['handler'] == 'ironcache' && $dir['token'] && $dir['project_id']) {
+				require_once(dirname(__DIR__) . "/classes/iron/IronCore.class.php");
+				require_once(dirname(__DIR__) . "/classes/iron/IronCache.class.php");
+				$cache = new IronCache(array(
+					//'protocol' => "http", //can fix http exception http error 0 https://github.com/iron-io/iron_cache_php
+				    'token' => $dir['token'],
+				    'project_id' => $dir['project_id']
+				), 'm_sessions');
+				$cache->ssl_verifypeer = false; //to fix http exception http error 0
+				//fixes a problem with the ironcache class and php 5.4
+				register_shutdown_function('session_write_close');
+				//register session handler
+				$cache->set_as_session_store($gc['gc_maxlifetime']);
 			}
 		}
 		else {

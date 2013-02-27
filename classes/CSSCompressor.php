@@ -75,7 +75,9 @@ class CSSCompressor {
 	 * */
 	function set_cache_name() {
 		if($this->cache_dir) {
-			$cache_name = md5(implode("",$this->files)).".css";
+			if(empty($this->files)) $cache_name = md5($this->code).".css";
+			else $cache_name = md5(implode("",$this->files)).".css";
+
 			//echo print_r($this->files);
 			$this->cache_name = $this->cache_dir.$cache_name;
 			return $this->cache_name;
