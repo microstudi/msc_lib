@@ -59,7 +59,7 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 					//'protocol' => "http", //can fix http exception http error 0 https://github.com/iron-io/iron_cache_php
 				    'token' => $dir['token'],
 				    'project_id' => $dir['project_id']
-				), 'm_sessions');
+				));
 				$cache->ssl_verifypeer = false; //to fix http exception http error 0
 				//fixes a problem with the ironcache class and php 5.4
 				register_shutdown_function('session_write_close');

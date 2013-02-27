@@ -371,14 +371,16 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
  * @return string Trimmed string.
  */
 function m_truncate($text, $length = 100, $ending = '...', $exact = true, $considerHtml = true) {
+	$encoding = mb_detect_encoding($text);
+	mb_internal_encoding($encoding);
 	if ($considerHtml) {
 		// if the plain text is shorter than the maximum length, return the whole text
-		if (strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
+		if (mb_strlen(preg_replace('/<.*?>/', '', $text)) <= $length) {
 			return $text;
 		}
 		// splits all html-tags to scanable lines
 		preg_match_all('/(<.+?>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-		$total_length = strlen($ending);
+		$total_length = mb_strlen($ending);
 		$open_tags = array();
 		$truncate = '';
 		foreach ($lines as $line_matchings) {
@@ -397,13 +399,13 @@ function m_truncate($text, $length = 100, $ending = '...', $exact = true, $consi
 				// if tag is an opening tag (f.e. <b>)
 				} else if (preg_match('/^<\s*([^\s>!]+).*?>$/s', $line_matchings[1], $tag_matchings)) {
 					// add tag to the beginning of $open_tags list
-					array_unshift($open_tags, strtolower($tag_matchings[1]));
+					array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
 				}
 				// add html-tag to $truncate'd text
 				$truncate .= $line_matchings[1];
 			}
 			// calculate the length of the plain text part of the line; handle entities as one character
-			$content_length = strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
+			$content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|&#x[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
 			if ($total_length+$content_length> $length) {
 				// the number of characters which are left
 				$left = $length - $total_length;
@@ -414,14 +416,14 @@ function m_truncate($text, $length = 100, $ending = '...', $exact = true, $consi
 					foreach ($entities[0] as $entity) {
 						if ($entity[1]+1-$entities_length <= $left) {
 							$left--;
-							$entities_length += strlen($entity[0]);
+							$entities_length += mb_strlen($entity[0]);
 						} else {
 							// no more characters left
 							break;
 						}
 					}
 				}
-				$truncate .= substr($line_matchings[2], 0, $left+$entities_length);
+				$truncate .= mb_substr($line_matchings[2], 0, $left+$entities_length);
 				// maximum lenght is reached, so get off the loop
 				break;
 			} else {
@@ -434,19 +436,19 @@ function m_truncate($text, $length = 100, $ending = '...', $exact = true, $consi
 			}
 		}
 	} else {
-		if (strlen($text) <= $length) {
+		if (mb_strlen($text) <= $length) {
 			return $text;
 		} else {
-			$truncate = substr($text, 0, $length - strlen($ending));
+			$truncate = mb_substr($text, 0, $length - mb_strlen($ending));
 		}
 	}
 	// if the words shouldn't be cut in the middle...
 	if (!$exact) {
 		// ...search the last occurance of a space...
-		$spacepos = strrpos($truncate, ' ');
+		$spacepos = mb_strrpos($truncate, ' ');
 		if (isset($spacepos)) {
 			// ...and cut the text in this position
-			$truncate = substr($truncate, 0, $spacepos);
+			$truncate = mb_substr($truncate, 0, $spacepos);
 		}
 	}
 	// add the defined ending to the text
