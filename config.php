@@ -8,6 +8,9 @@
 */
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
+//sets global
+global $CONFIG;
+
 ///Global var $CONFIG
 $CONFIG = new stdClass;
 $CONFIG->version = 0.7;
@@ -20,7 +23,7 @@ $CONFIG->db = null;
 $CONFIG->default_database = 'mysql';
 
 ///views path
-$CONFIG->views_path = __DIR__ . "/views";
+$CONFIG->views_path = dirname(__FILE__) . "/views";
 ///default view (subdirectory in views path)
 $CONFIG->default_view = "html5";
 ///fallback view for non-existing views
@@ -71,7 +74,3 @@ $CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompr
 ///default functions included
 $CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router', 'media_embed');
 
-//sets global
-global $CONFIG;
-
-?>

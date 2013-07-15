@@ -19,13 +19,22 @@ function m_image_cache($dir='', $type='local') {
 		$CONFIG->image_cache = new mCache($dir, $CONFIG->file_remote_fp, m_file_url_prefix());
 	}
 	else {
-		$CONFIG->image_cache = new mCache($dir, 'local');
+		if(!empty($dir) || !($CONFIG->image_cache instanceOf mCache)) {
+			$CONFIG->image_cache = new mCache($dir, 'local');
+		}
 	}
 
-	return $CONFIG->image_cache;
+	return $CONFIG->image_cache->type;
 
 }
 
+/**
+ * Sets the fallback image
+ * @param  string $type if 'auto' and $text exists, a image will be generated with this text
+ *                      if 'path/to/image.jpg', then this image will be presented as a fallback
+ *                      						if $text exists, will be writed over
+ * @param  [type] $text the fallback text
+ */
 function m_image_set_fallback($type='auto', $text=null) {
 	global $CONFIG;
 	$CONFIG->image_fallback_type = $type;
@@ -49,15 +58,37 @@ function m_image_set_fallback($type='auto', $text=null) {
 function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $quality=90) {
 	global $CONFIG;
 
+    ignore_user_abort(true);
+    $original_file = $file;
+	if($file instanceOf mImage) $_file = $file->file();
+    else {
+    	if($CONFIG->image_cache->type=='remote')
+    		$file = m_file_url($file);
+    	$_file = $file;
+    }
 	$cache_file = false;
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$_file = $file;
-		if($file instanceOf mImage) $_file = $file->file();
 		$name = md5(dirname($_file))."-".((int)$width) . "x" . ((int)$height) . "-$proportional-$quality-" . basename($_file);
 		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
-			mImage::stream($f);
+			if(!($file instanceOf mImage)) {
+				ob_end_clean();
+	    		header("Connection: close", true);
+				mImage::stream($f, false);
+				//close connection with browser
+	    		ob_end_flush();
+    			flush();
+				//check if file is newer
+				if(!$CONFIG->image_cache->expired($cache_file, m_file_time($original_file))) {
+					exit;
+				}
+				//continue to force rebuild cache
+			}
+			else {
+				//will exit
+				mImage::stream($f);
+			}
 		}
 	}
 
@@ -78,6 +109,7 @@ function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $
 		else die("error saving cache: $cache_file");
 	}
 
+	ignore_user_abort(false);
 	if($return=='flush') return $im->flush();
 	elseif($return=='gd') return $im->gd();
 	else return $im;
@@ -123,18 +155,38 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 		}
 	}
 
+    ignore_user_abort(true);
+    $original_file = $file;
+	if($file instanceOf mImage) $_file = $file->file();
+    else {
+    	if($CONFIG->image_cache->type=='remote')
+    		$file = m_file_url($file);
+    	$_file = $file;
+    }
 	$cache_file = false;
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$_file = $file;
-		if($file instanceOf mImage) $_file = $file->file();
 		$name = md5(dirname($_file)."-".serialize($mix) . serialize($options)) . basename($_file);
-
 		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
-			mImage::stream($f);
+			if(!($file instanceOf mImage)) {
+				ob_end_clean();
+	    		header("Connection: close", true);
+				mImage::stream($f, false);
+				//close connection with browser
+	    		ob_end_flush();
+    			flush();
+				//check if file is newer
+				if(!$CONFIG->image_cache->expired($cache_file, m_file_time($original_file))) {
+					exit;
+				}
+				//continue to force rebuild cache
+			}
+			else {
+				//will exit
+				mImage::stream($f);
+			}
 		}
-
 	}
 
 	$im = new mImage($file);
@@ -155,7 +207,8 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 		$im2->destroy();
 	}
 
-	if($cache_file) {
+	//save the cache
+	if($cache_file && !$im->has_errors()) {
 		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
 			$CONFIG->image_cache->put($tmp, $cache_file);
@@ -164,6 +217,7 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 		else die("error saving cache: $cache_file");
 	}
 
+	ignore_user_abort(false);
 	if($return=='flush') return $im->flush();
 	elseif($return=='gd') return $im->gd();
 	else return $im;
@@ -178,20 +232,43 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
  * */
 function m_image_string($file, $options = array(), $return='flush') {
 	global $CONFIG;
-	$cache_file = false;
-	if(in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$_file = $file;
-		if($file instanceOf mImage) $_file = $file->file();
-		if(!$_file) $_file = $options['text'];
-		$name = md5(dirname($_file)."-".serialize($options)).basename($_file);
 
+    ignore_user_abort(true);
+    $original_file = $file;
+	if($file instanceOf mImage) $_file = $file->file();
+    else {
+    	if($CONFIG->image_cache->type=='remote')
+    		$file = m_file_url($file);
+    	$_file = $file;
+    }
+	if(!$_file) $_file = $options['text'];
+
+	$cache_file = false;
+	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
+		$name = md5(dirname($_file)."-".serialize($options)).basename($_file);
 		$cache_file = $name;
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
-			mImage::stream($f);
+			if(!($file instanceOf mImage)) {
+				ob_end_clean();
+	    		header("Connection: close", true);
+				mImage::stream($f, false);
+				//close connection with browser
+	    		ob_end_flush();
+    			flush();
+				//check if file is newer
+				if(!$CONFIG->image_cache->expired($cache_file, m_file_time($original_file))) {
+					exit;
+				}
+				//continue to force rebuild cache
+			}
+			else {
+				//will exit
+				mImage::stream($f);
+			}
 		}
-
 	}
+
 	$default_ops = array('text' => '', 'color' => '000000', 'size' => 2, 'bgcolor' => 'transparent', 'margins' => array(1, 1, 1, 1));
 	if(is_string($options)) $options = array('text' => $options) + $default_ops;
 	elseif(is_array($options)) {
@@ -202,7 +279,8 @@ function m_image_string($file, $options = array(), $return='flush') {
 	if(!$file) $im->image_from_text($options['text'], $options['size'], $options['bgcolor'], $options['margins']);
 	$im->add_string($options['text'], $options['color'], $options['size']);
 
-	if($cache_file) {
+	//save the cache
+	if($cache_file && !$im->has_errors()) {
 		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
 			$CONFIG->image_cache->put($tmp, $cache_file);
@@ -211,10 +289,10 @@ function m_image_string($file, $options = array(), $return='flush') {
 		else die("error saving cache: $cache_file");
 	}
 
+	ignore_user_abort(false);
 	if($return=='flush') return $im->flush();
 	elseif($return=='gd') return $im->gd();
 	else return $im;
 
 }
 
-?>

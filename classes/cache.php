@@ -56,6 +56,27 @@ class mCache {
 	}
 
 	/**
+	 * Retuns true if the file is newer than the cache
+	 * @param  [type] $file file to check
+	 * @return [type]       [description]
+	 */
+	function expired($file, $checktime) {
+		$f = $this->get_path($file);
+		if($this->type == 'local') {
+			if(!is_file($f) || filemtime($f) < $checktime) {
+				return true;
+			}
+		}
+		if($this->type == 'remote') {
+			$time = $this->mfile->mtime($f);
+			if($time == -1 || $time < $checktime) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * Saves a file to a cache
 	 * @param  [type] $local  [description]
 	 * @param  [type] $remote [description]

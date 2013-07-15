@@ -87,4 +87,3 @@ function m_view_error() {
 	//echo "view error: ".$CONFIG->view->last_error."<br/>";
 	return $CONFIG->view->last_error;
 }
-?>

@@ -31,6 +31,16 @@ function m_sql_open( ) {
 	return $CONFIG->db->open();
 }
 /**
+ * Closes a database connection
+ */
+function m_sql_close( ) {
+	global $CONFIG;
+
+	if( !($CONFIG->db instanceOf mMySQL) ) return false;
+
+	return $CONFIG->db->close();
+}
+/**
  * Escapes a string to be used
  */
 function m_sql_escape($val) {
@@ -284,17 +294,22 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
 	global $CONFIG;
 	if(!m_sql_open()) return false;
 
-	$updates = array();
-	foreach($insert as $k => $v) {
-		if($escape) {
-			$updates[] = "`$k` = '".$CONFIG->db->escape($v)."'";
+	if(is_array($insert)) {
+		$updates = array();
+		foreach($insert as $k => $v) {
+			if($escape) {
+				$updates[] = "`$k` = '".$CONFIG->db->escape($v)."'";
+			}
+			else {
+				$updates[] = "$k = $v";
+			}
 		}
-		else {
-			$updates[] = "$k = $v";
-		}
+		$sql = "UPDATE `$table` SET
+			".implode(",", $updates);
 	}
-	$sql = "UPDATE `$table` SET
-		".implode(",", $updates);
+	else {
+		$sql = "UPDATE `$table` SET $insert";
+	}
 
 	if($where) {
 		if(is_array($where)) {
@@ -316,7 +331,7 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
  * @param $escape auto-escapes the SQL fields & values
  * @param $custom_sql_update a SQL custom update part (if empty will be the same as insert)
  */
-function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_update='') {
+function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_update=array()) {
 	global $CONFIG;
 	if(!m_sql_open()) return false;
 
@@ -333,11 +348,23 @@ function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_
 			$updates[]   = "$k = $v";
 		}
 	}
+	if($custom_sql_update && is_array($custom_sql_update)) {
+		$updates = array();
+		foreach($custom_sql_update as $k => $v) {
+			if($escape){
+				$updates[] = "`$k` = '".$CONFIG->db->escape($v)."'";
+			}
+			else {
+				$updates[] = "$k = $v";
+			}
+		}
+		$custom_sql_update = '';
+	}
 	$sql = "INSERT INTO `$table`
 	(".implode(",",array_keys($inserts)).") VALUES (".implode(",", $inserts).")
 	ON DUPLICATE KEY UPDATE
-		" . ($custom_sql_update ? $custom_sql_update : implode(",", $updates)) . "
-	";
+		" . ($custom_sql_update ? $custom_sql_update : implode(",", $updates));
+
 	//echo "$sql\n";
 	return m_sql_exec($sql);
 }

@@ -22,6 +22,7 @@ class mMySQL extends mSQL {
 	private $utf8 = true;
 	private $utf8_set = false;
 	private $last_error = '';
+	private $sql_results = array(); //all results
 
 	/**
 	 * Constructor, pass the connection data to the class
@@ -111,26 +112,29 @@ class mMySQL extends mSQL {
 			if(count($_sql) == 0) $ret = false;
 			else $ret = true;
 
-			foreach($_sql as $sql) {
+			foreach($_sql as $i => $sql) {
 				if($res = mysql_query($sql, $this->conn)) {
 					$this->last_error = '';
 
 					//insert mode, return the new id
-					if($mode == 'insert') return mysql_insert_id($this->conn);
+					if($mode == 'insert') {
+						$ret = mysql_insert_id($this->conn);
+					}
 
 					//this mode returns all fi it the the update goes right, no matter if it's really updated or not
-					if($mode == 'update') {
+					elseif($mode == 'update') {
 						$info_str = mysql_info($this->conn);
 						$a_rows = mysql_affected_rows($this->conn);
 						preg_match("/Rows matched: ([0-9]*)/", $info_str, $r_matched);
 						//print_r($info_str);echo "<br>\n";print_r($r_matched);echo "<br>\n";die("return: ".(($a_rows < 1)?($r_matched[1]?$r_matched[1]:0):$a_rows));
-						return ($a_rows < 1) ? ($r_matched[1] ? $r_matched[1] : 0) : $a_rows;
+						$ret = ($a_rows < 1) ? ($r_matched[1] ? $r_matched[1] : 0) : $a_rows;
 					}
 					//this mode return the number of affected rows
-					if($mode == 'affected' || $mode == 'delete') {
-						return mysql_affected_rows($this->conn);
+					elseif($mode == 'affected' || $mode == 'delete') {
+						$ret = mysql_affected_rows($this->conn);
 					}
-					$ret = $res;
+					else $ret = $res;
+					$this->sql_results[$i] = $ret;
 				}
 				else {
 					$ret = false;
@@ -143,6 +147,13 @@ class mMySQL extends mSQL {
 			$this->throwError('No connection');
 			return false;
 		}
+	}
+	/**
+	 * Returns the array with all results
+	 * @return array all results with the same array of input sql
+	 */
+	function results() {
+		return $this->sql_results;
 	}
 	/**
 	 * Sends the SET NAMES UTF8 to the MySQL server to establish data as UTF-8

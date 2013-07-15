@@ -14,5 +14,3 @@
 
 $tag = "header";
 require("_generic_tag.php");
-
-?>

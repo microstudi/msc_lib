@@ -36,17 +36,16 @@
 *
 */
 
+$d = dirname(__FILE__);
 ///Include global vars & definitions
-include_once(__DIR__ . "/config.php");
-
+include_once($d . "/config.php");
 
 /// Include libs
 foreach($CONFIG->inc_classes as $mod) {
-	include_once(__DIR__ . "/classes/$mod.php");
+	include_once($d . "/classes/$mod.php");
 
 }
 foreach($CONFIG->inc_functions as $mod) {
-	include_once(__DIR__ . "/functions/$mod.php");
+	include_once($d . "/functions/$mod.php");
 }
 
-?>

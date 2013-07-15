@@ -20,6 +20,7 @@ function m_media_url($url) {
 /**
  * returns the url for a thumbnail of the specified URL media (if exists)
  * @param  string $url [description]
+ * @param  string $size 'small' 'medium' 'large'
  * @return string      full url with the thumbnail
  */
 function m_media_thumb($url, $size = 'small') {
@@ -70,6 +71,7 @@ function m_media_embed($url, $width = 0, $height = 0) {
 /**
  * returns all the parts for a URL media (if exists)
  * @param  string $url [description]
+ * @param  string $size 'small' 'medium' 'large'
  * @return string      full url with the thumbnail
  */
 function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {

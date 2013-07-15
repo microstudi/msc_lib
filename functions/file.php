@@ -54,6 +54,9 @@ function m_file_set_remote($service = 'local', $options=array()) {
 		if(empty($options['rooturl'])) $options['rooturl']  = "http://" . $options['endpoint'] . "/" . $options['bucket'] ."/" . $options['prefix'];
 	}
 	$CONFIG->file_remote_fp = new mFile($type, $options['host'], $options['user'], $options['password'], $options['rootpath'], $options['port']);
+	if($type == 'ssh' && in_array($options['ssh_mode'], array('phpseclib', 'ssh2'))) {
+		$CONFIG->file_remote_fp->ssh_mode = $options['ssh_mode'];
+	}
 	$CONFIG->file_remote_fp->error_mode('string');
 
 	//configure the prefix
@@ -67,7 +70,6 @@ function m_file_set_remote($service = 'local', $options=array()) {
  */
 function m_file_url_prefix($prefix = null) {
 	global $CONFIG;
-
 
 	if(is_null($prefix))	 {
 		//return current conf if exists
@@ -99,6 +101,16 @@ function m_file_url($file) {
 
 	return $prefix . $file;
 }
+/**
+ * Returns the full path for a file
+ * @param  string $file [description]
+ * @return string       [description]
+ */
+function m_file_path($file) {
+	global $CONFIG;
+
+	return $CONFIG->file_remote_fp->get_path($file);
+}
 
 /**
  * Gets the file size (in bytes) from a remote place
@@ -109,6 +121,17 @@ function m_file_size($file) {
 	global $CONFIG;
 
 	return $CONFIG->file_remote_fp->size($file, true);
+}
+
+/**
+ * Gets the file modification time (timestamp unix time) from a remote place
+ * @param  string $file the file to search (relative to the root directory)
+ * @return int       the size
+ */
+function m_file_time($file) {
+	global $CONFIG;
+
+	return $CONFIG->file_remote_fp->mtime($file, true);
 }
 
 /**

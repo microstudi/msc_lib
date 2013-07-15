@@ -142,25 +142,51 @@ function m_list_dir($dir,$iterative=true){
 	return $files;
 }
 
-function m_url_exists($url) {
-	$url = dirname($url)."/".rawurlencode(basename($url));
-	$hdrs = @get_headers($url);
-    $handle = is_array($hdrs) ? preg_match('/^HTTP\\/\\d+\\.\\d+\\s+2\\d\\d\\s+.*$/',$hdrs[0]) : false;
-    if($handle) return true;
+function m_url_exists($url_original, $check_alive = true) {
+	$url = @parse_url($url_original);
 
-    // Version 4.x supported
-    $handle   = curl_init($url);
-    if (false === $handle)
-    {
+    if (!$url) {
         return false;
     }
-    curl_setopt($handle, CURLOPT_HEADER, false);
-    curl_setopt($handle, CURLOPT_FAILONERROR, true);  // this works
-    curl_setopt($handle, CURLOPT_HTTPHEADER, Array("User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.15) Gecko/20080623 Firefox/2.0.0.15") ); // request as if Firefox
-    curl_setopt($handle, CURLOPT_NOBODY, true);
-    curl_setopt($handle, CURLOPT_RETURNTRANSFER, false);
-    $connectable = curl_exec($handle);
-    curl_close($handle);
-    return $connectable;
+
+    if(!$check_alive) {
+        if(defined("FILTER_VALIDATE_URL")) {
+            return filter_var($url_original, FILTER_VALIDATE_URL);
+        }
+        else {
+            return preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $url_original);
+        }
+    }
+
+    $url = array_map('trim', $url);
+    $url['port'] = (!isset($url['port'])) ? 80 : (int)$url['port'];
+    $path = (isset($url['path'])) ? $url['path'] : '';
+
+    if ($path == '') {
+        $path = '/';
+    }
+
+    $path .= (isset($url['query'])) ? "?$url[query]" : '';
+
+    if (isset($url['host']) AND $url['host'] != gethostbyname($url['host'])) {
+        if (PHP_VERSION >= 5)
+        {
+            $headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
+        }
+        else
+        {
+            $fp = @fsockopen($url['host'], $url['port'], $errno, $errstr, 30);
+
+            if (!$fp)
+            {
+                return false;
+            }
+            fputs($fp, "HEAD $path HTTP/1.1\r\nHost: $url[host]\r\n\r\n");
+            $headers = fread($fp, 4096);
+            fclose($fp);
+        }
+        $headers = (is_array($headers)) ? implode("\n", $headers) : $headers;
+        return (bool)preg_match('#^HTTP/.*\s+[(200|301|302)]+\s#i', $headers);
+    }
+    return false;
 }
-?>

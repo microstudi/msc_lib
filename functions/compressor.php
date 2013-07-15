@@ -53,6 +53,3 @@ function m_js_compressor($dir,$mode='code',$encoding='Normal') {
 	if($mode == 'code') return $pack;
 	else return $CONFIG->js_compressor->get_cache_name();
 }
-
-
-?>

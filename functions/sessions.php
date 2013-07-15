@@ -34,16 +34,16 @@
 */
 function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, 'gc_divisor' => 100, 'gc_maxlifetime' => 3600)) {
 	global $CONFIG;
-
+	$d = dirname(dirname(__FILE__));
 	$start_session = true;
 	if($dir) {
 		if(is_array($dir)) {
 			if($dir['handler'] == 'redis' && $dir['port'] && $dir['host']) {
 				// SessionHandlerInterface
 				if (!interface_exists('SessionHandlerInterface')) {
-    				require_once(dirname(__DIR__) . "/classes/SessionHandlerInterface.php");
+    				require_once($d . "/classes/SessionHandlerInterface.php");
 				}
-   				require_once(dirname(__DIR__) . "/classes/predis/autoload.php");
+   				require_once($d . "/classes/predis/autoload.php");
 
    				// Instantiate a new client just like you would normally do. We'll prefix our session keys here.
 				$client = new Predis\Client(array('host' => $dir['host'], 'port' => $dir['port'], 'password' => $dir['password'], 'database' => $dir['database']), array('prefix' => $dir['prefix'] ? $dir['prefix'] : 'm_sessions:'));
@@ -53,8 +53,8 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 				$handler->register();
 			}
 			if($dir['handler'] == 'ironcache' && $dir['token'] && $dir['project_id']) {
-				require_once(dirname(__DIR__) . "/classes/iron/IronCore.class.php");
-				require_once(dirname(__DIR__) . "/classes/iron/IronCache.class.php");
+				require_once($d . "/classes/iron/IronCore.class.php");
+				require_once($d . "/classes/iron/IronCache.class.php");
 				$cache = new IronCache(array(
 					//'protocol' => "http", //can fix http exception http error 0 https://github.com/iron-io/iron_cache_php
 				    'token' => $dir['token'],
@@ -175,5 +175,3 @@ function m_register_error($msg,$register=false) {
 	$_SESSION['num_errors'] = 0;
 	unset($_SESSION['errors']);
 }
-
-?>

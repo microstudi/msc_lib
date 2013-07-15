@@ -11,8 +11,7 @@
  * For more information, examples and online documentation visit:
  * http://webcodingeasy.com/PHP-classes/Get-information-about-video-and-images-from-link
 **************************************************************/
-class MediaEmbed
-{
+class MediaEmbed {
 	private $code = "";
 	private $site = "";
 	private $data = array(
@@ -30,87 +29,87 @@ class MediaEmbed
 	private $default_size = array("w" => 425, "h" => 344);
 	private $all_types = array(
 		"youtube" => array(
-			"link" => "/http:\/\/[w\.]*youtube\.com\/watch\?v=([^&#]*)|http:\/\/[w\.]*youtu\.be\/([^&#]*)/i",
-			"embed" => '/http:\/\/[w\.]*youtube\.com\/v\/([^?&#"\']*)/is',
-			"iframe" => '/http:\/\/[w\.]*youtube\.com\/embed\/([^?&#"\']*)/is'
+			"link" => "/https?:\/\/[w\.]*youtube\.com\/watch\?v=([^&#]*)|https?:\/\/[w\.]*youtube\.com\/watch\?[^&]+&v=([^&#]*)|https?:\/\/[w\.]*youtu\.be\/([^&#]*)/i",
+			"embed" => '/https?:\/\/[w\.]*youtube\.com\/v\/([^?&#"\']*)/is',
+			"iframe" => '/https?:\/\/[w\.]*youtube\.com\/embed\/([^?&#"\']*)/is'
 		),
 		"vimeo" => array(
-			"link" => "/http:\/\/[w\.]*vimeo\.com\/([\d]*)/is",
-			"embed" => '/http:\/\/[w\.]*vimeo\.com\/moogaloop\.swf\?clip_id=([\d]*)/is',
-			"iframe" => '/http:\/\/player\.vimeo\.com\/video\/([\d]*)/is'
+			"link" => "/https?:\/\/[w\.]*vimeo\.com\/([\d]*)/is",
+			"embed" => '/https?:\/\/[w\.]*vimeo\.com\/moogaloop\.swf\?clip_id=([\d]*)/is',
+			"iframe" => '/https?:\/\/player\.vimeo\.com\/video\/([\d]*)/is'
 		),
 		"facebook" => array(
-			"link" => "/http:\/\/[w\.]*facebook\.com\/video\/video\.php\?v=([\d]*)/is",
-			"embed" => '/http:\/\/[w\.]*facebook\.com\/v\/([\d]*)/is'
+			"link" => "/https?:\/\/[w\.]*facebook\.com\/video\/video\.php\?v=([\d]*)|https?:\/\/[w\.]*facebook\.com\/photo\.php\?v=([\d]*)/is",
+			"embed" => '/https?:\/\/[w\.]*facebook\.com\/v\/([\d]*)/is'
 		),
 		"dailymotion" => array(
-			"link" => "/http:\/\/[w\.]*dailymotion\.com\/video\/([^_]*)/is",
-			"embed" => '/http:\/\/[w\.]*dailymotion\.com\/swf\/video\/([^?&#"\']*)/is',
-			"iframe" => '/http:\/\/[w\.]*dailymotion\.com\/embed\/video\/([^?&#"\']*)/is'
+			"link" => "/https?:\/\/[w\.]*dailymotion\.com\/video\/([^_]*)/is",
+			"embed" => '/https?:\/\/[w\.]*dailymotion\.com\/swf\/video\/([^?&#"\']*)/is',
+			"iframe" => '/https?:\/\/[w\.]*dailymotion\.com\/embed\/video\/([^?&#"\']*)/is'
 		),
 		"myspace" => array(
-			"link" => "/http:\/\/[w\.]*myspace\.com\/video\/.*\/.*\/([\d]*)|http:\/\/[w\.]*myspace\.com\/video\/vid\/([\d]*)/is",
-			"embed" => '/http:\/\/mediaservices\.myspace\.com\/services\/media\/embed\.aspx\/m=([\d]*)|http:\/\/player\.hulu\.com\/embed\/myspace_player_v002\.swf\?pid=\d*&embed=true&videoID=([\d]*)/is'
+			"link" => "/https?:\/\/[w\.]*myspace\.com\/video\/.*\/.*\/([\d]*)|https?:\/\/[w\.]*myspace\.com\/video\/vid\/([\d]*)/is",
+			"embed" => '/https?:\/\/mediaservices\.myspace\.com\/services\/media\/embed\.aspx\/m=([\d]*)|https?:\/\/player\.hulu\.com\/embed\/myspace_player_v002\.swf\?pid=\d*&embed=true&videoID=([\d]*)/is'
 		),
 		"metacafe" => array(
-			"link" => '/http:\/\/[w\.]*metacafe\.com\/watch\/([^?&#"\']*)/is',
-			"embed" => '/http:\/\/[w\.]*metacafe\.com\/fplayer\/(.*).swf/is'
+			"link" => '/https?:\/\/[w\.]*metacafe\.com\/watch\/([^?&#"\']*)/is',
+			"embed" => '/https?:\/\/[w\.]*metacafe\.com\/fplayer\/(.*).swf/is'
 		),
 		"revver" => array(
-			"link" => '/http:\/\/[w\.]*revver\.com\/video\/(.*)/is',
-			"embed" => '/http:\/\/flash\.revver\.com\/player\/\d\.\d\/player\.swf\?mediaId=([\d]*)|http:\/\/flash\.revver\.com\/player\/\d\.\d\/player\.js\?mediaId:([\d]*)|http:\/\/media\.revver\.com\/qt\/([\d]*)\.mov|http:\/\/media\.revver\.com\/player\/\d\.\d\/qtplayer.js\?mediaId:([\d]*)/is'
+			"link" => '/https?:\/\/[w\.]*revver\.com\/video\/(.*)/is',
+			"embed" => '/https?:\/\/flash\.revver\.com\/player\/\d\.\d\/player\.swf\?mediaId=([\d]*)|https?:\/\/flash\.revver\.com\/player\/\d\.\d\/player\.js\?mediaId:([\d]*)|https?:\/\/media\.revver\.com\/qt\/([\d]*)\.mov|https?:\/\/media\.revver\.com\/player\/\d\.\d\/qtplayer.js\?mediaId:([\d]*)/is'
 		),
 		"fivemin" => array(
-			"link" => '/http:\/\/[w\.]*5min\.com\/Video\/([^?&#"\']*)/is',
-			"embed" => '/http:\/\/embed\.5min\.com\/([\d]*)/is'
+			"link" => '/https?:\/\/[w\.]*5min\.com\/Video\/([^?&#"\']*)/is',
+			"embed" => '/https?:\/\/embed\.5min\.com\/([\d]*)/is'
 		),
 		"clickthrough" => array(
-			"link" => '/http:\/\/[w\.]*clikthrough\.com\/theater\/video\/([\d]*)/is',
-			"embed" => '/http:\/\/[w\.]*clikthrough\.com\/clikPlayer\.swf\?videoId=([\d]*)/is'
+			"link" => '/https?:\/\/[w\.]*clikthrough\.com\/theater\/video\/([\d]*)/is',
+			"embed" => '/https?:\/\/[w\.]*clikthrough\.com\/clikPlayer\.swf\?videoId=([\d]*)/is'
 		)
 		,
 		"dotsub" => array(
-			"link" => '/http:\/\/[w\.]*dotsub\.com\/view\/([^\?\/&#]*)/is',
-			"iframe" => '/http:\/\/[w\.]*dotsub\.com\/media\/(.*)\/e/is'
+			"link" => '/https?:\/\/[w\.]*dotsub\.com\/view\/([^\?\/&#]*)/is',
+			"iframe" => '/https?:\/\/[w\.]*dotsub\.com\/media\/(.*)\/e/is'
 		),
 		"revision" => array(
-			"link" => '/http:\/\/[w\.]*revision3\.com\/([^?&#"\']*)/is',
+			"link" => '/https?:\/\/[w\.]*revision3\.com\/([^?&#"\']*)/is',
 		),
 		"videojug" => array(
-			"link" => '/http:\/\/[w\.]*videojug\.com\/film\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*videojug\.com\/film\/([^?]*)/is',
 		),
 		"blip" => array(
-			"link" => '/http:\/\/[w\.]*blip\.tv\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*blip\.tv\/([^?]*)/is',
 		),
 		"viddler" => array(
-			"link" => '/http:\/\/[w\.]*viddler\.com\/explore\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*viddler\.com\/explore\/([^?]*)/is',
 		),
 		"screenr" => array(
-			"link" => '/http:\/\/[w\.]*screenr\.com\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*screenr\.com\/([^?]*)/is',
 		),
 		"slideshare" => array(
-			"link" => '/http:\/\/[w\.]*slideshare\.net\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*slideshare\.net\/([^?]*)/is',
 		),
 		"hulu" => array(
-			"link" => '/http:\/\/[w\.]*hulu\.com\/watch\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*hulu\.com\/watch\/([^?]*)/is',
 		),
 		"qik" => array(
-			"link" => '/http:\/\/[w\.]*qik\.com\/video\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*qik\.com\/video\/([^?]*)/is',
 		),
 		"flickr" => array(
-			"link" => '/http:\/\/[w\.]*flickr\.com\/photos\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*flickr\.com\/photos\/([^?]*)/is',
 		),
 		"funnyordie" => array(
-			"link" => '/http:\/\/[w\.]*funnyordie\.com\/videos\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*funnyordie\.com\/videos\/([^?]*)/is',
 		),
 		"twitpic" => array(
-			"link" => '/http:\/\/[w\.]*twitpic\.com\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*twitpic\.com\/([^?]*)/is',
 		),
 		"yfrog" => array(
-			"link" => '/http:\/\/[w\.]*yfrog\.[^\/]*\/([^?]*)/is',
+			"link" => '/https?:\/\/[w\.]*yfrog\.[^\/]*\/([^?]*)/is',
 		),
 		"break" => array(
-			"link" => '/http:\/\/[w\.]*break\.com\/index\/([^?&#"\']*)/is',
+			"link" => '/https?:\/\/[w\.]*break\.com\/index\/([^?&#"\']*)/is',
 		)
 	);
 
@@ -553,10 +552,10 @@ class MediaEmbed
 	//return thumbnails
 	private function facebook_thumb($res){
 		$arr = array();
-		preg_match( '/\.addVariable\("thumb_url",\s*"([^"]*)"\);/i', $res, $match);
+		preg_match( '/thumbnail_src(.*)_b\.jpg/i', $res, $match);
 		if(!empty($match))
 		{
-			$arr["large"] = str_replace("\u00253A", ":", str_replace("\u00252F", "/", $match[1]));
+			$arr["large"] = str_replace("\u00253A", ":", str_replace("\u00252F", "/", str_replace("\u00255C", "", str_replace("\u002522\u00253A\u002522", "", $match[1]))))."_b.jpg";
 			$arr["medium"] = $arr["large"];
 			$arr["small"] = str_replace("_b.jpg", "_t.jpg", $arr["large"]);
 		}
@@ -565,12 +564,12 @@ class MediaEmbed
 	//return size
 	private function facebook_size($res){
 		$arr = array();
-		preg_match( '/\.addVariable\("lowqual_width",\s*"([\d]*)"\);/i', $res, $match);
+		preg_match( '/\["width",\s*"([\d]*)"\]/i', $res, $match);
 		if(!empty($match))
 		{
 			$arr["w"] = (int)$match[1];
 		}
-		preg_match( '/\.addVariable\("lowqual_height",\s*"([\d]*)"\);/i', $res, $match);
+		preg_match( '/\["height",\s*"([\d]*)"\]/i', $res, $match);
 		if(!empty($match))
 		{
 			$arr["h"] = (int)$match[1];
@@ -596,7 +595,7 @@ class MediaEmbed
 	//return title
 	private function facebook_title($res){
 		$title = "";
-		preg_match( '/class="video_title.*">([^<]*)<\/h3>/i', $res, $match);
+		preg_match( '/<h2 class="uiHeaderTitle">([^<]*)<\/h2>/i', $res, $match);
 		if(!empty($match))
 		{
 			$title = $match[1];

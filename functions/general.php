@@ -22,27 +22,27 @@ function m_lib_version() {
     return $CONFIG->version;
 }
 /**
- * Returns a var from superglobals vars _REQUEST, _GET, _POST, _COOKIE, _SESSION
+ * Returns a var from superglobals vars _REQUEST, _GET, _POST
  * @param $var var string to search in superglobals
  * @param $default default value if $var is not set (empty var returns empty)
  * @param $globals array with then name of globals to search vars
  */
-function m_input($var,$default='',$globals = array('_SESSION', '_COOKIE', '_POST', '_REQUEST', '_GET')) {
+function m_input($var,$default='',$globals = array('_GET','_POST', '_REQUEST')) {
 	global $CONFIG;
 
 	$v = null;
 	foreach($globals as $g) {
 		switch($g) {
-			case '_SESSION': if(isset($_SESSION[$var])) $v = $_SESSION[$var];
-				break;
-			case '_COOKIE': if(isset($_COOKIE[$var])) $v = $_COOKIE[$var];
-				break;
-			case '_POST': if(isset($_POST[$var])) $v = $_POST[$var];
-				break;
-			case '_REQUEST': if(isset($_REQUEST[$var])) $v = $_REQUEST[$var];
-				break;
 			case '_GET': if(isset($_GET[$var])) $v = $_GET[$var];
 				break;
+            case '_POST': if(isset($_POST[$var])) $v = $_POST[$var];
+                break;
+            case '_REQUEST': if(isset($_REQUEST[$var])) $v = $_REQUEST[$var];
+                break;
+            case '_COOKIE': if(isset($_COOKIE[$var])) $v = $_COOKIE[$var];
+                break;
+            case '_SESSION': if(isset($_SESSION[$var])) $v = $_SESSION[$var];
+                break;
 		}
 		if($v) break;
 	}
@@ -229,5 +229,3 @@ function m_get_browser() {
         'pattern'    => $pattern
     );
 }
-
-?>

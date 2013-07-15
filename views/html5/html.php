@@ -36,7 +36,7 @@ if($vars['tagtitle'] || $vars['head'] || $vars['body']) {
 <title>' . $vars['tagtitle'] . '</title>
 ' . $vars['head'] .'
 </head>
-<body>
+<body' . ($var['bodyclass'] ? ' class="' . htmlspecialchars($var['bodyclass']) .'"' : '') . '>
 ' . $vars['body'] . '
 </body>
 </html>';

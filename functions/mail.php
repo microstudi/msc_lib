@@ -13,7 +13,7 @@
  * Setups the mailer sender params
  * params for gmail:
  * m_mail_set_smtp("smtp.gmail.com", "username@gmail.com", "password", "ssl", 465);
- * 
+ *
  * @param  string $host     smtp1.site.com;smtp2.site.com
  * @param  string $username [description]
  * @param  string $password [description]
@@ -24,8 +24,8 @@
 function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '', $port='') {
 	global $CONFIG;
 
-	require_once(dirname(__DIR__) . "/classes/phpmailer/class.phpmailer.php");
-	
+	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/class.phpmailer.php");
+
 	//reset the mailer if instantiated
 	$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
 	try {
@@ -50,7 +50,7 @@ function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '',
 
 /**
  * Sends a mail
- * @param $email destination recipient email
+ * @param $email destination recipient email or array of recipients
  * @param $subject subject of the email
  * @param $body text body
  * @param $html if exists the html body to send
@@ -61,24 +61,28 @@ function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '',
 function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 	global $CONFIG;
 
-	require_once(dirname(__DIR__) . "/classes/phpmailer/class.phpmailer.php");
+	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/class.phpmailer.php");
 
 	if( !($CONFIG->mailer instanceOf PHPMailer) ) {
 		$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
 	}
 	try {
-  
+
 		$CONFIG->mailer->Priority = 3;
 		$CONFIG->mailer->Encoding = "8bit";
 		$CONFIG->mailer->CharSet = "utf-8";
 		$CONFIG->mailer->WordWrap = 0;
 
+		//reset from
+		$CONFIG->mailer->From = '';
+		$CONFIG->mailer->FromName = '';
+		$CONFIG->mailer->ClearAllRecipients();
 		if($from) {
 			if(strpos($from, "<") !== false) {
-				$CONFIG->mailer->SetFrom(trim(str_replace(">", "", substr($from, strpos($from, "<") + 1))), trim(str_replace('"', '', substr($from, 0, strpos($from, "<")))));
+				$CONFIG->mailer->SetFrom(trim(str_replace(">", "", substr($from, strpos($from, "<") + 1))), trim(str_replace('"', '', substr($from, 0, strpos($from, "<")))), false);
 			}
 			else {
-				$CONFIG->mailer->SetFrom($from);
+				$CONFIG->mailer->SetFrom($from, '', false);
 			}
 		}
 
@@ -92,14 +96,18 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 		else {
 			$CONFIG->mailer->Body = $body;
 		}
-		if(strpos($email, "<") !== false) {
-			$e = trim(str_replace(">", "", substr($email, strpos($email, "<") + 1)));
-			$n = trim(str_replace('"', '', substr($email, 0, strpos($email, "<"))));
-			//echo "$email $n $e";
-			$CONFIG->mailer->AddAddress($e, $n);
-		}
-		else {
-			$CONFIG->mailer->AddAddress($email);
+		if(is_array($email)) $emails = $email;
+		else 				 $emails = array($email);
+		foreach($emails as $email) {
+			if(strpos($email, "<") !== false) {
+				$e = trim(str_replace(">", "", substr($email, strpos($email, "<") + 1)));
+				$n = trim(str_replace('"', '', substr($email, 0, strpos($email, "<"))));
+				//echo "$email $n $e";
+				$CONFIG->mailer->AddAddress($e, $n);
+			}
+			else {
+				$CONFIG->mailer->AddAddress($email);
+			}
 		}
 
 		if($replyto) {
@@ -149,14 +157,12 @@ function m_valid_email($email, $check_dns=true) {
 }
 
 
-
 /**
 * Returns a array with all emails in a text
 * @param $text text where to find emails
 * @return array of emails
 */
 function m_get_emails_from_text($text) {
-	$emails = array();
 	$pattern = "/([\s]*)([_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*([ ]+|)@([ ]+|)([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}))([\s]*)/i";
 	preg_match_all($pattern, $text, $matches);
 	return array_map('trim', array_unique($matches[0]));
@@ -181,4 +187,3 @@ function m_get_real_ip_addr()
     }
     return $ip;
 }
-?>

@@ -33,7 +33,5 @@ echo ($vars['title'] ? ' title="' . htmlspecialchars($vars['title']) . '"' : '')
 //data-* for jquery/bootstrap
 
 foreach($vars as $k => $v) {
-	if(strpos($k,'data-') === 0) echo ($v ? " $k=\"" . htmlspecialchars($v) . '"' : '');
+	if(strpos($k,'data-') === 0) echo (is_null($v) ? '' : " $k=\"" . htmlspecialchars($v) . '"');
 }
-
-?>

@@ -351,4 +351,3 @@ $ISO639 = array(
 );
 	return $ISO639;
 }
-?>

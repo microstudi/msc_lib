@@ -440,7 +440,7 @@ class mImage {
 	 * streams a image
 	 * @param $file original file
 	 * */
-	public function flush() {
+	public function flush($exit = true) {
 		$gd = $this->gd();
 
 		header("Content-type: " . image_type_to_mime_type($this->type));
@@ -464,7 +464,7 @@ class mImage {
 				break;
 			default : $this->throwError("Cannot output image for file {$this->file}!");
 		}
-		exit;
+		if($exit) exit;
 	}
 
 	public function gd() {
@@ -480,31 +480,33 @@ class mImage {
 	 * @param  [type] $file [description]
 	 * @return [type]       [description]
 	 */
-	static function stream($file) {
+	static function stream($file, $exit = true) {
 		//redirection if is http stream
 		if(substr($file, 0 , 7) == 'http://' || substr($file, 0 , 8) == 'https://') {
-			m_forward($file);
-		}
-		list($width, $height, $type, $attr) = @getimagesize( $file );
-		if(!$type && function_exists( 'exif_imagetype' ) ) {
-			$type = exif_imagetype($file);
-		}
-		if($type) {
-			 $type = image_type_to_mime_type($type);
+			header("Location: $file");
 		}
 		else {
-			$type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-			die($type);
-			if($type == 'jpg') $type = "jpeg";
-			if(!in_array($type, array('jpeg', 'png', 'gif'))) die("file $type not image!");
-			$type = "image/$type";
+			list($width, $height, $type, $attr) = @getimagesize( $file );
+			if(!$type && function_exists( 'exif_imagetype' ) ) {
+				$type = exif_imagetype($file);
+			}
+			if($type) {
+				 $type = image_type_to_mime_type($type);
+			}
+			else {
+				$type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+				die($type);
+				if($type == 'jpg') $type = "jpeg";
+				if(!in_array($type, array('jpeg', 'png', 'gif'))) die("file $type not image!");
+				$type = "image/$type";
+			}
+
+			header("Content-type: " . $type);
+			header('Content-Disposition: inline; filename="' . str_replace("'", "\'", basename($file)) . '"');
+			header("Content-Length: " . @filesize($file));
+			readfile($file);
 		}
-
-		header("Content-type: " . $type);
-		header('Content-Disposition: inline; filename="' . str_replace("'", "\'", basename($file)) . '"');
-
-		readfile($file);
-		exit;
+		if($exit) exit;
 	}
 	/**
 	 * Show the last error
