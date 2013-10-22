@@ -14,7 +14,9 @@
  * @param $spec htmlLawed options for attributes: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm#s2.3
  * */
 function m_htmlawed($in, $options=array('safe'=>1, 'elements'=>'a, b, strong, i, em, li, ol, ul'), $spec=array()) {
-	 return htmLawed::hl($in, $options, $spec);
+	include_once(dirname(__FILE__) . "/htmlLawed.php");
+
+	return htmLawed::hl($in, $options, $spec);
 }
 
 /**

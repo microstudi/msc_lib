@@ -21,7 +21,7 @@ class JSCompressor {
 	 *
 	 * @method __construct
 	 */
-	public function __construct($dirs=null,$cache_dir=null) {
+	public function __construct($dirs=null, $cache_dir=null) {
 		if($cache_dir) $this->set_cache_dir($cache_dir);
 		if($dirs) $this->setDirs($dirs);
 	}
@@ -73,7 +73,7 @@ class JSCompressor {
 	function set_cache_name() {
 		if($this->cache_dir) {
 			if(empty($this->files)) $cache_name = md5($this->code).".js";
-			else $cache_name = md5(implode("",$this->files)).".js";
+			else $cache_name = md5(implode("", $this->files)).".js";
 
 			$this->cache_name = $this->cache_dir.$cache_name;
 			return $this->cache_name;
@@ -117,11 +117,13 @@ class JSCompressor {
 
 		if( ! $this->output_cache() ) {
 
-			$packer = new JavaScriptPacker($this->code,$encoding);
+			include_once(dirname(__FILE__) . "/JavaScriptPacker.php");
+
+			$packer = new JavaScriptPacker($this->code, $encoding);
 			$this->code = $packer->pack();
 
 			if($this->cache_name) {
-				file_put_contents($this->cache_name,$this->code);
+				file_put_contents($this->cache_name, $this->code);
 			}
 		}
 		return $this->code;
