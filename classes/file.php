@@ -35,10 +35,11 @@ class mFile {
 		$this->port = $port;
 		$this->user = $user;
 		$this->pass = $pass;
-		if(substr($path, -1, 1) != '/') $path .= "/";
 		$this->path = $path;
+		if(substr($this->path, -1, 1) != '/') $this->path .= "/";
 		if($this->type == 's3') {
 			$this->bucket = $port;
+			if(empty($path)) $this->path = '';
 		}
 	}
 
@@ -105,7 +106,7 @@ class mFile {
 
 			case 'ssh':
 					if($this->libsec) {
-						if($this->link instanceOf New_SFTP) return true;
+						if($this->link instanceOf Net_SFTP) return true;
 
 						$this->link = new Net_SFTP($this->host, $this->port ? $this->port : 22);
 
@@ -202,7 +203,9 @@ class mFile {
 		while($remote{0} == '/') $remote = substr($remote,1);
 		$path = $this->path;
 		while(substr($path, -1) == '/') $path = substr($path, 0, -1);
-		return "$path/$remote";
+		if($path) return "$path/$remote";
+		else return $remote;
+
 	}
 
 	/**

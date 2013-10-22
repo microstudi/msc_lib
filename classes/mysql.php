@@ -68,11 +68,11 @@ class mMySQL extends mSQL {
 					return $this->conn;
 				}
 				else {
-					$this->throwError('MySQL Connection Database Error: ' . mysql_error($this->conn), true);
+					$this->throwError('MySQL Connection Database Error: ' . mysql_error(), true);
 				}
 			}
 			else {
-				$this->throwError('MySQL Connection Database Error: ' . mysql_error($this->conn), true);
+				$this->throwError('MySQL Connection Database Error: ' . mysql_error(), true);
 			}
 			return $this->conn;
 		}
@@ -138,7 +138,7 @@ class mMySQL extends mSQL {
 				}
 				else {
 					$ret = false;
-					$this->throwError(mysql_error($this->conn));
+					$this->throwError(mysql_error());
 				}
 			}
 			return $ret;
@@ -166,7 +166,7 @@ class mMySQL extends mSQL {
 				return $res;
 			}
 			else {
-				$this->throwError(mysql_error($this->conn));
+				$this->throwError(mysql_error());
 			}
 		}
 		return false;
@@ -210,7 +210,7 @@ class mMySQL extends mSQL {
 	 * throw errors
 	 */
 	function throwError($msg='', $die=false) {
-		$this->last_error = mysql_error($this->conn);
+		$this->last_error = mysql_error();
 		if($die) {
 			throw new Exception($msg);
 		}
