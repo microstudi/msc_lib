@@ -39,13 +39,6 @@
 *        	'project_id' => "project_id"
 *        )
 *
-*        or AWS DynamoDB
-*        $dir = array(
-*        	'handler' => "dynamodb",
-*        	'key' => "AWS key",
-*        	'secret' => "AWS secret"
-*        	'region' => "eu-west-1"
-*        )
 */
 function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, 'gc_divisor' => 100, 'gc_maxlifetime' => 3600)) {
 	global $CONFIG;
@@ -68,27 +61,6 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 					ini_set("session.save_handle", 'memcache');
 					if($dir['save_path']) ini_set("session.save_path", $dir['save_path']);
 				}
-			}
-
-			if($dir['handler'] == 'dynamodb' && $dir['key'] && $dir['secret']) {
-				require_once($d . "/classes/aws/aws.phar");
-
-				// use Aws\DynamoDb\DynamoDbClient;
-
-				$dynamoDb = \Aws\DynamoDb\DynamoDbClient::factory(array(
-				    'key'    => $dir['key'],
-				    'secret' => $dir['secret'],
-				    'region' => $dir['region'] ? $dir['region'] : 'eu-west-1',
-					//'scheme' => 'http'
-				));
-				$sessionHandler = $dynamoDb->registerSessionHandler(array(
-				     'table_name' => 'sessions',
-				     'hash_key' => 'id',
-				     'locking_strategy' => null,
-				     'session_lifetime' => $gc['gc_maxlifetime'],
-				 ));
-
-				register_shutdown_function('session_write_close');
 			}
 
 			if($dir['handler'] == 'redis' && $dir['port'] && $dir['host']) {
