@@ -89,18 +89,6 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 					// the following prevents unexpected effects when using objects as save handlers
 					register_shutdown_function('session_write_close');
 				}
-
-				/*
-   				// require_once($d . "/classes/predis/autoload.php");
-   				require_once($d . "/classes/predis/predis_0.8.4.phar");
-
-   				// Instantiate a new client just like you would normally do. We'll prefix our session keys here.
-				$client = new \Predis\Client(array('host' => $dir['host'], 'port' => $dir['port'], 'password' => $dir['password'], 'database' => $dir['database']), array('prefix' => $dir['prefix'] ? $dir['prefix'] : 'm_sessions:'));
-				// Set gc_ vars
-				$handler = new \Predis\Session\SessionHandler($client, $gc);
-				// Register our session handler (it uses `session_set_save_handler()` internally).
-				$handler->register();
-				*/
 			}
 
 			if($dir['handler'] == 'ironcache' && $dir['token'] && $dir['project_id']) {

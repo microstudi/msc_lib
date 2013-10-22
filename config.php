@@ -13,7 +13,7 @@ global $CONFIG;
 
 ///Global var $CONFIG
 $CONFIG = new stdClass;
-$CONFIG->version = 0.7;
+$CONFIG->version = 0.8;
 ///set to true to show errors
 $CONFIG->debug = true;
 
