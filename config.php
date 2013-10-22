@@ -21,6 +21,9 @@ $CONFIG->debug = true;
 $CONFIG->db = null;
 ///default database type
 $CONFIG->default_database = 'mysql';
+//cache for SELECT clausules
+$CONFIG->database_cache = null;
+$CONFIG->database_cache_time = 0;
 
 ///views path
 $CONFIG->views_path = dirname(__FILE__) . "/views";

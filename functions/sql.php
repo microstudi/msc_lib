@@ -21,6 +21,25 @@ function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $typ
 
 }
 /**
+ * Set a cache from the library phpfastcache
+ * http://www.phpfastcache.com/
+ *
+ * valid for m_sql_list && m_sql_count functions
+ *
+ * @param  string $type    'auto', "apc", "memcache", "memcached", "wincache" ,"files", "sqlite" and "xcache"
+ * @param integer $time     seconds to store the cache
+ * @param  array  $options [description]
+ * @return [type]          [description]
+ */
+function m_sql_set_cache($type = 'auto', $time = 60, $options = array()) {
+	global $CONFIG;
+
+	require_once(dirname(dirname(__FILE__)) . "/classes/phpfastcache/phpfastcache.php");
+
+	$CONFIG->database_cache = phpFastCache($type);
+	$CONFIG->database_cache_time = $time;
+}
+/**
  * Opens a database connection, returns the link resource
  */
 function m_sql_open( ) {
@@ -143,24 +162,12 @@ function m_sql_objects($sql, $class='') {
  * @param $where WHERE clause (filters)
  * @param $order order part of the SELECT
  */
-function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $order='', $class='', $old_compat='') {
+function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $order='', $class='') {
 	global $CONFIG;
 	$offset = (int) $offset;
 	$limit = (int) $limit;
-	$count = false;
-	//for compatibility with versions < 0.7
-	if(is_bool($fields)) {
-		$count  = $fields;
-		$fields = $where;
-		$where  = $order;
-		$order  = $class;
-		$class  = $old_compat;
-	}
 
-	if($count) {
-		$sql = "SELECT COUNT($fields) AS total FROM $table";
-	}
-	else $sql = "SELECT $fields FROM $table";
+	$sql = "SELECT $fields FROM $table";
 
 	if($where) {
 		if(is_array($where)) {
@@ -173,17 +180,27 @@ function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $orde
 		$sql .= " WHERE $where";
 	}
 
-	//echo $sql;
-	if($count) {
-		$rows = m_sql_objects($sql);
-		return $rows[0]->total;
+	if($order) $sql .= " ORDER BY $order";
+	$sql .= " LIMIT $offset, $limit";
+
+	//try to get from cache
+	if($CONFIG->database_cache) {
+		$id = "m_sql_list-" . md5($sql);
+		$rows = $CONFIG->database_cache->get($id);
+		if($rows != null) {
+			return $rows;
+		}
 	}
-	else {
-		if($order) $sql .= " ORDER BY $order";
-		$sql .= " LIMIT $offset, $limit";
-		$rows = m_sql_objects($sql, $class);
-		return $rows;
+
+	$rows = m_sql_objects($sql, $class);
+
+	//store cache
+	if($CONFIG->database_cache) {
+		$CONFIG->database_cache->set($id, $rows, $CONFIG->database_cache_time);
 	}
+
+	return $rows;
+
 }
 
 /**
@@ -210,7 +227,23 @@ function m_sql_count($table, $where='', $fields='*') {
 	}
 
 	//echo $sql;
+
+	//try to get from cache
+	if($CONFIG->database_cache) {
+		$id = "m_sql_count-" . md5($sql);
+		$rows = $CONFIG->database_cache->get($id);
+		if($rows != null) {
+			return $rows;
+		}
+	}
+
 	$rows = m_sql_objects($sql);
+
+	//store cache
+	if($CONFIG->database_cache) {
+		$CONFIG->database_cache->set($id, $rows, $CONFIG->database_cache_time);
+	}
+
 	return $rows[0]->total;
 
 }
