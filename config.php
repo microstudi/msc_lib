@@ -23,6 +23,8 @@ $CONFIG->db = null;
 $CONFIG->default_database = 'mysql';
 //cache for SELECT clausules
 $CONFIG->database_cache = null;
+$CONFIG->database_cache_enabled = true;
+$CONFIG->database_cache_paused = false;
 $CONFIG->database_cache_time = 0;
 
 ///views path

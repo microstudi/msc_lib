@@ -63,8 +63,9 @@ class mMySQL extends mSQL {
 	function open (){
 		if($this->is_open()) return $this->conn;
 		try {
+			set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
 			if($this->conn = @mysql_connect ($this->host, $this->user, $this->pass, true)) {
-				if(@mysql_select_db ($this->name, $this->conn)) {
+				if(mysql_select_db ($this->name, $this->conn)) {
 					return $this->conn;
 				}
 				else {
@@ -74,6 +75,7 @@ class mMySQL extends mSQL {
 			else {
 				$this->throwError('MySQL Connection Database Error: ' . mysql_error(), true);
 			}
+			restore_error_handler();
 			return $this->conn;
 		}
 		catch(Exception $e) {
@@ -138,7 +140,7 @@ class mMySQL extends mSQL {
 				}
 				else {
 					$ret = false;
-					$this->throwError(mysql_error());
+					$this->throwError();
 				}
 			}
 			return $ret;
@@ -166,7 +168,7 @@ class mMySQL extends mSQL {
 				return $res;
 			}
 			else {
-				$this->throwError(mysql_error());
+				$this->throwError();
 			}
 		}
 		return false;
@@ -206,11 +208,26 @@ class mMySQL extends mSQL {
 	function getError() {
 		return $this->last_error;
 	}
+
+	/**
+	 * Handle function errors
+	 * */
+	public function error_handler($errno, $errstr, $errfile, $errline, $errcontext) {
+		if(error_reporting() === 0) return;
+		throw new Exception("[$errno line $errline] $errstr");
+		//echo "\n\n".$this->error."\n\n";
+		return true;
+	}
+
 	/**
 	 * throw errors
 	 */
 	function throwError($msg='', $die=false) {
-		$this->last_error = mysql_error();
+		if(!$msg) {
+			if($this->conn) $msg = mysql_error($this->conn);
+			else $msg = mysql_error();
+		}
+		$this->last_error = $msg;
 		if($die) {
 			throw new Exception($msg);
 		}
@@ -219,4 +236,3 @@ class mMySQL extends mSQL {
 
 }
 
-?>

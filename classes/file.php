@@ -755,7 +755,7 @@ class mFile {
 					if($odir) ftp_chdir($this->link, $odir);
 					if($size == -1 && $force) {
 						//try to download the file and check the filesize
-						$tmp = tempnam(sys_get_temp_dir(), 'file');
+						$tmp = tempnam(m_temp_dir(), 'file');
 						if($this->download($remote_original, $tmp)) {
 							if(is_file($tmp)) {
 								$size = filesize($tmp);
@@ -832,7 +832,7 @@ class mFile {
 					if($odir) ftp_chdir($this->link, $odir);
 					if($modified == -1 && $force) {
 						//try to download the file and check the filesize
-						$tmp = tempnam(sys_get_temp_dir(), 'file');
+						$tmp = tempnam(m_temp_dir(), 'file');
 						if($this->download($remote_original, $tmp)) {
 							if(is_file($tmp)) {
 								$modified = @filemtime($tmp);
@@ -868,7 +868,7 @@ class mFile {
 				break;
 			case 's3':
 					try {
-						//info: Array ( [time] => 1366825091 [hash] => b6e3451d5274163494c339eddd3c080a [type] => image/jpeg [size] => 164968 ) 
+						//info: Array ( [time] => 1366825091 [hash] => b6e3451d5274163494c339eddd3c080a [type] => image/jpeg [size] => 164968 )
 						$info = $this->link->getObjectInfo($this->bucket, $remote);
 						if(is_array($info) && array_key_exists('time', $info)) $modified = (int) $info['time'];
 					}catch(S3Exception $e) {

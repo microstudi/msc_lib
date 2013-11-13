@@ -43,6 +43,8 @@ echo '<textarea';
 require("_common_html5_attributes.php");
 require("_common_html5_event_attributes.php");
 
+echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+
 echo (empty($vars['autofocus']) ? '' : ' autofocus="autofocus"');
 echo ($vars['cols'] ? ' cols="' . intval($vars['cols']) . '"' : '');
 echo (empty($vars['disabled']) ? '' : ' disabled="disabled"');

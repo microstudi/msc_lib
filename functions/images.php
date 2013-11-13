@@ -101,7 +101,7 @@ function m_image($file, $width=0, $height=0, $proportional=1, $return='flush', $
 
 	//save the cache
 	if($cache_file && !$im->has_errors()) {
-		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
+		$tmp = tempnam(m_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
 			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);
@@ -209,7 +209,7 @@ function m_image_mix($file, $mix_images = null, $options = null, $return='flush'
 
 	//save the cache
 	if($cache_file && !$im->has_errors()) {
-		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
+		$tmp = tempnam(m_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
 			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);
@@ -281,7 +281,7 @@ function m_image_string($file, $options = array(), $return='flush') {
 
 	//save the cache
 	if($cache_file && !$im->has_errors()) {
-		$tmp = tempnam(sys_get_temp_dir(), 'mimage');
+		$tmp = tempnam(m_temp_dir(), 'mimage');
 		if($im->save($tmp)) {
 			$CONFIG->image_cache->put($tmp, $cache_file);
 			@unlink($tmp);

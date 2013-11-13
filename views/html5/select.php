@@ -58,6 +58,8 @@ echo (empty($vars['multiple']) ? '' : ' multiple="multiple"');
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');
 echo ($vars['size'] ? '  size="'.intval($vars['size']).'"' : '');
 
+echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+
 echo '>';
 
 if(is_array($vars['items']) && empty($vars['options']))	$vars['options'] = $vars['items'];

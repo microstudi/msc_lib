@@ -40,6 +40,25 @@ function m_sql_set_cache($type = 'auto', $time = 60, $options = array()) {
 	$CONFIG->database_cache_time = $time;
 }
 /**
+ * Enable/disable the cache
+ * @param  boolean $enable [description]
+ * @return [type]          [description]
+ */
+function m_sql_cache($enable = true) {
+	global $CONFIG;
+	if($enable) $CONFIG->database_cache_enabled = true;
+	else $CONFIG->database_cache_enabled = false;
+}
+/**
+ * Does not aplies the cache in the next (only) query, subsequents query will aplies cache
+ * @return [type] [description]
+ */
+function m_sql_no_cache() {
+	global $CONFIG;
+	$CONFIG->database_cache_enabled = false;
+	$CONFIG->database_cache_paused = true;
+}
+/**
  * Opens a database connection, returns the link resource
  */
 function m_sql_open( ) {
@@ -184,7 +203,7 @@ function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $orde
 	$sql .= " LIMIT $offset, $limit";
 
 	//try to get from cache
-	if($CONFIG->database_cache) {
+	if($CONFIG->database_cache && $CONFIG->database_cache_enabled) {
 		$id = "m_sql_list-" . md5($sql);
 		$rows = $CONFIG->database_cache->get($id);
 		if($rows != null) {
@@ -197,6 +216,10 @@ function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $orde
 	//store cache
 	if($CONFIG->database_cache) {
 		$CONFIG->database_cache->set($id, $rows, $CONFIG->database_cache_time);
+		if($CONFIG->database_cache_paused && !$CONFIG->database_cache_enabled) {
+			$CONFIG->database_cache_enabled = true;
+			$CONFIG->database_cache_paused = false;
+		}
 	}
 
 	return $rows;
@@ -229,7 +252,7 @@ function m_sql_count($table, $where='', $fields='*') {
 	//echo $sql;
 
 	//try to get from cache
-	if($CONFIG->database_cache) {
+	if($CONFIG->database_cache && $CONFIG->database_cache_enabled) {
 		$id = "m_sql_count-" . md5($sql);
 		$rows = $CONFIG->database_cache->get($id);
 		if($rows != null) {

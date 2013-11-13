@@ -157,58 +157,24 @@ function m_decrypt($str, $key) {
  * @param $add = to add something in the link tag (per exemple:  onclick="window.open(this.href);return false;")
  * @param $add_not_tohost = in this host the add property will not be applied
  */
-function m_txt_parse_links($text,$add='',$add_not_tohost='') {
+function m_txt_parse_links($text, $add='', $add_not_tohost='') {
 	global $CONFIG;
 
-/*
-	//$text = " $text";
-	$t = preg_replace(
-		array(
-			'!([[:space:]()[{}])([-a-z0-9@:%_\+\.~#?&/=,]+)\.([a-z]{2,3})([-a-zA-Z0-9:%_\+\.~#?&/=,]+)!i',
-			'!((f|ht){1}tp[s]*://)([-a-z0-9@:%_\+\.~#?&/=,]+)!i'
-
-		),
-		array(
-			//'\\1http://\\2.\\3\\4', //?????? revisar!!
-			'\\1\\2.\\3\\4',
-			'<a href="\\1\\3"' . ($add ? " $add" : "") . '>\\3</a>',
-
-		),
-	 $text);
-*/
-  $t =  preg_replace(
-     array(
-       '/(?(?=<a[^>]*>.+<\/a>)
-             (?:<a[^>]*>.+<\/a>)
-             |
-             ([^="\']?)((?:https?|ftp|bf2|):\/\/[^<> \n\r]+)
-         )/iex',
-       '/<a([^>]*)target="?[^"\']+"?/i',
-       '/<a([^>]+)>/i',
-       '/(^|\s)(www.[^<> \n\r]+)/iex',
-       '/(([_A-Za-z0-9-]+)(\\.[_A-Za-z0-9-]+)*@([A-Za-z0-9-]+)
-       (\\.[A-Za-z0-9-]+)*)/iex'
-       ),
-     array(
-       "stripslashes((strlen('\\2')>0?'\\1<a href=\"\\2\">\\2</a>\\3':'\\0'))",
-       '<a\\1',
-       '<a\\1 target="_blank">',
-       "stripslashes((strlen('\\2')>0?'\\1<a href=\"http://\\2\">\\2</a>\\3':'\\0'))",
-       "stripslashes((strlen('\\2')>0?'<a href=\"mailto:\\0\">\\0</a>':'\\0'))"
-       ),
-       $text
-   );
-
-	//$t = preg_replace('!([[:space:]()[{}])(www.[-a-zA-Z0-9@:%_\+.~#?&//=]+)!i','\\1<a href="http://\\2"'.$add.'>\\2</a>', $t);
-
+    $text= preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*)/is", "$1$2<a href=\"$3\"" . ($add ? " $add" : '') . ">$3</a>", $text);
+    $text= preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*)/is", "$1$2<a href=\"http://$3\"" . ($add ? " $add" : '') . ">$3</a>", $text);
 	//parsing emails
-	$t = preg_replace('!"http[s]*://([-a-z0-9\._]+@([0-9a-z][0-9a-z-]+\.)+[a-z]{2,3})"!i','mailto:\\1', $t);
+    $text= preg_replace("/(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+)+)/i", "$1<a href=\"mailto:$2@$3\"" . ($add ? " $add" : '') . ">$2@$3</a>", $text);
 
-	if(!empty($add_not_tohost))
-		$t = preg_replace('!((\"(f|ht){1}tp[s]*://'.$add_not_tohost.')[-a-zA-Z0-9@:%_\+\.~#?&/=]+\")('.quotemeta($add).')!i','\\1', $t);
+
+	if(!empty($add_not_tohost)) {
+		if(!is_array($add_not_tohost)) $add_not_tohost = array($add_not_tohost);
+		foreach($add_not_tohost as $host) {
+			$text = preg_replace('!((\"'.$host.')[-a-zA-Z0-9@:%_\+\.~#?&/=]+\")('.quotemeta(" $add").')!i','\\1', $text);
+		}
+	}
 
 	//return substr($t,1);
-	return $t;
+	return $text;
 
 }
 
