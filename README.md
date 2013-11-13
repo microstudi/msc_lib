@@ -4,7 +4,7 @@ MSC LIB a simple Framework Library
 This library provides some methods to build php websites based on views.
 
 Author: Ivan Vergés - 2011
-License: GPLv3 http://www.gnu.org/copyleft/gpl.html
+License: LGPLv3 http://www.gnu.org/copyleft/lgpl.html
 
 
 USAGE:
