@@ -237,7 +237,8 @@ class CSSCompressor {
 				$dh = opendir($dir);
 				if($dh) {
 					while($f = readdir($dh)) {
-						if('css' == end(explode('.', $f))) {
+						$parts = explode('.', $f);
+						if('css' == end($parts)) {
 							$this->files[] = "$dir/$f";
 						}
 					}

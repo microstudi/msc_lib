@@ -63,7 +63,7 @@ class mMySQL extends mSQL {
 	function open (){
 		if($this->is_open()) return $this->conn;
 		try {
-			set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE);
+			set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE & ~E_STRICT);
 			if($this->conn = @mysql_connect ($this->host, $this->user, $this->pass, true)) {
 				if(mysql_select_db ($this->name, $this->conn)) {
 					return $this->conn;

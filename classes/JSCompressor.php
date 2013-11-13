@@ -148,7 +148,8 @@ class JSCompressor {
 				$dh = opendir($dir);
 				if($dh) {
 					while($f = readdir($dh)) {
-						if('js' == end(explode('.', $f))) {
+						$parts = explode('.', $f);
+						if('js' == end($parts)) {
 							$this->files[] = "$dir/$f";
 						}
 					}
