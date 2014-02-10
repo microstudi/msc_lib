@@ -74,7 +74,7 @@ $CONFIG->css_compressor = null;
 $CONFIG->custom_vars = array();
 
 ///default classes included
-$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", "JSCompressor", "CSSCompressor", 'router', 'cache', 'media_embed');
+$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", 'router', 'cache');
 
 ///default functions included
 $CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router', 'media_embed');

@@ -24,7 +24,7 @@
 function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '', $port='') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/class.phpmailer.php");
+	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/PHPMailerAutoload.php");
 
 	//reset the mailer if instantiated
 	$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
@@ -61,7 +61,7 @@ function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '',
 function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/class.phpmailer.php");
+	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/PHPMailerAutoload.php");
 
 	if( !($CONFIG->mailer instanceOf PHPMailer) ) {
 		$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch

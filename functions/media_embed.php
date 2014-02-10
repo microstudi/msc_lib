@@ -6,6 +6,8 @@
  * @return string      full url with the thumbnail
  */
 function m_media_url($url) {
+	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+
 	if(stripos($url, "http") !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
@@ -24,6 +26,8 @@ function m_media_url($url) {
  * @return string      full url with the thumbnail
  */
 function m_media_thumb($url, $size = 'small') {
+	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+
 	if(stripos($url, "http") !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
@@ -41,6 +45,8 @@ function m_media_thumb($url, $size = 'small') {
  * @return string      full url with the thumbnail
  */
 function m_media_embed($url, $width = 0, $height = 0) {
+	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+
 	if(stripos($url, "http") !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
@@ -75,6 +81,8 @@ function m_media_embed($url, $width = 0, $height = 0) {
  * @return string      full url with the thumbnail
  */
 function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {
+	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+
 	if(stripos($url, "http") !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	$site = $em->get_site();

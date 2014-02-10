@@ -15,7 +15,7 @@
  * */
 function m_htmlawed($in, $options=array('safe'=>1, 'elements'=>'a, b, strong, i, em, li, ol, ul'), $spec=array()) {
 
-	include_once(dirname(dirname(__FILE__)) . "/classes/htmlLawed.php");
+	include_once(dirname(dirname(__FILE__)) . "/classes/htmLawed.php");
 
 	return htmLawed::hl($in, $options, $spec);
 }

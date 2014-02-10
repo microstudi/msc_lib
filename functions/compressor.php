@@ -14,6 +14,9 @@
 function m_compressor_cache_dir($dir='') {
 	global $CONFIG;
 
+	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
+	require_once(dirname(dirname(__FILE__)) . "/classes/CSSCompressor.php");
+
 	if( ! $CONFIG->css_compressor instanceOf CSSCompressor) $CONFIG->css_compressor = new CSSCompressor(null,$dir);
 	else $CONFIG->css_compressor->setCacheDir($dir);
 
@@ -27,6 +30,8 @@ function m_compressor_cache_dir($dir='') {
  * */
 function m_css_compressor($dir,$mode='code') {
 	global $CONFIG;
+
+	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
 
 	if( ! $CONFIG->css_compressor instanceOf CSSCompressor) $CONFIG->css_compressor = new CSSCompressor($dir);
 	else $CONFIG->css_compressor->setDirs($dir);
@@ -44,6 +49,8 @@ function m_css_compressor($dir,$mode='code') {
  * */
 function m_js_compressor($dir,$mode='code',$encoding='Normal') {
 	global $CONFIG;
+
+	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
 
 	if( ! $CONFIG->js_compressor instanceOf JSCompressor) $CONFIG->js_compressor = new JSCompressor($dir);
 	else $CONFIG->js_compressor->setDirs($dir);
