@@ -1,14 +1,21 @@
 <?php
 /**
-* @file functions/text_utils.php
-* @author Ivan Vergés
-* @brief Text utils functions file\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Text utils functions file
+ *
+ * @category MSCLIB
+ * @package Utilities/Text-Utils
+ * @author Ivan Vergés
+ */
 
 /**
  * Just a wrapper fot htmlLawed
+ *
  * http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/
+ *
  * @param $in text to sanitize html
  * @param $options htmlLawed options: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm#s2.2
  * @param $spec htmlLawed options for attributes: http://www.bioinformatics.org/phplabware/internal_utilities/htmLawed/htmLawed_README.htm#s2.3
@@ -65,6 +72,7 @@ function m_trim($var) {
 	}
 	return $v;
 }
+
 /**
  * Displays a UNIX timestamp in a friendly way (eg "less than a minute ago")
  *
@@ -151,6 +159,7 @@ function m_decrypt($str, $key) {
     }
     return $str;
 }
+
 /**
  * Returns a text with found links parsed as html anchors <a href="">link</a>
  * @param $text the string to parse
@@ -243,7 +252,7 @@ function m_compute_char($value) {
 }
 
 /**
- * Passed date will be reversed\n
+ * Passed date will be reversed
  * y/m/d H:i:s  => d/m/y H:i:s
  * @param $date date to process
  * */
@@ -276,13 +285,13 @@ function m_normalize($string) {
 
 /**
  * limits a text to the specified size (adds ... at the end if text has to be cut)\n
- * is utf-8 & html secure\n
+ * is utf-8 & html secure
  * @param $string text to limit
  * @param $size number of chars allowed
  * @param $mode:
- * - \b normal : cut by right
- * - \b reverse : cut by left
- * - \b middle : cut by middle
+ *     <b>normal</b>: cut by right<br>
+ *     <b>reverse</b>: cut by left<br>
+ *     <b>middle</b>: cut by middle
  * @return the cropped text
  * */
 function m_txt_limit($string="", $size=10, $mode='normal') {
@@ -358,7 +367,6 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 	//if($encoding == 'UTF-8') $out = utf8_encode($out);
 	return $out;
 }
-
 
 /**
  * Truncates text.
@@ -464,8 +472,6 @@ function m_truncate($text, $length = 100, $ending = '...', $exact = true, $consi
 	}
 	return $truncate;
 }
-
-
 
 if(!function_exists("mb_str_replace")) {
 	function mb_str_replace($needle, $replacement, $haystack) {

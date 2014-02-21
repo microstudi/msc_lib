@@ -1,18 +1,27 @@
 <?php
 /**
-* @file classes/mysql.php
-* @author Ivan Vergés
-* @brief MySQL connection class\n
-* This file is used to connect to mysql databases\n
-* This class is used by the file functions/sql.php
-*
-* @section usage Usage
-* $db = new mMySQL('host','name','user','pass');\n
-* $db->open();\n
-* $db->query("SELECT * FROM users");\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package SQL
+ * @author Ivan Vergés
+ */
 
+/**
+ * MySQL connection class
+ *
+ * This file is used to connect to mysql databases
+ *
+ * Example:
+ * <code>
+ * $db = new mMySQL('host','name','user','pass');
+ * $db->open();
+ * $db->query("SELECT * FROM users");
+ * </code>
+ *
+ */
 class mMySQL extends mSQL {
 	private $host = null;
 	private $name = null;
@@ -99,10 +108,10 @@ class mMySQL extends mSQL {
 	 * return a mysql query
 	 * @param $sql SQL query
 	 * @param $mode if empty, returns the result of mysql_query function (or false if fail)
-	 * 	- @b insert insert mode: return the new id
-	 * 	- @b update update mode: returns the number of results if it the operation success, no matter if it's really updated or not
-	 * 	- @b affected affected mode: returns the number of affected rows (not updated rows returns anything)
-	 * 	- @b deleted delete mode: returns the number of deleted rows (for DELETE querys)
+	 *     <b>insert</b> insert mode: return the new id<br>
+	 *     <b>update</b> update mode: returns the number of results if it the operation success, no matter if it's really updated or not<br>
+	 *     <b>affected</b> affected mode: returns the number of affected rows (not updated rows returns anything)<br>
+	 *     <b>deleted</b> delete mode: returns the number of deleted rows (for DELETE querys)
 	 */
 	function query ($sql, $mode=''){
 
@@ -176,8 +185,8 @@ class mMySQL extends mSQL {
 	/**
 	 * returns a mysql fetch object/array
 	 * @param $t SQL query or mysql_query() result resource
-	 * @param $issql if true, \b $t is a SQL text query, if false \b $t is a mysql_query() result
-	 * @param $mode return mode: \b class returns result as object of this class, \b array returns result as array
+	 * @param $issql if true, <b>$t</b> is a SQL text query, if false <b>$t</b> is a mysql_query() result
+	 * @param $mode return mode: <b>class</b> returns result as object of this class, \b array returns result as array
 	 */
 	function fetch($t, $issql=true, $class='stdClass'){
 		if($issql) {

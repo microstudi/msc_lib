@@ -1,20 +1,21 @@
 <?php
 /**
-* @file functions/views.php
-* @author Ivan Vergés
-* @brief View functions\n
-* This functions uses the class mView defined in the file classes/views.php
-*
-* @section usage Usage
-* m_view_select('xhtml');\n
-* m_view_fallback('error');\n
-* m_view_add_path("views/default");\n
-* echo m_view("menu");
-
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * View functions
+ * This functions uses the class mView defined in the file classes/views.php
+ *
+ * @category MSCLIB
+ * @package Views
+ * @author Ivan Vergés
+ */
 
 /**
  * Adds custom paths to store views
+ *
+ *
  * @param $type the view to use
  */
 function m_view_select($type) {
@@ -26,6 +27,7 @@ function m_view_select($type) {
 	$CONFIG->view = new mView($paths);
 
 }
+
 /**
  * Adds custom paths to store views
  * @param $dir adds this dir to search views
@@ -40,8 +42,18 @@ function m_view_add_path($dir,$prepend=true) {
 		$CONFIG->view->addPath(realpath($dir),$prepend);
 	}
 }
+
 /**
  * Returns the view
+ *
+ * Example:
+ * <code>
+ * m_view_select('html5');
+ * m_view_fallback('error');
+ * m_view_add_path("views/default");
+ * echo m_view("menu");
+ * </code>
+ *
  * @param $view the view to search, $view.php will be searched in all view paths, the first found will be returned
  * @param $vars array of pairs => values to send to the $view.php
  * @param $silent returns empty if not views are found (otherwises returns a error message or the fallback view page if configured)

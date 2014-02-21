@@ -1,49 +1,60 @@
 <?php
 /**
-* @file classes/mysql.php
-* @author Ivan Vergés
-* @brief MySQL connection class\n
-* This file is used to connect to mysql databases\n
-* This class is used by the file functions/sql.php
-*
-* @section usage Usage
-* $db = new mMySQL('host','name','user','pass');\n
-* $db->open();\n
-* $db->query("SELECT * FROM users");\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package SQL
+ * @author Ivan Vergés
+ */
 
-class mSQL {
+/**
+ * MySQL connection class
+ *
+ * This file is used to connect to mysql databases
+ * This class is used by the file functions/sql.php
+ *
+ *
+ * Example:
+ * <code>
+ * $db = new mMySQL('host','name','user','pass');
+ * $db->open();
+ * $db->query("SELECT * FROM users");
+ * </code>
+ *
+ */
+abstract class mSQL {
 
 	/**
 	 * open a connection if is not opened
 	 */
-	function open (){
+	public function open (){
 	}
 
 	/**
 	 * Closes the connection
 	 */
-	function close (){
+	public function close (){
 	}
+
 	/**
 	 */
-	function query ($sql,$mode=''){
+	public function query ($sql, $mode=''){
 	}
 
 	/**
 	 * Escapes SQL strings
 	 */
-	function escape($val) {
-		return str_replace("\\","\\\\",str_replace("'","\'",stripslashes($val)));
+	public function escape($val) {
+		return str_replace("\\","\\\\", str_replace("'","\'", stripslashes($val)));
 	}
 
 	/**
 	 * Return last error
 	 */
-	function getError() {
+	public function getError() {
 	}
 
 }
 
-?>

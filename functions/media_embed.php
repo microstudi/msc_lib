@@ -1,4 +1,15 @@
 <?php
+/**
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Video auto-collector info from Youtube, Vimeo, etc
+ *
+ * @category MSCLIB
+ * @package Utilities/MediaEmbed
+ * @author Ivan Vergés
+ */
 
 /**
  * returns the url for a URL media (if exists)
@@ -112,8 +123,6 @@ function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {
 	}
 	return $parts;
 }
-
-
 
 /**
  * Returns any <embed> <object> <iframe> with corrected sizes

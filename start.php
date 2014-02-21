@@ -1,38 +1,24 @@
 <?php
 /**
-******************************************************
-* @mainpage Simple View-based Library
-*
-* @author Ivan Vergés
-* @version 0.5
-* @date June 2011
-*
-* @section intro Introduction
-* This library provides simple methods to build PHP websites based in views.\n
-* Also integrates some other 3party applications like PHPMailer, JSCompressor, CSSCompressor & JavaScriptPacker, PHPSecLib\n
-* \n
-* This framework mainly uses global functions, all prefixed by \b m_*, a list of all of them here: <a href=globals_func.html>Global functions</a>\n
-* \n
-* Check the <a href=../examples/index.php>examples files</a>\n
-*
-* @section usage Usage
-* Start using this library by including start.php:\n
-* include_once("msc_lib/start.php");
-*
-*
-*
-* @section license_sec License
-* http://www.gnu.org/copyleft/gpl.html GNU General Public License
-*
-*******************************************************/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Simple View-based Library
+ * This library provides simple methods to build PHP websites based in views.
+ * Also integrates some other 3party applications like PHPMailer, JSCompressor, CSSCompressor & JavaScriptPacker, PHPSecLib
+ *
+ * @author Ivan Vergés
+ */
 
 /**
-* @file start.php
-* @author Ivan Vergés
-* @brief Main include file
-* Include this file to use the MSCLIB\n
-* \n
-* EG: include_once("msc_lib/start.php");
+* Main include file
+* Include this file to use the MSCLIB
+*
+* Example:
+* <code>
+* include_once("msc_lib/start.php");
+* </code>
 *
 */
 

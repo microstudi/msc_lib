@@ -1,18 +1,28 @@
 <?php
 /**
-* @file functions/mail.php
-* @author Ivan Vergés
-* @brief Send Mail functions file\n
-* This functions uses the classes PHPMailer defined in the file classes/phpmailer.php
-*
-* @section usage Usage
-* m_mail_send("me@email.com", "My subject", "My TEXT body", "My <b>HTML</b> body", "you@email.com", "she@email.com");\n
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Send Mail functions file
+ * This functions uses the classes PHPMailer defined in the file classes/phpmailer/
+ *
+ * @category MSCLIB
+ * @package Utilities/Mail
+ * @author Ivan Vergés
+ */
 
 /**
  * Setups the mailer sender params
+ *
  * params for gmail:
+ *
  * m_mail_set_smtp("smtp.gmail.com", "username@gmail.com", "password", "ssl", 465);
+ *
+ * Example
+ * <code>
+ * m_mail_send("me@email.com", "My subject", "My TEXT body", "My <b>HTML</b> body", "you@email.com", "she@email.com");
+ * </code>
  *
  * @param  string $host     smtp1.site.com;smtp2.site.com
  * @param  string $username [description]
@@ -134,7 +144,7 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 /**
  * validates a email
  * @param $email email to check
- * @param $check_dns if \b true searches for dns domain existence
+ * @param $check_dns if <b>true</b> searches for dns domain existence
  * */
 function m_valid_email($email, $check_dns=true) {
 	//comprovacio de caracters

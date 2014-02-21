@@ -1,17 +1,28 @@
 <?php
 /**
-* @file classes/file.php
-* @author Ivan Vergés
-* @brief FILE wrapper manipulation class\n
-* This file is used to upload, download on several services like, local, ftp, ssh2, AmazonS3\n
-* This class is used by the file functions/file.php
-*
-* @section usage Usage
-* $db = new mFile('type','host','port','username','password','path');\n
-* $db->connect();\n
-* $db->upload($local_file, $remote_file);\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package Files
+ * @author Ivan Vergés
+ */
+
+/**
+ * File wrapper manipulation class
+ *
+ * This file is used to upload, download on several services like, local, ftp, ssh2, AmazonS3.
+ * This class is used by the file functions/file.php
+ *
+ * Example:
+ * <code>
+ * $db = new mFile('type','host','port','username','password','path');
+ * $db->connect();
+ * $db->upload($local_file, $remote_file);
+ * </code>
+ *
+ */
 class mFile {
 	private $link = '', $type = '', $host = '', $port = '', $user = '', $pass = '', $path = '', $bucket = '';
 	public  $last_error = '', $last_path = '', $last_local = '', $last_remote = '';
@@ -898,4 +909,3 @@ class mFile {
 		return false;
 	}
 }
-?>

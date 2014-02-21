@@ -1,19 +1,22 @@
 <?php
 /**
-* @file functions/views.php
-* @author Ivan Vergés
-* @brief View functions\n
-* This functions uses the class mView defined in the file classes/views.php
-*
-* @section usage Usage
-* m_view_select('xhtml');\n
-* m_view_fallback('error');\n
-* m_view_add_path("views/default");\n
-* echo m_view("menu");
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Router functions
+ * This functions uses the class mView defined in the file classes/router.php
+ *
+ * @category MSCLIB
+ * @package Routing
+ * @author Ivan Vergés
+ */
 
 /**
  * Adds action that processes a url
+ *
+ *  @uses mRouter
+ *
  * @param $reg_expr
  */
 function m_router_add($reg_expr, $action, $action_string = null) {
@@ -25,6 +28,9 @@ function m_router_add($reg_expr, $action, $action_string = null) {
 
 /**
  * Sets the base url for matching actions in url
+ *
+ * @uses mRouter
+ *
  * @param  [type] $path [description]
  * @return [type]       [description]
  */
@@ -42,6 +48,9 @@ function m_router_base($path=null) {
 
 /**
  * Return the current rules
+ *
+ * @uses mRouter
+ *
  */
 function m_router_get_rules() {
 	global $CONFIG;
@@ -52,6 +61,9 @@ function m_router_get_rules() {
 
 /**
  * Configure the fallback if none actions found
+ *
+ * @uses mRouter
+ *
  * @param  [type] $action [description]
  * @return [type]         [description]
  */
@@ -64,6 +76,9 @@ function m_router_error($action) {
 
 /**
  * Executes the router action
+ *
+ * @uses mRouter
+ *
  * @param  [type] $uri [description]
  * @return misc      false on failure, matched URI on success
  */
@@ -78,6 +93,9 @@ function m_router_dispatch($uri=null) {
 
 /**
  * Returns the current action, empty if none
+ *
+ * @uses mRouter
+ *
  * @return [type] [description]
  */
 function m_router_current_action() {
@@ -89,6 +107,9 @@ function m_router_current_action() {
 
 /**
  * Returns the action result, empty if none
+ *
+ * @uses mRouter
+ *
  * @return [type] [description]
  */
 function m_router_result() {

@@ -1,12 +1,21 @@
 <?php
 /**
- * @file classes/JSCompressor.php
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package Compressor
+ * @author Ivan Vergés
+ */
+
+/**
+ * Javascrip Packer/compressor
+ *
  * Merges every .js-file in directory/ies $dirs
  * into one file and compresses them using
  * Dead Edwards JavaScript-Packer
- */
- /**
- * @class JSCompressor
+ *
  */
 class JSCompressor {
 	private $cache_dir = null;
@@ -19,12 +28,12 @@ class JSCompressor {
 	/**
 	 * Gets all JS-code in directory/ies $dirs or single file
 	 *
-	 * @method __construct
 	 */
 	public function __construct($dirs=null, $cache_dir=null) {
 		if($cache_dir) $this->set_cache_dir($cache_dir);
 		if($dirs) $this->setDirs($dirs);
 	}
+
 	/**
 	 * Set up the cache dir
 	 * */
@@ -40,10 +49,10 @@ class JSCompressor {
 			$this->throwError("$dir is not writeable for cache!",true);
 		}
 	}
+
 	/**
 	 * outputs a file from the cache if needed
 	 *
-	 * @method output_cache
 	 * */
 	function output_cache() {
 		$f = $this->set_cache_name();
@@ -66,9 +75,9 @@ class JSCompressor {
 
 		return false;
 	}
+
 	/**
 	 *
-	 * @method set_cache_name
 	 * */
 	function set_cache_name() {
 		if($this->cache_dir) {
@@ -80,9 +89,9 @@ class JSCompressor {
 		}
 		else $this->throwError("{$this->cache_dir} is not set, cannot set cache_name!",true);
 	}
+
 	/**
 	 *
-	 * @method get_cache_name
 	 * */
 	function get_cache_name() {
 		if($this->cache_dir) {
@@ -94,7 +103,6 @@ class JSCompressor {
 	/**
 	 * Gets all CSS-code in dir(s) $dirs or a single file
 	 *
-	 * @method __construct
 	 */
 	public function setDirs($dirs) {
 		if(@is_file($dirs)) {
@@ -107,10 +115,10 @@ class JSCompressor {
 			$this->code = $dirs;
 		}
 	}
+
 	/**
 	 * Packs the JS-code using Dean Edwards JS-packer
 	 *
-	 * @method pack
 	 * @param $encoding : None', 'Numeric', 'Normal', 'High ASCII'
 	 */
 	public function pack($encoding='Normal') {
@@ -132,7 +140,6 @@ class JSCompressor {
 	/**
 	 * Gets all JS-code in directory/ies $dirs
 	 *
-	 * @method getCodeFromDirs
 	 */
 	private function getCodeFromDirs($dirs) {
 		$this->code = '';
@@ -163,12 +170,14 @@ class JSCompressor {
 			}
 		}
 	}
+
 	/**
 	 * Shows errors
 	 */
 	function getError() {
 		return $this->last_error;
 	}
+
 	/**
 	 * throw errors
 	 */
@@ -183,4 +192,3 @@ class JSCompressor {
 	}
 
 }
-?>

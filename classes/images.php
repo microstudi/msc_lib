@@ -1,19 +1,30 @@
 <?php
 /**
-* @file classes/images.php
-* @author Ivan Vergés
-* @brief Image Manipulation class\n
-* This class provides methods to resize, convert, save & flush images\n
-* This class is used by the file functions/images.php
-*
-* @section usage Usage
-* $img = new mImage("file.jpg");\n
-* $img->set_proportional(2);
-* $img->set_quality(90);
-* $img->resize(200,100);
-* $img->flush();
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package Images
+ * @author Ivan Vergés
+ */
 
+/**
+ * Image Manipulation class
+ *
+ * This class provides methods to resize, convert, save & flush images.
+ * This class is used by the file functions/images.php
+ *
+ * Example
+ * <code>
+ * $img = new mImage("file.jpg");
+ * $img->set_proportional(2);
+ * $img->set_quality(90);
+ * $img->resize(200,100);
+ * $img->flush();
+ * </code>
+ *
+ */
 class mImage {
 	protected $gd            = null;
 	public $type             = null;
@@ -61,6 +72,7 @@ class mImage {
 		if(isset($text)) $this->fallback_text = $text;
 		return $this->fallback_type;
 	}
+
 	/**
 	 * checks if is a valid GD reource
 	 * @param  resource  $gd gd resorce to analyze
@@ -79,17 +91,19 @@ class mImage {
 		}
 		return $this->file;
 	}
+
 	/**
 	 * Sets the $proportional parameter
 	 * @param $proportional
-     * - \b 0 => the image will be resized to the specified w/h without keeping aspect ratio
-	 * - \b 1 => the image will be resized to the specified w/h keeping aspect ratio (by cropping width or height)
-	 * - \b 2 => the image will be resized to the max w/h keeping aspect ratio (without cropping).
+     *     <b>0</b>: the image will be resized to the specified w/h without keeping aspect ratio<br>
+	 *     <b>1</b>: the image will be resized to the specified w/h keeping aspect ratio (by cropping width or height)<br>
+	 *     <b>2</b>: the image will be resized to the max w/h keeping aspect ratio (without cropping)
 	 * */
 	public function proportional($p=null) {
 		if(!is_null($p)) $this->proportional = $p;
 		return 			 $this->proportional;
 	}
+
 	/**
 	 * Sets the quality of the returned image (usefull for JPEG images only)
 	 * @param $p quality from 0 to 100
@@ -347,6 +361,7 @@ class mImage {
 		//die("$dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $alpha");
 		return imagecopymerge($this->gd, $cut, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $alpha);
 	}
+
 	/**
 	 * adds a text to a image with imagestring method
 	 * @param $text text to be added
@@ -436,6 +451,7 @@ class mImage {
 		}
 		return $ok;
 	}
+
 	/**
 	 * streams a image
 	 * @param $file original file
@@ -475,6 +491,7 @@ class mImage {
 	public function destroy() {
 		if(self::is_gd($this->gd)) imagedestroy($this->gd);
 	}
+
 	/**
 	 * Passthru a file with content-type, name
 	 * @param  [type] $file [description]
@@ -508,15 +525,18 @@ class mImage {
 		}
 		if($exit) exit;
 	}
+
 	/**
 	 * Show the last error
 	 */
 	function getError() {
 		return $this->last_error;
 	}
+
 	public function has_errors() {
 		return !empty($this->last_error);
 	}
+
 	/**
 	 * throw errors
 	 */
@@ -544,4 +564,3 @@ class mImage {
 	}
 }
 
-?>

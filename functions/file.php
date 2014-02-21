@@ -1,7 +1,21 @@
 <?php
+/**
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Remote file handling
+ *
+ * @category MSCLIB
+ * @package Files
+ * @author Ivan Vergés
+*/
 
 /**
  * [m_file_set_remote description]
+ *
+ * @uses mFile
+ *
  * @param  string $service The type of remote file handle: local, ftp, ssh2, s3
  * @param  array  $options options for the type used
  * @return [type]          [description]
@@ -63,8 +77,10 @@ function m_file_set_remote($service = 'local', $options=array()) {
 	//configure the prefix
 	m_file_url_prefix($options['rooturl']);
 }
+
 /**
  * Sets the prefix for a the returned url
+ *
  * @param  string $prefix the prefix wanted (usually http://something)
  *                        if null then the prefix will be autoextracted from current path
  * @return string 		  Returns the prefix
@@ -80,14 +96,15 @@ function m_file_url_prefix($prefix = null) {
 		if($prefix != '/') $prefix .= "/";
 		$prefix = "http://" . $_SERVER['HTTP_HOST'] . $prefix;
 	}
-
-	while(substr($prefix, -1,1) == '/') $prefix = substr($prefix, 0 , -1);
+	while(substr($prefix, -1, 1) == '/') $prefix = substr($prefix, 0 , -1);
 	$CONFIG->file_url_prefix = $prefix;
 
 	return $prefix;
 }
+
 /**
  * Returns the public url from a file with the default prefix
+ *
  * @param  string $file [description]
  * @return string       [description]
  */
@@ -102,13 +119,19 @@ function m_file_url($file) {
 
 	return $prefix . $file;
 }
+
 /**
  * Returns the full path for a file
+ *
+ * @uses mFile
+ *
  * @param  string $file [description]
  * @return string       [description]
  */
 function m_file_path($file) {
 	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
 	return $CONFIG->file_remote_fp->get_path($file);
 }
@@ -121,6 +144,8 @@ function m_file_path($file) {
 function m_file_size($file) {
 	global $CONFIG;
 
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
+
 	return $CONFIG->file_remote_fp->size($file, true);
 }
 
@@ -131,6 +156,8 @@ function m_file_size($file) {
  */
 function m_file_time($file) {
 	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
 	return $CONFIG->file_remote_fp->mtime($file, true);
 }
@@ -144,9 +171,11 @@ function m_file_time($file) {
 function m_file_get($remote, $local) {
 	global $CONFIG;
 
-	return $CONFIG->file_remote_fp->download($remote, $local);
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
+	return $CONFIG->file_remote_fp->download($remote, $local);
 }
+
 /**
  * Copy a file to a remote place
  * Autocreates destination tree of directories
@@ -159,8 +188,11 @@ function m_file_get($remote, $local) {
 function m_file_put($local, $remote, $auto_create_dirs = true) {
 	global $CONFIG;
 
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
+
 	return $CONFIG->file_remote_fp->upload($local, $remote, $auto_create_dirs);
 }
+
 /**
  * Deletes a file in a remote place, deletes empties directories left
  * @param  string $remote the remote file to delete
@@ -170,6 +202,8 @@ function m_file_put($local, $remote, $auto_create_dirs = true) {
  */
 function m_file_delete($remote, $auto_delete_dirs = true) {
 	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
 	return $CONFIG->file_remote_fp->delete($remote, $auto_delete_dirs);
 }
@@ -181,6 +215,8 @@ function m_file_delete($remote, $auto_delete_dirs = true) {
  */
 function m_file_rmdir($remote_dir) {
 	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
 	return $CONFIG->file_remote_fp->rmdir($remote_dir, $auto_delete_dirs);
 }
@@ -194,11 +230,19 @@ function m_file_rmdir($remote_dir) {
 function m_file_rename($remote_source, $remote_dest, $auto_create_dirs = true) {
 	global $CONFIG;
 
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
+
 	return $CONFIG->file_remote_fp->rename($remote_source, $remote_dest, $auto_create_dirs);
 }
 
+/**
+ * Returns the last error (if any)
+ * @return string Description of the error, empty if no errors
+ */
 function m_file_error() {
 	global $CONFIG;
+
+	if( !($CONFIG->file_remote_fp instanceOf mFile) ) m_file_set_remote();
 
 	return $CONFIG->file_remote_fp->last_error;
 }

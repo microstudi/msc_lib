@@ -1,4 +1,6 @@
+phpdoc.xml
+apigen.conf
 test/*
-doc/*
+doc/.*
 examples/cache/*
 !examples/cache/.htaccess

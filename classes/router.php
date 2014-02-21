@@ -1,17 +1,28 @@
 <?php
 /**
-* @file classes/router.php
-* @author Ivan Vergés
-* @brief mRouter connection class\n
-* Inspiration: http://cesar.la/mvc-hecho-en-casa-simple-lindo-y-efectivo.html
-*
-* @section usage Usage
-* $db = new mRouter();\n
-* $db->addRoute('/user\/([0-9]+)$/i', "user_controller");\n //where user_controller is a function
-* $db->addRoute('/user\/([0-9]+)$/i', "file_controller.php");\n //file_controler.php is a file
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Inspiration: http://cesar.la/mvc-hecho-en-casa-simple-lindo-y-efectivo.html
+ *
+ * @category MSCLIB
+ * @package Routing
+ * @author Ivan Vergés
+ */
 
+/**
+ * mRouter connection class
+ *
+ *
+ * Example
+ * <code>
+ * $db = new mRouter();
+ * $db->addRoute('/user\/([0-9]+)$/i', "user_controller"); //where user_controller is a function
+ * $db->addRoute('/user\/([0-9]+)$/i', "file_controller.php"); //file_controler.php is a file
+ * </code>
+ *
+ */
 class mRouter {
 	private $route = array();
 	private $base_path = '';

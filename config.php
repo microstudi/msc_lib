@@ -1,14 +1,22 @@
 <?php
 /**
-* @file config/config.php
-* @author Ivan Vergés
-* @brief Config file\n
-* Global vars used in the framework
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Config file\n
+ * Global vars used in the framework
+ *
+ * @category MSCLIB
+ * @package Utilities/MediaEmbed
+ * @author Ivan Vergés
+ */
+
 error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);
 
-//sets global
+/**
+ * global config variable
+ */
 global $CONFIG;
 
 ///Global var $CONFIG

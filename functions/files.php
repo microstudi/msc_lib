@@ -1,10 +1,15 @@
 <?php
 /**
-* @file functions/files.php
-* @author Ivan Vergés
-* @brief file manipulation & information utils functions file\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * File manipulation & information utils functions file
+ *
+ * @category MSCLIB
+ * @package Utilities/File-Utils
+ * @author Ivan Vergés
+ */
 
 /**
 * Returns a secure name to store in file system, if the generated filename exists returns a non-existing one
@@ -25,6 +30,7 @@ function m_check_filename($name='',$dir=null){
 	}
 	return $name;
 }
+
 /**
  * returns a string representing the php file upload error
  * @param $err PHP UPLOAD CODE
@@ -40,6 +46,7 @@ function m_get_string_for_upload_error($err) {
 	elseif($err == UPLOAD_ERR_EXTENSION)  return "upload_err_extension";
 	return '';
 }
+
 /**
  * This function transforms the php.ini notation for numbers (like '2M') to an integer (2*1024*1024 in this case)
  * @param $v string number represantation
@@ -68,10 +75,11 @@ function m_let_to_num($val){
 
     return $val;
 }
+
 /**
  * Transforms number notation to string representation (ie: 1024 => 1K)
  * @param $size number to convert to string
- * @param $bit units (\b B => \b KB, \b b => \b Kb)
+ * @param $bit units (<b>B</b> => <b>KB</b>, <b>b</b> => <b>Kb</b>)
  * @param $div divisor (1024 by default)
  * */
 function m_num_to_let($bytes, $unit = "", $decimals = 2) {
@@ -118,11 +126,12 @@ function m_rmdir($dir) {
         }
         return rmdir($dir);
 }
+
 /**
 * Returns a array with all files in a directory, if this directory contains subdirectories, this ends in "/"
 * Coud be recursive
 * @param $dir dir to scan
-* @param $iterative if \b true search will be recursive
+* @param $iterative if <b>true</b> search will be recursive
 */
 function m_list_dir($dir,$iterative=true){
 	if(!is_dir($dir)) return false;

@@ -1,18 +1,29 @@
 <?php
 /**
-* @file classes/views.php
-* @author Ivan Vergés
-* @brief Template View class\n
-* This class provides a method to define & return views from specified paths\n
-* views ara php files in specified paths\n
-* This class is used by the file functions/views.php
-*
-* @section usage Usage
-* $view = new mView(array("views/my_custom_view","views/default_view"));\n
-* echo $view->view("my_page");\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * @category MSCLIB
+ * @package Views
+ * @author Ivan Vergés
+ */
 
+/**
+ * Template View class
+ *
+ * This class provides a method to define & return views from specified paths
+ * views ara php files in specified paths.
+ *
+ * This class is used by the file @uses functions/views.php
+ *
+ * Example
+ * <code>
+ * $view = new mView(array("views/my_custom_view","views/default_view"));
+ * echo $view->view("my_page");
+ * </code>
+ *
+ */
 class mView {
 	private $paths = array();
 	public $last_error = '';
@@ -29,7 +40,7 @@ class mView {
 	/**
 	 * Returns the requested view
 	 * @param $view the requested view, this view will be search in all specified paths in order. The first existing $view.php will be returned
-	 * @param $vars array with vars to be passed to the view (every view access this vars from the var \b $vars
+	 * @param $vars array with vars to be passed to the view (every view access this vars from the var <b>$vars</b>
 	 * */
 	public function view($view,$vars=array()) {
 		if($view) {
@@ -59,4 +70,3 @@ class mView {
 	}
 }
 
-?>

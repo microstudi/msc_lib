@@ -1,45 +1,67 @@
 <?php
 /**
-* @file functions/sessions.php
-* @author Ivan Vergés
-* @brief Session functions file\n
-*
-* @section usage Usage
-* m_session_start("MY_SESSION_NAME","data/sessions/");\n
-* m_register_error('access denied');\n
-* if(is_errors()) print_r(m_get_errors());\n
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Session functions file
+ *
+ * @category MSCLIB
+ * @package Sessions
+ * @author Ivan Vergés
+ */
 
 /**
-* Starts session
-* @param $name Session name
-* @param $dir where to save the session files (leave empty for default), tries to create it if not exists
-*        if is array could be a redis server:
-*
-*        $dir = array(
-*        	'handler' => "redis",
-*        	'port' => redis_port,
-*        	'host' => "redis_host",
-*        	'password' => "redis_password",
-*        	'database' => "redis_database", //optional
-*        	'prefix' => 'sessions' //optional
-*        )
-*
-* 		 or a memcached server
-* 		 $dir = array(
-* 		 	'handler' => "memcache",
-* 		 	'save_path' => "tcp://127.0.0.1:11211 , tcp://192.168.1.1:11211"
-* 		 )
-*
-*        or a IronCache (http://www.iron.io/cache)
-*        $dir = array(
-*        	'handler' => "ironcache",
-*        	'token' => "token secret",
-*        	'project_id' => "project_id"
-*        )
-*
-*/
+ * Starts session
+ *
+ * Example:
+ * <code>
+ * m_session_start("MY_SESSION_NAME","data/sessions/");
+ * m_register_error('access denied');
+ * //errors are keep in session, from another page:
+ * if(is_errors()) print_r(m_get_errors());
+ * </code>
+ *
+ * If <b>$dir</b> is an array a Redis server could be specified:
+ * <code>
+ *        $dir = array(
+ *        	'handler' => "redis",
+ *        	'port' => redis_port,
+ *        	'host' => "redis_host",
+ *        	'password' => "redis_password",
+ *        	'database' => "redis_database", //optional
+ *        	'prefix' => 'sessions' //optional
+ *        )
+ * </code>
+ *
+ *       or a memcache server:
+ * <code>
+ *       $dir = array(
+ *         'handler' => "memcache",
+ *         'save_path' => "tcp://127.0.0.1:11211 , tcp://192.168.1.1:11211"
+ *       )
+ * </code>
+ *
+ *        or IronCache (http://www.iron.io/cache):
+ * <code>
+ *        $dir = array(
+ *        	'handler' => "ironcache",
+ *        	'token' => "token secret",
+ *        	'project_id' => "project_id"
+ *        )
+ * </code>
+ *
+ * Example:
+ * <code>
+ * m_session_start("MY_SESSION_NAME", array('handler' => "memcache", 'save_path' => "tcp://127.0.0.1:11211"));
+ * m_config_var("my_sticky_var", "foo", true);
+ * //"my_sticky_var" is in session, from another page:
+ * echo m_config_var("my_sticky_var");
+ * </code>
+ *
+ * @param $name Session name
+ * @param $dir where to save the session files (leave empty for default), tries to create it if not exists
+ */
 function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, 'gc_divisor' => 100, 'gc_maxlifetime' => 3600)) {
 	global $CONFIG;
 	$d = dirname(dirname(__FILE__));
@@ -124,6 +146,62 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 	if(empty($_SESSION['start'])) $_SESSION['start'] = time();
 
 }
+
+/**
+ * Returns or sets any custom var to store in $CONFIG
+ * @param $var string representing the var to store or retrive
+ * @param $value if is null, then the current value will be returned, if not null then $var will be set
+ * @param $in_session if <b>true</b> then var will be stored in session
+ */
+function m_config_var($var,$value=null,$in_session=false) {
+	global $CONFIG;
+
+	if($_SESSION['start']) {
+		if(!is_array($_SESSION['custom_vars'])) $_SESSION['custom_vars'] = array();
+		if($_SESSION['custom_vars'][$var]) $CONFIG->custom_vars[$var] = $_SESSION['custom_vars'][$var];
+	}
+
+	if(!is_null($value)) {
+		$CONFIG->custom_vars[$var] = $value;
+
+		if($in_session && $_SESSION['start']) {
+			if(!is_array($_SESSION['custom_vars'])) $_SESSION['custom_vars'] = array();
+			$_SESSION['custom_vars'][$var] = $value;
+		}
+	}
+
+	return $CONFIG->custom_vars[$var];
+}
+
+/**
+ * Deletes a custom var from $CONFIG
+ * @param $var the name of the var to delete
+ * */
+function m_delete_config_var($var) {
+	global $CONFIG;
+
+	unset($CONFIG->custom_vars[$var]);
+	if($_SESSION['start']) {
+		if($_SESSION['custom_vars'][$var]) {
+			unset($_SESSION['custom_vars'][$var]);
+		}
+	}
+
+	return true;
+}
+
+/**
+ * Clean/deletes all the custom vars
+ * @param $in_session if <b>true</b> deletes also the custom vars store in session
+ */
+function m_clean_custom_vars($in_session=false) {
+	global $CONFIG;
+	$CONFIG->custom_vars = array();
+	if($in_session && $_SESSION['start']) {
+		unset($_SESSION['custom_vars']);
+	}
+}
+
 /**
  * generates a unique hash using passed vars
  * @param $id
@@ -132,6 +210,7 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 function m_token($id,$time) {
 	return md5($id.$time.$_SERVER['SERVER_NAME'].$_SERVER['REMOTE_ADDR']);
 }
+
 /**
  * Checks if exists messages in $CONFIG
  * @return true or false
@@ -141,6 +220,7 @@ function m_is_msgs() {
 	if(count($_SESSION['msgs'])==0) return false;
 	return true;
 }
+
 /**
  * Returns messages stored in $CONFIG
  * @return array of messages
@@ -149,10 +229,11 @@ function m_get_msgs() {
 	if(!is_array($_SESSION['msgs'])) return array();
 	return $_SESSION['msgs'];
 }
+
 /**
  * Stores a new message in $CONFIG
  * @param $msg message string to store
- * @param $register if \b true increments the register counter
+ * @param $register if <b>true</b> increments the register counter
  * */
 function m_register_msg($msg,$register=false) {
 	if(!is_array($_SESSION['msgs'])) $_SESSION['msgs'] = array();
@@ -163,6 +244,7 @@ function m_register_msg($msg,$register=false) {
 	}
 	//print_r($_SESSION);
 }
+
 /**
  * Deletes all existing messages in $CONFIG
  * */
@@ -181,6 +263,7 @@ function m_is_errors() {
 	if(count($_SESSION['errors'])==0) return false;
 	return true;
 }
+
 /**
  * Checks if exists errors in $CONFIG
  * @return array of errors
@@ -189,10 +272,11 @@ function m_get_errors() {
 	if(!is_array($_SESSION['errors'])) return array();
 	return $_SESSION['errors'];
 }
+
 /**
  * Stores a error message in $CONFIG
  * @param $msg error message string to store
- * @param $register if \b true increments the register counter
+ * @param $register if <b>true</b> increments the register counter
  * */
 function m_register_error($msg,$register=false) {
 	if(!is_array($_SESSION['errors'])) $_SESSION['errors'] = array();
@@ -203,6 +287,7 @@ function m_register_error($msg,$register=false) {
 	}
 	//print_r($_SESSION);
 }
+
 /**
  * Deletes all existing error messages in $CONFIG
  * */

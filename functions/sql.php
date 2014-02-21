@@ -1,14 +1,19 @@
 <?php
 /**
-* @file functions/sql.php
-* @author Ivan Vergés
-* @brief SQL functions\n
-* This functions uses the class mMySQL defined in the file classes/mysql.php
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * SQL functions
+ * This functions uses the class mMySQL defined in the file classes/mysql.php
+ *
+ * @category MSCLIB
+ * @package SQL
+ * @author Ivan Vergés
+ */
+
+/**
 *
-* @section usage Usage
-* \n
-* $list = m_sql_list("users",0,10,'*','active=1');\n
-* print_r($list);
 */
 function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $type='mysql') {
 	global $CONFIG;
@@ -20,6 +25,7 @@ function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $typ
 	$CONFIG->db = new mMySQL($dbhost, $dbname, $dbuser, $dbpass);
 
 }
+
 /**
  * Set a cache from the library phpfastcache
  * http://www.phpfastcache.com/
@@ -39,6 +45,7 @@ function m_sql_set_cache($type = 'auto', $time = 60, $options = array()) {
 	$CONFIG->database_cache = phpFastCache($type);
 	$CONFIG->database_cache_time = $time;
 }
+
 /**
  * Enable/disable the cache
  * @param  boolean $enable [description]
@@ -49,6 +56,7 @@ function m_sql_cache($enable = true) {
 	if($enable) $CONFIG->database_cache_enabled = true;
 	else $CONFIG->database_cache_enabled = false;
 }
+
 /**
  * Does not aplies the cache in the next (only) query, subsequents query will aplies cache
  * @return [type] [description]
@@ -58,6 +66,7 @@ function m_sql_no_cache() {
 	$CONFIG->database_cache_enabled = false;
 	$CONFIG->database_cache_paused = true;
 }
+
 /**
  * Opens a database connection, returns the link resource
  */
@@ -68,6 +77,7 @@ function m_sql_open( ) {
 
 	return $CONFIG->db->open();
 }
+
 /**
  * Closes a database connection
  */
@@ -78,6 +88,7 @@ function m_sql_close( ) {
 
 	return $CONFIG->db->close();
 }
+
 /**
  * Escapes a string to be used
  */
@@ -128,6 +139,7 @@ function m_create_table($table, $keys=array(), $pk='', $unique='', $fulltext='',
 
 	return m_sql_exec($sql);
 }
+
 /**
  * Tries to create a table from a array data => value
  * @param $table name of the table to be created
@@ -152,6 +164,7 @@ function m_auto_create_table($table, $array=array()){
 	}
 	return m_create_table($table, $keys, $pk, $unique, $fulltext);
 }
+
 /**
  * Returns a list of objects (array of objects) from a sql
  * @param $sql the SQL query
@@ -173,10 +186,17 @@ function m_sql_objects($sql, $class='') {
 
 /**
  * Returns a limited-lenght list (sql SELECT) of objects from a table, can count items also
+ *
+ * Example
+ * <code>
+ * $list = m_sql_list("users",0,10,'*','active=1');
+ * print_r($list);
+ * </code>
+ *
  * @param $table name of the table to search results
- * @param $offset the first result of the list (not used in \b count mode)
- * @param $limit max number of results after the $offset  (not used in \b count mode)
- * @param $count if \b true, then the function will return the total number of results of the current query
+ * @param $offset the first result of the list (not used in <b>count</b> mode)
+ * @param $limit max number of results after the $offset  (not used in <b>count</b> mode)
+ * @param $count if <b>true</b>, then the function will return the total number of results of the current query
  * @param $fields fields to search
  * @param $where WHERE clause (filters)
  * @param $order order part of the SELECT
@@ -313,11 +333,12 @@ function m_sql_delete($table, $where='') {
 	//echo $sql;
 	return m_sql_exec($sql,'delete');
 }
+
 /**
  * Executes a insert
  * @param $table table ot insert data
  * @param $insert array of pairs => values to be inserted into $table, pairs are the name of the fields, values the data
- * @param $as_insert specifies return mode is a \b insert
+ * @param $as_insert specifies return mode is a <b>insert</b>
  * @param $escape auto-escapes the SQL fields & values
  */
 function m_sql_insert($table, $insert=array(), $as_insert=true, $escape=true) {
@@ -338,13 +359,14 @@ function m_sql_insert($table, $insert=array(), $as_insert=true, $escape=true) {
 
 	return m_sql_exec($sql,($as_insert ? 'insert' : ''));
 }
+
 /**
  * Executes a update
  * @param $table table to update data
  * @param $insert array of pairs => values to be updated into $table, pairs are the name of the fields, values the data
  * @param $where where clause (filter) to update
  * @param $escape auto-escapes the SQL fields & values
- * @param $return_only_affected_rows if \b true only the number of affected rows will be returned (if not all the number of $where matched rows will be returned)
+ * @param $return_only_affected_rows if <b>true</b> only the number of affected rows will be returned (if not all the number of $where matched rows will be returned)
  */
 function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_only_affected_rows=false) {
 	global $CONFIG;
@@ -380,6 +402,7 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
 
 	return m_sql_exec($sql,($return_only_affected_rows ? 'affected' : 'update'));
 }
+
 /**
  * Executes a insert on duplicate key update, this allows to insert or auto-update a row if a duplicate error happens
  * @param $table table to insert
@@ -424,6 +447,7 @@ function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_
 	//echo "$sql\n";
 	return m_sql_exec($sql);
 }
+
 /**
  * Returns last error
  */

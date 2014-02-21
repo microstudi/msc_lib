@@ -1,14 +1,23 @@
 <?php
 /**
-* @file functions/compressor.php
-* @author Ivan Vergés
-* @brief Javascript & CSS Compressor functions file\n
-* This functions uses the classes JSCompressor & CSSCompressor
-*
-*/
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
+ *
+ * Javascript & CSS Compressor functions file
+ * This functions uses the classes JSCompressor & CSSCompressor
+ *
+ * @category MSCLIB
+ * @package Compressor
+ * @author Ivan Vergés
+ */
 
 /**
  * Sets the cache folder
+ *
+ * @uses CSSCompressor
+ * @uses JSCompressor
+ *
  * @param $dir cache folder, tries to create it if not exists
  * */
 function m_compressor_cache_dir($dir='') {
@@ -23,8 +32,12 @@ function m_compressor_cache_dir($dir='') {
 	if( ! $CONFIG->js_compressor instanceOf JSCompressor) $CONFIG->js_compressor = new JSCompressor(null,$dir);
 	else $CONFIG->js_compressor->setCacheDir($dir);
 }
+
 /**
- * compress a dir or a file of CSS, returns data
+ * Compress a dir or a file of CSS, returns data
+ *
+ * @uses CSSCompressor
+ *
  * @param $dir if $dir is a file then returns the compressed data, if is a directory returns all files inside joined & compressed
  * @param $mode 'code' returns the raw css code compressed, 'file' returns the path to the compressed file generated
  * */
@@ -41,8 +54,12 @@ function m_css_compressor($dir,$mode='code') {
 	if($mode == 'code') return $pack;
 	else return $CONFIG->css_compressor->get_cache_name();
 }
+
 /**
  * compress a dir or a file of JavaScript, returns data
+ *
+ * @uses JSCompressor
+ *
  * @param $dir if $dir is a file then returns the compressed data, if is a directory returns all files inside joined & compressed
  * @param $mode 'code' returns the raw css code compressed, 'file' returns the path to the compressed file generated
  * @param $encoding : None', 'Numeric', 'Normal', 'High ASCII'

@@ -1,13 +1,25 @@
 <?php
 /**
- * @file classes/CSSCompressor.php
- * Merges every .css-file in directory/ies $dirs
- * into one file and compresses them
- * also parses $constants
+ * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+ * Copyright: Ivan Vergés 2011 - 2014
+ * License: http://www.gnu.org/copyleft/lgpl.html
  *
- * */
- /**
- * @class CSSCompressor
+	 * Origin: http://exscale.se/archives/2008/01/15/css-constants-and-compression-php-class/
+ *
+ * @category MSCLIB
+ * @package Compressor
+ * @author Ivan Vergés
+ */
+
+/**
+ * CSS packer/compressor
+ *
+ * Merges every .css-file in directories in specified directories
+ * into one file and compresses them.
+ *
+ * Also parses constants according to
+ * http://exscale.se/archives/2007/02/22/css-wish-list/
+ *
  */
 class CSSCompressor {
 	private $cache_dir = null;
@@ -21,9 +33,8 @@ class CSSCompressor {
 	/**
 	 * Constructor, sets cache and dirs
 	 *
-	 * @method __construct
 	 */
-	public function __construct($dirs=null,$cache_dir=null) {
+	public function __construct($dirs = null, $cache_dir = null) {
 		if($cache_dir) $this->set_cache_dir($cache_dir);
 		if($dirs) $this->setDirs($dirs);
 	}
@@ -43,10 +54,10 @@ class CSSCompressor {
 			$this->throwError("$dir is not writeable for cache!",true);
 		}
 	}
+
 	/**
 	 * outputs a file from the cache if needed
 	 *
-	 * @method output_cache
 	 * */
 	function output_cache() {
 		$f = $this->set_cache_name();
@@ -69,14 +80,14 @@ class CSSCompressor {
 
 		return false;
 	}
+
 	/**
 	 *
-	 * @method set_cache_name
 	 * */
 	function set_cache_name() {
 		if($this->cache_dir) {
 			if(empty($this->files)) $cache_name = md5($this->code).".css";
-			else $cache_name = md5(implode("",$this->files)).".css";
+			else $cache_name = md5(implode("", $this->files)).".css";
 
 			//echo print_r($this->files);
 			$this->cache_name = $this->cache_dir.$cache_name;
@@ -84,9 +95,9 @@ class CSSCompressor {
 		}
 		else $this->throwError("{$this->cache_dir} is not set, cannot set cache_name!",true);
 	}
+
 	/**
 	 *
-	 * @method get_cache_name
 	 * */
 	function get_cache_name() {
 		if($this->cache_dir) {
@@ -98,7 +109,6 @@ class CSSCompressor {
 	/**
 	 * Gets all CSS-code in dir(s) $dirs or a single file
 	 *
-	 * @method __construct
 	 */
 	public function setDirs($dirs) {
 		if(@is_file($dirs)) {
@@ -115,7 +125,6 @@ class CSSCompressor {
 	/**
 	 * Compresses the code and takes care of constans
 	 *
-	 * @method pack
 	 */
 	public function pack() {
 
@@ -126,7 +135,7 @@ class CSSCompressor {
 			//$this->replaceConstantDefinitions();
 
 			if($this->cache_name) {
-				file_put_contents($this->cache_name,$this->code);
+				file_put_contents($this->cache_name, $this->code);
 			}
 		}
 
@@ -136,7 +145,6 @@ class CSSCompressor {
 	/**
 	 * Extracts and removes 'constant selectors' (#selector = $constant;) from code
 	 *
-	 * @method extractConstantSelectors
 	 */
 	private function extractConstantSelectors() {
 		$matches = array();
@@ -159,7 +167,6 @@ class CSSCompressor {
 	/**
 	 * Replaces all constant-definitions ($constant {css}) with the selectors that wanted them
 	 *
-	 * @method replaceConstantDefinitions
 	 */
 	private function replaceConstantDefinitions() {
 		$matches = array();
@@ -206,7 +213,6 @@ class CSSCompressor {
 	/**
 	 * Removes comments, white-space and line-breaks from code
 	 *
-	 * @method compress
 	 */
 	private function compress() {
 		$this->code = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $this->code);
@@ -220,7 +226,6 @@ class CSSCompressor {
 	/**
 	 * Gets all CSS-code in directory/ies $dirs
 	 *
-	 * @method getCodeFromDirs
 	 */
 	private function getCodeFromDirs($dirs) {
 		$this->code = '';
@@ -252,12 +257,14 @@ class CSSCompressor {
 			}
 		}
 	}
+
 	/**
 	 * Shows errors
 	 */
 	function getError() {
 		return $this->last_error;
 	}
+
 	/**
 	 * throw errors
 	 */
@@ -273,4 +280,3 @@ class CSSCompressor {
 
 }
 
-?>
