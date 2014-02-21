@@ -30,8 +30,10 @@ echo m_view('html', array('tagtitle' => "This is a test page", 'body' => "Hello 
 ```
 
 Check for examples and the full documentation here:
+
 http://www.microstudi.net/msc_lib/examples/
 
 
 Author: Ivan Vergés 2011 - 2014
+
 License: LGPLv3 http://www.gnu.org/copyleft/lgpl.html
