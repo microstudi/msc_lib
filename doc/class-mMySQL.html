@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class mMySQL | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li class="active"><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-mMySQL.html">mMySQL</a></li>
+				<li><a href="class-mSQL.html">mSQL</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
+				<li><a href="function-m_create_table.html">m_create_table</a></li>
+				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
+				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
+				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
+				<li><a href="function-m_sql_error.html">m_sql_error</a></li>
+				<li><a href="function-m_sql_escape.html">m_sql_escape</a></li>
+				<li><a href="function-m_sql_exec.html">m_sql_exec</a></li>
+				<li><a href="function-m_sql_insert.html">m_sql_insert</a></li>
+				<li><a href="function-m_sql_insert_update.html">m_sql_insert_update</a></li>
+				<li><a href="function-m_sql_list.html">m_sql_list</a></li>
+				<li><a href="function-m_sql_no_cache.html">m_sql_no_cache</a></li>
+				<li><a href="function-m_sql_objects.html">m_sql_objects</a></li>
+				<li><a href="function-m_sql_open.html">m_sql_open</a></li>
+				<li><a href="function-m_sql_set_cache.html">m_sql_set_cache</a></li>
+				<li><a href="function-m_sql_set_database.html">m_sql_set_database</a></li>
+				<li><a href="function-m_sql_update.html">m_sql_update</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-SQL.html" title="Summary of SQL"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class mMySQL</h1>
+
+
+	<div class="description">
+	
+<p>MySQL connection class</p>
+
+<p>This file is used to connect to mysql databases</p>
+
+<p>Example:</p>
+
+<pre>
+<span class="php-var">$db</span> = <span
+class="php-keyword1">new</span> mMySQL(<span
+class="php-quote">'host'</span>,<span class="php-quote">'name'</span>,<span
+class="php-quote">'user'</span>,<span class="php-quote">'pass'</span>);
+<span
+class="php-var">$db</span>-&gt;open();
+<span
+class="php-var">$db</span>-&gt;query(<span
+class="php-quote">&quot;SELECT * FROM users&quot;</span>);
+</pre>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-mSQL.html"><span>mSQL</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>mMySQL</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-SQL.html">SQL</a><br>
+
+				<b>Author:</b>
+				Ivan Vergés<br>
+		<b>Located at</b> <a href="source-class-mMySQL.html#12-246" title="Go to source code">classes/mysql.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-mMySQL.html#36-52" title="Go to source code">__construct</a>( <span>mixed <var>$host</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$user</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$pass</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$utf8</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor, pass the connection data to the class</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor, pass the connection data to the class</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$host</var></dt>
+					<dd><code>mixed</code><br>$host Host of MySQL server</dd>
+					<dt><var>$name</var></dt>
+					<dd><code>mixed</code><br>$name Name of the database to connect</dd>
+					<dt><var>$user</var></dt>
+					<dd><code>mixed</code><br>$user MySQL username</dd>
+					<dt><var>$pass</var></dt>
+					<dd><code>mixed</code><br>$pass MySQL password</dd>
+					<dt><var>$utf8</var></dt>
+					<dd><code>mixed</code><br>$utf8 retrieves data from MySQL as UTF-8 (ie: sends the command SET NAMES UTF8
+before every query)</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_same" id="_is_same">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_same">#</a>
+		<code><a href="source-class-mMySQL.html#54-62" title="Go to source code">is_same</a>( <span>mixed <var>$host</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$name</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$user</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$pass</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Compare to instances</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Compare to instances</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_open" id="_is_open">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_open">#</a>
+		<code><a href="source-class-mMySQL.html#63-68" title="Go to source code">is_open</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns if a connexion is open</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns if a connexion is open</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="open" id="_open">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_open">#</a>
+		<code><a href="source-class-mMySQL.html#69-93" title="Go to source code">open</a>( )</code>
+
+		<div class="description short">
+			
+<p>open a connection if is not opened</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>open a connection if is not opened</p>
+
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-mSQL.html#_open">mSQL::open()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="close" id="_close">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_close">#</a>
+		<code><a href="source-class-mMySQL.html#95-106" title="Go to source code">close</a>( )</code>
+
+		<div class="description short">
+			
+<p>Closes the connection</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Closes the connection</p>
+
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-mSQL.html#_close">mSQL::close()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="query" id="_query">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_query">#</a>
+		<code><a href="source-class-mMySQL.html#107-161" title="Go to source code">query</a>( <span>mixed <var>$sql</var></span>, <span>mixed <var>$mode</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>return a mysql query</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>return a mysql query</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sql</var></dt>
+					<dd><code>mixed</code><br>$sql SQL query</dd>
+					<dt><var>$mode</var></dt>
+					<dd><code>mixed</code><br>$mode if empty, returns the result of mysql_query function (or false if fail)
+<b>insert</b> insert mode: return the new id<br />
+<b>update</b> update mode: returns the number of results if it the operation
+success, no matter if it's really updated or not<br />
+<b>affected</b> affected mode: returns the number of affected rows (not updated
+rows returns anything)<br />
+<b>deleted</b> delete mode: returns the number of deleted rows (for DELETE
+querys)</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-mSQL.html#_query">mSQL::query()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="results" id="_results">
+
+		<td class="attributes"><code>
+			 public 
+			array
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_results">#</a>
+		<code><a href="source-class-mMySQL.html#162-168" title="Go to source code">results</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns the array with all results</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the array with all results</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>array</code><br>all results with the same array of input sql<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setUTF8" id="_setUTF8">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setUTF8">#</a>
+		<code><a href="source-class-mMySQL.html#169-184" title="Go to source code">setUTF8</a>( )</code>
+
+		<div class="description short">
+			
+<p>Sends the SET NAMES UTF8 to the MySQL server to establish data as UTF-8</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sends the SET NAMES UTF8 to the MySQL server to establish data as UTF-8</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fetch" id="_fetch">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fetch">#</a>
+		<code><a href="source-class-mMySQL.html#185-205" title="Go to source code">fetch</a>( <span>mixed <var>$t</var></span>, <span>mixed <var>$issql</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$class</var> = <span class="php-quote">'stdClass'</span></span> )</code>
+
+		<div class="description short">
+			
+<p>returns a mysql fetch object/array</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>returns a mysql fetch object/array</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$t</var></dt>
+					<dd><code>mixed</code><br>$t SQL query or mysql_query() result resource</dd>
+					<dt><var>$issql</var></dt>
+					<dd><code>mixed</code><br>$issql if true, <b>$t</b> is a SQL text query, if false <b>$t</b> is a
+mysql_query() result</dd>
+					<dt><var>$class</var></dt>
+					<dd><code>mixed</code><br>$mode return mode: <b>class</b> returns result as object of this class, \b array
+returns result as array</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="escape" id="_escape">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_escape">#</a>
+		<code><a href="source-class-mMySQL.html#206-212" title="Go to source code">escape</a>( <span>mixed <var>$val</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Escapes SQL strings</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Escapes SQL strings</p>
+
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-mSQL.html#_escape">mSQL::escape()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getError" id="_getError">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getError">#</a>
+		<code><a href="source-class-mMySQL.html#214-219" title="Go to source code">getError</a>( )</code>
+
+		<div class="description short">
+			
+<p>Return last error</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return last error</p>
+
+
+
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-mSQL.html#_getError">mSQL::getError()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error_handler" id="_error_handler">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error_handler">#</a>
+		<code><a href="source-class-mMySQL.html#221-229" title="Go to source code">error_handler</a>( <span>mixed <var>$errno</var></span>, <span>mixed <var>$errstr</var></span>, <span>mixed <var>$errfile</var></span>, <span>mixed <var>$errline</var></span>, <span>mixed <var>$errcontext</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Handle function errors</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Handle function errors</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="throwError" id="_throwError">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_throwError">#</a>
+		<code><a href="source-class-mMySQL.html#231-244" title="Go to source code">throwError</a>( <span>mixed <var>$msg</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$die</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>throw errors</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>throw errors</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

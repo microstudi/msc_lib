@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class mSQL | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li class="active"><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-mMySQL.html">mMySQL</a></li>
+				<li class="active"><a href="class-mSQL.html">mSQL</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
+				<li><a href="function-m_create_table.html">m_create_table</a></li>
+				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
+				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
+				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
+				<li><a href="function-m_sql_error.html">m_sql_error</a></li>
+				<li><a href="function-m_sql_escape.html">m_sql_escape</a></li>
+				<li><a href="function-m_sql_exec.html">m_sql_exec</a></li>
+				<li><a href="function-m_sql_insert.html">m_sql_insert</a></li>
+				<li><a href="function-m_sql_insert_update.html">m_sql_insert_update</a></li>
+				<li><a href="function-m_sql_list.html">m_sql_list</a></li>
+				<li><a href="function-m_sql_no_cache.html">m_sql_no_cache</a></li>
+				<li><a href="function-m_sql_objects.html">m_sql_objects</a></li>
+				<li><a href="function-m_sql_open.html">m_sql_open</a></li>
+				<li><a href="function-m_sql_set_cache.html">m_sql_set_cache</a></li>
+				<li><a href="function-m_sql_set_database.html">m_sql_set_database</a></li>
+				<li><a href="function-m_sql_update.html">m_sql_update</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-SQL.html" title="Summary of SQL"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class mSQL</h1>
+
+
+	<div class="description">
+	
+<p>MySQL connection class</p>
+
+<p>This file is used to connect to mysql databases This class is used by the
+file functions/sql.php</p>
+
+<p>Example:</p>
+
+<pre>
+<span class="php-var">$db</span> = <span
+class="php-keyword1">new</span> mMySQL(<span
+class="php-quote">'host'</span>,<span class="php-quote">'name'</span>,<span
+class="php-quote">'user'</span>,<span class="php-quote">'pass'</span>);
+<span
+class="php-var">$db</span>-&gt;open();
+<span
+class="php-var">$db</span>-&gt;query(<span
+class="php-quote">&quot;SELECT * FROM users&quot;</span>);
+</pre>
+
+	</div>
+
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-mMySQL.html">mMySQL</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		<b>Abstract</b><br>
+		
+		
+		<b>Package:</b> <a href="package-SQL.html">SQL</a><br>
+
+				<b>Author:</b>
+				Ivan Vergés<br>
+		<b>Located at</b> <a href="source-class-mSQL.html#12-59" title="Go to source code">classes/sql.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="open" id="_open">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_open">#</a>
+		<code><a href="source-class-mSQL.html#29-33" title="Go to source code">open</a>( )</code>
+
+		<div class="description short">
+			
+<p>open a connection if is not opened</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>open a connection if is not opened</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="close" id="_close">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_close">#</a>
+		<code><a href="source-class-mSQL.html#35-39" title="Go to source code">close</a>( )</code>
+
+		<div class="description short">
+			
+<p>Closes the connection</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Closes the connection</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="query" id="_query">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_query">#</a>
+		<code><a href="source-class-mSQL.html#41-44" title="Go to source code">query</a>( <span>mixed <var>$sql</var></span>, <span>mixed <var>$mode</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="escape" id="_escape">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_escape">#</a>
+		<code><a href="source-class-mSQL.html#46-51" title="Go to source code">escape</a>( <span>mixed <var>$val</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Escapes SQL strings</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Escapes SQL strings</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getError" id="_getError">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getError">#</a>
+		<code><a href="source-class-mSQL.html#53-57" title="Go to source code">getError</a>( )</code>
+
+		<div class="description short">
+			
+<p>Return last error</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Return last error</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

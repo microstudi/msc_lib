@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class mFile | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li class="active"><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-mCache.html">mCache</a></li>
+				<li class="active"><a href="class-mFile.html">mFile</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_file_delete.html">m_file_delete</a></li>
+				<li><a href="function-m_file_error.html">m_file_error</a></li>
+				<li><a href="function-m_file_get.html">m_file_get</a></li>
+				<li><a href="function-m_file_path.html">m_file_path</a></li>
+				<li><a href="function-m_file_put.html">m_file_put</a></li>
+				<li><a href="function-m_file_rename.html">m_file_rename</a></li>
+				<li><a href="function-m_file_rmdir.html">m_file_rmdir</a></li>
+				<li><a href="function-m_file_set_remote.html">m_file_set_remote</a></li>
+				<li><a href="function-m_file_size.html">m_file_size</a></li>
+				<li><a href="function-m_file_time.html">m_file_time</a></li>
+				<li><a href="function-m_file_url.html">m_file_url</a></li>
+				<li><a href="function-m_file_url_prefix.html">m_file_url_prefix</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Files.html" title="Summary of Files"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class mFile</h1>
+
+
+	<div class="description">
+	
+<p>File wrapper manipulation class</p>
+
+<p>This file is used to upload, download on several services like, local, ftp,
+ssh2, AmazonS3. This class is used by the file functions/file.php</p>
+
+<p>Example:</p>
+
+<pre>
+<span class="php-var">$db</span> = <span
+class="php-keyword1">new</span> mFile(<span
+class="php-quote">'type'</span>,<span class="php-quote">'host'</span>,<span
+class="php-quote">'port'</span>,<span class="php-quote">'username'</span>,<span
+class="php-quote">'password'</span>,<span
+class="php-quote">'path'</span>);
+<span
+class="php-var">$db</span>-&gt;connect();
+<span
+class="php-var">$db</span>-&gt;upload(<span
+class="php-var">$local_file</span>, <span
+class="php-var">$remote_file</span>);
+</pre>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Files.html">Files</a><br>
+
+				<b>Author:</b>
+				Ivan Vergés<br>
+				<b>Used by:</b>
+				<code><code><a href="function-m_file_path.html">m_file_path()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="function-m_file_set_remote.html">m_file_set_remote()</a></code></code> <br>
+		<b>Located at</b> <a href="source-class-mFile.html#12-911" title="Go to source code">classes/file.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-mFile.html#34-55" title="Go to source code">__construct</a>( <span>string <var>$type</var> = <span class="php-quote">''</span></span>, <span>string <var>$host</var> = <span class="php-quote">''</span></span>, <span>string <var>$user</var> = <span class="php-quote">''</span></span>, <span>string <var>$pass</var> = <span class="php-quote">''</span></span>, <span>string <var>$path</var> = <span class="php-quote">''</span></span>, <span>string <var>$port</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the initial parameters to work</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the initial parameters to work</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd><code>string</code><br>$type type of service, could be: file, ftp, ssh, s3</dd>
+					<dt><var>$host</var></dt>
+					<dd><code>string</code><br>$host host to connect (ftp o ssh only), for s3 it's the endpoint
+(s3.amazonaws.com, s3-eu-west-1.amazonaws.com)</dd>
+					<dt><var>$user</var></dt>
+					<dd><code>string</code><br>$user username to connect (ftp o ssh only), for s3 it's the access key</dd>
+					<dt><var>$pass</var></dt>
+					<dd><code>string</code><br>$pass password to connect (ftp o ssh only), for s3 it's the secret key</dd>
+					<dt><var>$path</var></dt>
+					<dd><code>string</code><br>$path base path to operate, for s3 it's the prefix (a / char will be added)</dd>
+					<dt><var>$port</var></dt>
+					<dd><code>string</code><br>$port port to connect (ftp o ssh only), for s3 it's the bucket to operate</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error_mode" id="_error_mode">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error_mode">#</a>
+		<code><a href="source-class-mFile.html#57-61" title="Go to source code">error_mode</a>( <span>mixed <var>$mode</var> = <span class="php-quote">'exception'</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="connect" id="_connect">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_connect">#</a>
+		<code><a href="source-class-mFile.html#63-165" title="Go to source code">connect</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns false if cannot connect o change to specified path</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns false if cannot connect o change to specified path</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="close" id="_close">
+
+		<td class="attributes"><code>
+			 public 
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_close">#</a>
+		<code><a href="source-class-mFile.html#167-195" title="Go to source code">close</a>( )</code>
+
+		<div class="description short">
+			
+<p>Close the current connection</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Close the current connection</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="path" id="_path">
+
+		<td class="attributes"><code>
+			 public static
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_path">#</a>
+		<code><a href="source-class-mFile.html#197-206" title="Go to source code">path</a>( <span>[type] <var>$path</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Ensures a valid path without duplicates /</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Ensures a valid path without duplicates /</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd><code>[type]</code><br>$path [description]</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="get_path" id="_get_path">
+
+		<td class="attributes"><code>
+			 public 
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_get_path">#</a>
+		<code><a href="source-class-mFile.html#208-220" title="Go to source code">get_path</a>( <span>[type] <var>$remote</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Ensures a valid absolute path without duplicates /</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Ensures a valid absolute path without duplicates /</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote</var></dt>
+					<dd><code>[type]</code><br>$remote [description]</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="realpath" id="_realpath">
+
+		<td class="attributes"><code>
+			 public 
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_realpath">#</a>
+		<code><a href="source-class-mFile.html#222-288" title="Go to source code">realpath</a>( <span>string <var>$path</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Tests a absolute path on the active connection</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Tests a absolute path on the active connection</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$path</var></dt>
+					<dd><code>string</code><br>$path the path for to check existence</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>returns the real path directory or false on failure<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="upload" id="_upload">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_upload">#</a>
+		<code><a href="source-class-mFile.html#290-360" title="Go to source code">upload</a>( <span>string <var>$local</var></span>, <span>string <var>$remote</var></span>, <span>boolean <var>$auto_create_dirs</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>stores file on remote (overwrites)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>stores file on remote (overwrites)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$local</var></dt>
+					<dd><code>string</code><br>$local local file (must be absolute or relative to the working document)</dd>
+					<dt><var>$remote</var></dt>
+					<dd><code>string</code><br>$remote remote file (relative to $this-&gt;path)</dd>
+					<dt><var>$auto_create_dirs</var></dt>
+					<dd><code>boolean</code><br>$auto_create_dirs if true tries to autocreates the directory structure on remote
+on S3 has no effect as AWS has no concept of "directory" (always true)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>returns true if success, false otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-mFile.html#362-432" title="Go to source code">delete</a>( <span>string <var>$remote</var></span>, <span>mixed <var>$auto_delete_dirs</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>deletes file on remote</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>deletes file on remote</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote</var></dt>
+					<dd><code>string</code><br>$remote remote file (relative to $this-&gt;path) that will be deleted</dd>
+					<dt><var>$auto_delete_dirs</var></dt>
+					<dd><code>mixed</code><br>$auto_delete_dirs if true deletes empty the directory (and all empty parents)
+containing the remote file if string, will be used as a prefix to not delete
+directories that matches on AWS S3, is always true (there's no directories)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>returns true if success, false otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rmdir" id="_rmdir">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rmdir">#</a>
+		<code><a href="source-class-mFile.html#434-520" title="Go to source code">rmdir</a>( <span>string <var>$remote_dir_original</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Deletes a remote directory recursively</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Deletes a remote directory recursively</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_dir_original</var></dt>
+					<dd><code>string</code><br>$remote_dir the remote dir</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>returns true if success, false otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete_empty_dir" id="_delete_empty_dir">
+
+		<td class="attributes"><code>
+			 protected 
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete_empty_dir">#</a>
+		<code><a href="source-class-mFile.html#522-557" title="Go to source code">delete_empty_dir</a>( <span>string <var>$remote_dir</var></span>, <span>mixed <var>$top_max_dir</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Deletes a directory if its empty on remote place</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Deletes a directory if its empty on remote place</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_dir</var></dt>
+					<dd><code>string</code><br>$remote absolute remote dir!</dd>
+					<dt><var>$top_max_dir</var></dt>
+					<dd><code>mixed</code><br>$top_max_dir, if is string, directories matching will not be deleted (relative
+to root path)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="mkdir_recursive" id="_mkdir_recursive">
+
+		<td class="attributes"><code>
+			 protected 
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_mkdir_recursive">#</a>
+		<code><a href="source-class-mFile.html#559-602" title="Go to source code">mkdir_recursive</a>( <span>string <var>$remote_dir</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Creates a dir in remote recursively</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Creates a dir in remote recursively</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_dir</var></dt>
+					<dd><code>string</code><br>$remote_dir absolute remote dir!</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="download" id="_download">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_download">#</a>
+		<code><a href="source-class-mFile.html#604-664" title="Go to source code">download</a>( <span>string <var>$remote</var></span>, <span>string <var>$local</var></span> )</code>
+
+		<div class="description short">
+			
+<p>retrieves file from remote (overwrites)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>retrieves file from remote (overwrites)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote</var></dt>
+					<dd><code>string</code><br>$remote remote file (relative to $this-&gt;path)</dd>
+					<dt><var>$local</var></dt>
+					<dd><code>string</code><br>$local local file (must be absolute or relative to the working document)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>returns true if success, false otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rename" id="_rename">
+
+		<td class="attributes"><code>
+			 public 
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rename">#</a>
+		<code><a href="source-class-mFile.html#666-738" title="Go to source code">rename</a>( <span>string <var>$remote_source</var></span>, <span>string <var>$remote_dest</var></span>, <span>boolean <var>$auto_create_dirs</var> = <span class="php-keyword1">true</span></span>, <span>mixed <var>$auto_delete_dirs</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Rename files on remote (overwrites)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Rename files on remote (overwrites)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_source</var></dt>
+					<dd><code>string</code><br>$remote_source remote file origin</dd>
+					<dt><var>$remote_dest</var></dt>
+					<dd><code>string</code><br>$remote_dest remote file destination</dd>
+					<dt><var>$auto_create_dirs</var></dt>
+					<dd><code>boolean</code><br>$auto_create_dirs if true tries to autocreates the directory structure on remote
+on S3 has no effect as AWS has no concept of "directory" (always true)</dd>
+					<dt><var>$auto_delete_dirs</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>returns true if success, false otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="size" id="_size">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_size">#</a>
+		<code><a href="source-class-mFile.html#740-815" title="Go to source code">size</a>( <span>string <var>$remote_original</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>retrieves filesize from remote</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>retrieves filesize from remote</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_original</var></dt>
+					<dd><code>string</code><br>$remote remote file to check file size</dd>
+					<dt><var>$force</var></dt>
+					<dd><code>boolean</code><br>$force if it is true, then will try to download the file from ftp if ftp_size
+fails</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>returns -1 on error, file size otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="mtime" id="_mtime">
+
+		<td class="attributes"><code>
+			 public 
+			integer
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_mtime">#</a>
+		<code><a href="source-class-mFile.html#817-893" title="Go to source code">mtime</a>( <span>string <var>$remote_original</var></span>, <span>boolean <var>$force</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+<p>retrieves file modification time from remote</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>retrieves file modification time from remote</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$remote_original</var></dt>
+					<dd><code>string</code><br>$remote remote file to check file size</dd>
+					<dt><var>$force</var></dt>
+					<dd><code>boolean</code><br>$force if it is true, then will try to download the file from ftp if ftp_size
+fails</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>integer</code><br>returns -1 on error, file size otherwise<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="error_handler" id="_error_handler">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_error_handler">#</a>
+		<code><a href="source-class-mFile.html#895-903" title="Go to source code">error_handler</a>( <span>mixed <var>$errno</var></span>, <span>mixed <var>$errstr</var></span>, <span>mixed <var>$errfile</var></span>, <span>mixed <var>$errline</var></span>, <span>mixed <var>$errcontext</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Handle function errors</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Handle function errors</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="throwError" id="_throwError">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_throwError">#</a>
+		<code><a href="source-class-mFile.html#905-910" title="Go to source code">throwError</a>( <span>mixed <var>$msg</var></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="last_error" id="$last_error">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#28" title="Go to source code"><var>$last_error</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_error" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="last_path" id="$last_path">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#28" title="Go to source code"><var>$last_path</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_path" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="last_local" id="$last_local">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#28" title="Go to source code"><var>$last_local</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_local" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="last_remote" id="$last_remote">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#28" title="Go to source code"><var>$last_remote</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_remote" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ssh_mode" id="$ssh_mode">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#29" title="Go to source code"><var>$ssh_mode</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">'auto'</span></code></td>
+		<td class="description"><div>
+			<a href="#$ssh_mode" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="libsec" id="$libsec">
+		<td class="attributes"><code>
+			public  
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#30" title="Go to source code"><var>$libsec</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">false</span></code></td>
+		<td class="description"><div>
+			<a href="#$libsec" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="ftp_pasv" id="$ftp_pasv">
+		<td class="attributes"><code>
+			public  
+			boolean
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mFile.html#31" title="Go to source code"><var>$ftp_pasv</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">true</span></code></td>
+		<td class="description"><div>
+			<a href="#$ftp_pasv" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

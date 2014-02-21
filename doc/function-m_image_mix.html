@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Function m_image_mix | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li class="active"><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-mImage.html">mImage</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_image.html">m_image</a></li>
+				<li><a href="function-m_image_cache.html">m_image_cache</a></li>
+				<li class="active"><a href="function-m_image_mix.html">m_image_mix</a></li>
+				<li><a href="function-m_image_set_fallback.html">m_image_set_fallback</a></li>
+				<li><a href="function-m_image_string.html">m_image_string</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Images.html" title="Summary of Images"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Function</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="function">
+	<h1>Function m_image_mix</h1>
+
+
+	<div class="description">
+	
+<p>Resizes and mix images</p>
+
+<p>Example</p>
+
+<pre>
+<span
+class="php-comment">// This will flush the image resized at 200x150 by cropping width or height if necessary</span>
+m_image(<span
+class="php-quote">'my_file.jpg'</span>, <span class="php-num">200</span>, <span
+class="php-num">150</span>, <span class="php-num">1</span>);
+<span
+class="php-keyword1">die</span>;
+</pre>
+
+	</div>
+
+	<div class="info">
+		
+		<b>Package:</b> <a href="package-Images.html">Images</a><br>
+				<b>Author:</b>
+				Ivan Vergés<br>
+				<b>Uses:</b>
+				<code><code><a href="class-mCache.html">mCache</a></code></code> <br>
+				<b>Uses:</b>
+				<code><code><a href="class-mImage.html">mImage</a></code></code> <br>
+		<b>Located at</b> <a href="source-function-m_image_mix.html#142-255" title="Go to source code">functions/images.php</a><br>
+	</div>
+
+
+	<table class="summary" id="parameters">
+	<caption>Parameters summary</caption>
+	<tr id="$file">
+		<td class="name"><code>string</code></td>
+		<td class="value"><code><var>$file</var></code></td>
+		<td>
+			 original image, could be a gd resource
+		</td>
+	</tr>
+	<tr id="$mix_images">
+		<td class="name"><code>array</code></td>
+		<td class="value"><code><var>$mix_images</var> = <span class="php-keyword1">null</span></code></td>
+		<td>
+			$options array with width, height, proportional for the original images
+		</td>
+	</tr>
+	<tr id="$options">
+		<td class="name"><code>mixed</code></td>
+		<td class="value"><code><var>$options</var> = <span class="php-keyword1">null</span></code></td>
+		<td>
+			$mix_images if string, the file to mix if array, several images with options:
+array('image_file.jpg' =&gt; array( 'width' =&gt; w, //0 for original size,
+integer to resize 'height' =&gt; h, //0 for original size, integer to resize
+'proportional' =&gt; 1, //aspect ration maintainer 'position_x' =&gt; posx,
+//left, right, center, integer 'position_y' =&gt; posy, // top, bottom, center,
+integer 'alpha' =&gt; 70 // from 0 to 100 ))
+		</td>
+	</tr>
+	<tr id="$return">
+		<td class="name"><code>boolean</code></td>
+		<td class="value"><code><var>$return</var> = <span class="php-quote">'flush'</span></code></td>
+		<td>
+			$return_data [description]
+		</td>
+	</tr>
+	<tr id="$quality">
+		<td class="name"><code>integer</code></td>
+		<td class="value"><code><var>$quality</var> = <span class="php-num">90</span></code></td>
+		<td>
+			 [description]
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary" id="returns">
+	<caption>Return value summary</caption>
+	<tr>
+		<td class="name"><code>
+			mixed
+		</code></td>
+		<td>
+			Returns according the specified <b>$return</b> value
+		</td>
+	</tr>
+	</table>
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

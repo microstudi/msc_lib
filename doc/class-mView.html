@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class mView | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li class="active"><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-mView.html">mView</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_view.html">m_view</a></li>
+				<li><a href="function-m_view_add_path.html">m_view_add_path</a></li>
+				<li><a href="function-m_view_error.html">m_view_error</a></li>
+				<li><a href="function-m_view_fallback.html">m_view_fallback</a></li>
+				<li><a href="function-m_view_select.html">m_view_select</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Views.html" title="Summary of Views"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class mView</h1>
+
+
+	<div class="description">
+	
+<p>Template View class</p>
+
+<p>This class provides a method to define &amp; return views from specified
+paths views ara php files in specified paths.</p>
+
+<p>This class is used by the file @uses functions/views.php</p>
+
+<p>Example</p>
+
+<pre>
+<span class="php-var">$view</span> = <span
+class="php-keyword1">new</span> mView(<span
+class="php-keyword1">array</span>(<span
+class="php-quote">&quot;views/my_custom_view&quot;</span>,<span
+class="php-quote">&quot;views/default_view&quot;</span>));
+<span
+class="php-keyword1">echo</span> <span
+class="php-var">$view</span>-&gt;view(<span
+class="php-quote">&quot;my_page&quot;</span>);
+</pre>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Views.html">Views</a><br>
+
+				<b>Author:</b>
+				Ivan Vergés<br>
+		<b>Located at</b> <a href="source-class-mView.html#12-71" title="Go to source code">classes/views.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-mView.html#31-38" title="Go to source code">__construct</a>( <span>mixed <var>$paths</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor, define the paths to search views</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor, define the paths to search views</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$paths</var></dt>
+					<dd><code>mixed</code><br>$paths array with paths to search views</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="view" id="_view">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_view">#</a>
+		<code><a href="source-class-mView.html#40-61" title="Go to source code">view</a>( <span>mixed <var>$view</var></span>, <span>mixed <var>$vars</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+<p>Returns the requested view</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the requested view</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$view</var></dt>
+					<dd><code>mixed</code><br>$view the requested view, this view will be search in all specified paths in
+order. The first existing $view.php will be returned</dd>
+					<dt><var>$vars</var></dt>
+					<dd><code>mixed</code><br>$vars array with vars to be passed to the view (every view access this vars from
+the var <b>$vars</b></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addPath" id="_addPath">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addPath">#</a>
+		<code><a href="source-class-mView.html#62-70" title="Go to source code">addPath</a>( <span>mixed <var>$path</var></span>, <span>mixed <var>$prepend</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Dynamically adds more paths where to search views</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Dynamically adds more paths where to search views</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="last_error" id="$last_error">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mView.html#29" title="Go to source code"><var>$last_error</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_error" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

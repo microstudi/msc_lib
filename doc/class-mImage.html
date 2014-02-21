@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Class mImage | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li class="active"><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-mImage.html">mImage</a></li>
+			</ul>
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_image.html">m_image</a></li>
+				<li><a href="function-m_image_cache.html">m_image_cache</a></li>
+				<li><a href="function-m_image_mix.html">m_image_mix</a></li>
+				<li><a href="function-m_image_set_fallback.html">m_image_set_fallback</a></li>
+				<li><a href="function-m_image_string.html">m_image_string</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Images.html" title="Summary of Images"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class mImage</h1>
+
+
+	<div class="description">
+	
+<p>Image Manipulation class</p>
+
+<p>This class provides methods to resize, convert, save &amp; flush images. This
+class is used by the file functions/images.php</p>
+
+<p>Example</p>
+
+<pre>
+<span class="php-var">$img</span> = <span
+class="php-keyword1">new</span> mImage(<span
+class="php-quote">&quot;file.jpg&quot;</span>);
+<span
+class="php-var">$img</span>-&gt;set_proportional(<span
+class="php-num">2</span>);
+<span
+class="php-var">$img</span>-&gt;set_quality(<span
+class="php-num">90</span>);
+<span class="php-var">$img</span>-&gt;resize(<span
+class="php-num">200</span>,<span class="php-num">100</span>);
+<span
+class="php-var">$img</span>-&gt;<span
+class="php-keyword2">flush</span>();
+</pre>
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		
+		<b>Package:</b> <a href="package-Images.html">Images</a><br>
+
+				<b>Author:</b>
+				Ivan Vergés<br>
+				<b>Used by:</b>
+				<code><code><a href="function-m_image.html">m_image()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="function-m_image_mix.html">m_image_mix()</a></code></code> <br>
+				<b>Used by:</b>
+				<code><code><a href="function-m_image_string.html">m_image_string()</a></code></code> <br>
+		<b>Located at</b> <a href="source-class-mImage.html#12-565" title="Go to source code">classes/images.php</a><br>
+	</div>
+
+
+
+	<table class="summary" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-mImage.html#40-59" title="Go to source code">__construct</a>( <span>mixed <var>$file</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd><code>mixed</code><br>$file a string containing a file, a mImage class, a GD resource</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="fallback" id="_fallback">
+
+		<td class="attributes"><code>
+			 public 
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_fallback">#</a>
+		<code><a href="source-class-mImage.html#61-74" title="Go to source code">fallback</a>( <span>mixed <var>$type</var> = <span class="php-quote">'exception'</span></span>, <span>string <var>$text</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the fallback behaviour</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the fallback behaviour</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$type</var></dt>
+					<dd><code>mixed</code><br>$type 'exception' means throwing standard Exception 'auto' means create a white
+image with the error text others strings will return this file as a fallback
+(don't be checked for existence) mImage class will return this image on failure</dd>
+					<dt><var>$text</var></dt>
+					<dd><code>string</code><br>$text the string to put over the fall back image (cases 'auto' and mImage)</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="is_gd" id="_is_gd">
+
+		<td class="attributes"><code>
+			 public static
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_is_gd">#</a>
+		<code><a href="source-class-mImage.html#76-86" title="Go to source code">is_gd</a>( <span>resource <var>$gd</var></span> )</code>
+
+		<div class="description short">
+			
+<p>checks if is a valid GD reource</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>checks if is a valid GD reource</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$gd</var></dt>
+					<dd><code>resource</code><br>$gd gd resorce to analyze</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>true if $gd is a valid GD resource<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="file" id="_file">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_file">#</a>
+		<code><a href="source-class-mImage.html#88-93" title="Go to source code">file</a>( <span>mixed <var>$file</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="proportional" id="_proportional">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_proportional">#</a>
+		<code><a href="source-class-mImage.html#95-105" title="Go to source code">proportional</a>( <span>mixed <var>$p</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the $proportional parameter</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the $proportional parameter</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$p</var></dt>
+					<dd><code>mixed</code><br>$proportional <b>0</b>: the image will be resized to the specified w/h without
+keeping aspect ratio<br />
+<b>1</b>: the image will be resized to the specified w/h keeping aspect ratio
+(by cropping width or height)<br />
+<b>2</b>: the image will be resized to the max w/h keeping aspect ratio (without
+cropping)</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="quality" id="_quality">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_quality">#</a>
+		<code><a href="source-class-mImage.html#107-115" title="Go to source code">quality</a>( <span>mixed <var>$p</var></span> )</code>
+
+		<div class="description short">
+			
+<p>Sets the quality of the returned image (usefull for JPEG images only)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Sets the quality of the returned image (usefull for JPEG images only)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$p</var></dt>
+					<dd><code>mixed</code><br>$p quality from 0 to 100</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="image_type" id="_image_type">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_image_type">#</a>
+		<code><a href="source-class-mImage.html#117-131" title="Go to source code">image_type</a>( )</code>
+
+		<div class="description short">
+			
+<p>Returns the image type</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Returns the image type</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="open" id="_open">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_open">#</a>
+		<code><a href="source-class-mImage.html#133-173" title="Go to source code">open</a>( <span>mixed <var>$file</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Opens a file or returns the cached file if is already processed</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Opens a file or returns the cached file if is already processed</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd><code>mixed</code><br>$file file to open</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="create_image" id="_create_image">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_create_image">#</a>
+		<code><a href="source-class-mImage.html#175-191" title="Go to source code">create_image</a>( <span>mixed <var>$width</var></span>, <span>mixed <var>$height</var></span>, <span>mixed <var>$type</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Creates a new image to process</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Creates a new image to process</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$width</var></dt>
+					<dd><code>mixed</code><br>$copy uses imagecopy instead of imagecreatetruecolor</dd>
+					<dt><var>$height</var></dt>
+					<dd><code>mixed</code><br>$type string jpg, gif, png</dd>
+					<dt><var>$type</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add_transparency" id="_add_transparency">
+
+		<td class="attributes"><code>
+			 protected 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add_transparency">#</a>
+		<code><a href="source-class-mImage.html#196-224" title="Go to source code">add_transparency</a>( <span>mixed <var>$gd</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="resize" id="_resize">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_resize">#</a>
+		<code><a href="source-class-mImage.html#226-314" title="Go to source code">resize</a>( <span>mixed <var>$width</var> = <span class="php-num">0</span></span>, <span>mixed <var>$height</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Resizes a image, returns the processed image</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Resizes a image, returns the processed image</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$width</var></dt>
+					<dd><code>mixed</code><br>$width Width of the new image</dd>
+					<dt><var>$height</var></dt>
+					<dd><code>mixed</code><br>$height Height of the new image</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="mix_gd" id="_mix_gd">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_mix_gd">#</a>
+		<code><a href="source-class-mImage.html#316-363" title="Go to source code">mix_gd</a>( <span>mixed <var>$gd</var></span>, <span>mixed <var>$position_x</var> = <span class="php-quote">'center'</span></span>, <span>mixed <var>$position_y</var> = <span class="php-quote">'center'</span></span>, <span>mixed <var>$alpha</var> = <span class="php-num">50</span></span> )</code>
+
+		<div class="description short">
+			
+<p>adds a image to be mixed on the principal</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>adds a image to be mixed on the principal</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$gd</var></dt>
+					<dd><code>mixed</code><br>$position_x : 'left', 'center', 'right' or a number (pixel position)</dd>
+					<dt><var>$position_x</var></dt>
+					<dd><code>mixed</code><br>$position_y : 'top', 'center', 'bottom' or a number (pixel position)</dd>
+					<dt><var>$position_y</var></dt>
+					<dd></dd>
+					<dt><var>$alpha</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="add_string" id="_add_string">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_add_string">#</a>
+		<code><a href="source-class-mImage.html#365-389" title="Go to source code">add_string</a>( <span>mixed <var>$text</var> = <span class="php-quote">''</span></span>, <span>mixed <var>$color</var> = <span class="php-quote">'000000'</span></span>, <span>mixed <var>$size</var> = <span class="php-num">2</span></span> )</code>
+
+		<div class="description short">
+			
+<p>adds a text to a image with imagestring method</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>adds a text to a image with imagestring method</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$text</var></dt>
+					<dd><code>mixed</code><br>$text text to be added</dd>
+					<dt><var>$color</var></dt>
+					<dd><code>mixed</code><br>$html_color color of the text (in HTML code RRGGBB)</dd>
+					<dt><var>$size</var></dt>
+					<dd><code>mixed</code><br>$size size of the text</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="image_from_text" id="_image_from_text">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_image_from_text">#</a>
+		<code><a href="source-class-mImage.html#391-426" title="Go to source code">image_from_text</a>( <span>mixed <var>$text</var> = <span class="php-quote">''</span></span>, <span>array <var>$font_size</var> = <span class="php-num">2</span></span>, <span>mixed <var>$bgcolor</var> = <span class="php-quote">'ffffff'</span></span>, <span>mixed <var>$margins</var> = <span class="php-keyword1">array</span>(<span class="php-num">1</span>, <span class="php-num">1</span>, <span class="php-num">1</span>, <span class="php-num">1</span>)</span> )</code>
+
+		<div class="description short">
+			
+<p>Creates a empty fallback image (shown when the original image cannot be
+processed)</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Creates a empty fallback image (shown when the original image cannot be
+processed)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$text</var></dt>
+					<dd><code>mixed</code><br>$text text to write in the fallback image</dd>
+					<dt><var>$font_size</var></dt>
+					<dd><code>array</code><br>$margins array(top, right, bottom, left)</dd>
+					<dt><var>$bgcolor</var></dt>
+					<dd></dd>
+					<dt><var>$margins</var></dt>
+					<dd></dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="save" id="_save">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_save">#</a>
+		<code><a href="source-class-mImage.html#428-453" title="Go to source code">save</a>( <span>mixed <var>$file</var></span> )</code>
+
+		<div class="description short">
+			
+<p>save a image, $file can be a gd image or a file</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>save a image, $file can be a gd image or a file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd><code>mixed</code><br>$file file or gd image</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="flush" id="_flush">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_flush">#</a>
+		<code><a href="source-class-mImage.html#455-484" title="Go to source code">flush</a>( <span>mixed <var>$exit</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>streams a image</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>streams a image</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$exit</var></dt>
+					<dd><code>mixed</code><br>$file original file</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="gd" id="_gd">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_gd">#</a>
+		<code><a href="source-class-mImage.html#486-489" title="Go to source code">gd</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="destroy" id="_destroy">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_destroy">#</a>
+		<code><a href="source-class-mImage.html#491-493" title="Go to source code">destroy</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="stream" id="_stream">
+
+		<td class="attributes"><code>
+			 public static
+			[type]
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_stream">#</a>
+		<code><a href="source-class-mImage.html#495-527" title="Go to source code">stream</a>( <span>[type] <var>$file</var></span>, <span>mixed <var>$exit</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Passthru a file with content-type, name</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Passthru a file with content-type, name</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd><code>[type]</code><br>$file [description]</dd>
+					<dt><var>$exit</var></dt>
+					<dd></dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>[type]</code><br>[description]<br>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getError" id="_getError">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getError">#</a>
+		<code><a href="source-class-mImage.html#529-534" title="Go to source code">getError</a>( )</code>
+
+		<div class="description short">
+			
+<p>Show the last error</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Show the last error</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="has_errors" id="_has_errors">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_has_errors">#</a>
+		<code><a href="source-class-mImage.html#536-538" title="Go to source code">has_errors</a>( )</code>
+
+		<div class="description short">
+			
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="throwError" id="_throwError">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_throwError">#</a>
+		<code><a href="source-class-mImage.html#540-564" title="Go to source code">throwError</a>( <span>mixed <var>$msg</var> = <span class="php-quote">''</span></span> )</code>
+
+		<div class="description short">
+			
+<p>throw errors</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>throw errors</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="gd" id="$gd">
+		<td class="attributes"><code>
+			protected  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#29" title="Go to source code"><var>$gd</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$gd" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="type" id="$type">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#30" title="Go to source code"><var>$type</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$type" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="width" id="$width">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#31" title="Go to source code"><var>$width</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$width" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="height" id="$height">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#32" title="Go to source code"><var>$height</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$height" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="file" id="$file">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#33" title="Go to source code"><var>$file</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$file" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="fallback_type" id="$fallback_type">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#34" title="Go to source code"><var>$fallback_type</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">'exception'</span></code></td>
+		<td class="description"><div>
+			<a href="#$fallback_type" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="fallback_text" id="$fallback_text">
+		<td class="attributes"><code>
+			protected  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#35" title="Go to source code"><var>$fallback_text</var></a>
+		</td>
+		<td class="value"><code><span class="php-keyword1">null</span></code></td>
+		<td class="description"><div>
+			<a href="#$fallback_text" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="proportional" id="$proportional">
+		<td class="attributes"><code>
+			protected  
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#36" title="Go to source code"><var>$proportional</var></a>
+		</td>
+		<td class="value"><code><span class="php-num">0</span></code></td>
+		<td class="description"><div>
+			<a href="#$proportional" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="last_error" id="$last_error">
+		<td class="attributes"><code>
+			protected  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#37" title="Go to source code"><var>$last_error</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$last_error" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	<tr data-order="quality" id="$quality">
+		<td class="attributes"><code>
+			protected  
+			integer
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mImage.html#38" title="Go to source code"><var>$quality</var></a>
+		</td>
+		<td class="value"><code><span class="php-num">90</span></code></td>
+		<td class="description"><div>
+			<a href="#$quality" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

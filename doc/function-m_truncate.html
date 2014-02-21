@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+
+	<title>Function m_truncate | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li class="active"><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li class="active"><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_compute_char.html">m_compute_char</a></li>
+				<li><a href="function-m_convert_to_utf8.html">m_convert_to_utf8</a></li>
+				<li><a href="function-m_decrypt.html">m_decrypt</a></li>
+				<li><a href="function-m_encrypt.html">m_encrypt</a></li>
+				<li><a href="function-m_friendly_time.html">m_friendly_time</a></li>
+				<li><a href="function-m_get_links_from_text.html">m_get_links_from_text</a></li>
+				<li><a href="function-m_htmlawed.html">m_htmlawed</a></li>
+				<li><a href="function-m_normalize.html">m_normalize</a></li>
+				<li><a href="function-m_reverse_date.html">m_reverse_date</a></li>
+				<li><a href="function-m_stripslashes.html">m_stripslashes</a></li>
+				<li><a href="function-m_trim.html">m_trim</a></li>
+				<li class="active"><a href="function-m_truncate.html">m_truncate</a></li>
+				<li><a href="function-m_txt_limit.html">m_txt_limit</a></li>
+				<li><a href="function-m_txt_parse_links.html">m_txt_parse_links</a></li>
+				<li><a href="function-mb_str_replace.html">mb_str_replace</a></li>
+				<li><a href="function-mb_strrev.html">mb_strrev</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Utilities.Text.Utils.html" title="Summary of Utilities\Text-Utils"><span>Package</span></a>
+			</li>
+			<li class="active">
+<span>Function</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="function">
+	<h1>Function m_truncate</h1>
+
+
+	<div class="description">
+	
+<p>Truncates text.</p>
+
+<p>Cuts a string to the length of $length and replaces the last characters with
+the ending if the text is longer than length.</p>
+
+	</div>
+
+	<div class="info">
+		
+		<b>Package:</b> <a href="package-Utilities.html">Utilities</a>\<a href="package-Utilities.Text.Utils.html">Text-Utils</a><br>
+				<b>Author:</b>
+				Ivan Vergés<br>
+		<b>Located at</b> <a href="source-function-m_truncate.html#371-474" title="Go to source code">functions/text_utils.php</a><br>
+	</div>
+
+
+	<table class="summary" id="parameters">
+	<caption>Parameters summary</caption>
+	<tr id="$text">
+		<td class="name"><code>string</code></td>
+		<td class="value"><code><var>$text</var></code></td>
+		<td>
+			 String to truncate.
+		</td>
+	</tr>
+	<tr id="$length">
+		<td class="name"><code>integer</code></td>
+		<td class="value"><code><var>$length</var> = <span class="php-num">100</span></code></td>
+		<td>
+			 Length of returned string, including ellipsis.
+		</td>
+	</tr>
+	<tr id="$ending">
+		<td class="name"><code>string</code></td>
+		<td class="value"><code><var>$ending</var> = <span class="php-quote">'...'</span></code></td>
+		<td>
+			 Ending to be appended to the trimmed string.
+		</td>
+	</tr>
+	<tr id="$exact">
+		<td class="name"><code>boolean</code></td>
+		<td class="value"><code><var>$exact</var> = <span class="php-keyword1">true</span></code></td>
+		<td>
+			 If false, $text will not be cut mid-word
+		</td>
+	</tr>
+	<tr id="$considerHtml">
+		<td class="name"><code>boolean</code></td>
+		<td class="value"><code><var>$considerHtml</var> = <span class="php-keyword1">true</span></code></td>
+		<td>
+			 If true, HTML tags would be handled correctly
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary" id="returns">
+	<caption>Return value summary</caption>
+	<tr>
+		<td class="name"><code>
+			string
+		</code></td>
+		<td>
+			Trimmed string.
+		</td>
+	</tr>
+	</table>
+
+
+</div>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>

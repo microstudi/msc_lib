@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="generator" content="ApiGen 2.8.0">
+	<meta name="robots" content="noindex">
+
+	<title>File functions/general.php | MSC LIB</title>
+
+	<script type="text/javascript" src="resources/combined.js?394153670"></script>
+	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Packages</h3>
+			<ul>
+				<li><a href="package-Compressor.html">Compressor</a>
+						</li>
+				<li><a href="package-Files.html">Files</a>
+						</li>
+				<li><a href="package-Images.html">Images</a>
+						</li>
+				<li><a href="package-Langs.html">Langs</a>
+						</li>
+				<li><a href="package-Routing.html">Routing</a>
+						</li>
+				<li><a href="package-Sessions.html">Sessions</a>
+						</li>
+				<li><a href="package-SQL.html">SQL</a>
+						</li>
+				<li class="active"><a href="package-Utilities.html">Utilities<span></span></a>
+						<ul>
+				<li><a href="package-Utilities.File.Utils.html">File-Utils</a>
+						</li>
+				<li><a href="package-Utilities.Mail.html">Mail</a>
+						</li>
+				<li><a href="package-Utilities.MediaEmbed.html">MediaEmbed</a>
+						</li>
+				<li><a href="package-Utilities.Text.Utils.html">Text-Utils</a>
+						</li>
+							</ul></li>
+				<li><a href="package-Views.html">Views</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+
+
+
+
+
+			<h3>Functions</h3>
+			<ul>
+				<li><a href="function-m_array_merge_recursive.html">m_array_merge_recursive</a></li>
+				<li class="active"><a href="function-m_forward.html">m_forward</a></li>
+				<li><a href="function-m_get_browser.html">m_get_browser</a></li>
+				<li><a href="function-m_input.html">m_input</a></li>
+				<li><a href="function-m_is_mobile.html">m_is_mobile</a></li>
+				<li><a href="function-m_lib_version.html">m_lib_version</a></li>
+				<li><a href="function-m_no_cache.html">m_no_cache</a></li>
+				<li><a href="function-m_temp_dir.html">m_temp_dir</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text">
+		<input type="submit" value="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="package-Utilities.html" title="Summary of Utilities"><span>Package</span></a>
+			</li>
+			<li>
+				<a href="function-m_forward.html" title="Summary of m_forward"><span>Function</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<pre><code><span id="1" class="l"><a class="l" href="#1">  1: </a><span class="xlang">&lt;?php</span>
+</span><span id="2" class="l"><a class="l" href="#2">  2: </a><span class="php-comment">/**
+</span></span><span id="3" class="l"><a class="l" href="#3">  3: </a><span class="php-comment"> * This file is part of the msc_lib library (https://github.com/microstudi/msc_lib)
+</span></span><span id="4" class="l"><a class="l" href="#4">  4: </a><span class="php-comment"> * Copyright: Ivan Vergés 2011 - 2014
+</span></span><span id="5" class="l"><a class="l" href="#5">  5: </a><span class="php-comment"> * License: http://www.gnu.org/copyleft/lgpl.html
+</span></span><span id="6" class="l"><a class="l" href="#6">  6: </a><span class="php-comment"> *
+</span></span><span id="7" class="l"><a class="l" href="#7">  7: </a><span class="php-comment"> * Some usefull general functions file
+</span></span><span id="8" class="l"><a class="l" href="#8">  8: </a><span class="php-comment"> *
+</span></span><span id="9" class="l"><a class="l" href="#9">  9: </a><span class="php-comment"> * @category MSCLIB
+</span></span><span id="10" class="l"><a class="l" href="#10"> 10: </a><span class="php-comment"> * @package Utilities
+</span></span><span id="11" class="l"><a class="l" href="#11"> 11: </a><span class="php-comment"> * @author Ivan Vergés
+</span></span><span id="12" class="l"><a class="l" href="#12"> 12: </a><span class="php-comment"> */</span>
+</span><span id="13" class="l"><a class="l" href="#13"> 13: </a>
+</span><span id="14" class="l"><a class="l" href="#14"> 14: </a><span class="php-comment">/**
+</span></span><span id="15" class="l"><a class="l" href="#15"> 15: </a><span class="php-comment"> * Use the header to redirect to a specific path
+</span></span><span id="16" class="l"><a class="l" href="#16"> 16: </a><span class="php-comment"> * @param $path where to go (eg: http://www.google.com)
+</span></span><span id="17" class="l"><a class="l" href="#17"> 17: </a><span class="php-comment"> */</span>
+</span><span id="18" class="l"><a class="l" href="#18"> 18: </a><span class="php-keyword1">function</span> <a id="_m_forward" href="#_m_forward">m_forward</a>(<span class="php-var">$path</span>) {
+</span><span id="19" class="l"><a class="l" href="#19"> 19: </a>    <span class="php-keyword1">global</span> <span class="php-var">$CONFIG</span>;
+</span><span id="20" class="l"><a class="l" href="#20"> 20: </a>
+</span><span id="21" class="l"><a class="l" href="#21"> 21: </a>    <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Location: </span><span class="php-var">$path</span><span class="php-quote">&quot;</span>);
+</span><span id="22" class="l"><a class="l" href="#22"> 22: </a>    <span class="php-keyword1">exit</span>;
+</span><span id="23" class="l"><a class="l" href="#23"> 23: </a>}
+</span><span id="24" class="l"><a class="l" href="#24"> 24: </a>
+</span><span id="25" class="l"><a class="l" href="#25"> 25: </a><span class="php-comment">/**
+</span></span><span id="26" class="l"><a class="l" href="#26"> 26: </a><span class="php-comment"> * Sends a header for non-caching
+</span></span><span id="27" class="l"><a class="l" href="#27"> 27: </a><span class="php-comment"> * @return [type] [description]
+</span></span><span id="28" class="l"><a class="l" href="#28"> 28: </a><span class="php-comment"> */</span>
+</span><span id="29" class="l"><a class="l" href="#29"> 29: </a><span class="php-keyword1">function</span> <a id="_m_no_cache" href="#_m_no_cache">m_no_cache</a>() {
+</span><span id="30" class="l"><a class="l" href="#30"> 30: </a>  <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Expires: Tue, 01 Jul 2001 06:00:00 GMT&quot;</span>);
+</span><span id="31" class="l"><a class="l" href="#31"> 31: </a>  <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Last-Modified: &quot;</span> . <span class="php-keyword2">gmdate</span>(<span class="php-quote">&quot;D, d M Y H:i:s&quot;</span>) . <span class="php-quote">&quot; GMT&quot;</span>);
+</span><span id="32" class="l"><a class="l" href="#32"> 32: </a>  <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Cache-Control: no-store, no-cache, must-revalidate&quot;</span>);
+</span><span id="33" class="l"><a class="l" href="#33"> 33: </a>  <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Cache-Control: post-check=0, pre-check=0&quot;</span>, <span class="php-keyword1">false</span>);
+</span><span id="34" class="l"><a class="l" href="#34"> 34: </a>  <span class="php-keyword2">header</span>(<span class="php-quote">&quot;Pragma: no-cache&quot;</span>);
+</span><span id="35" class="l"><a class="l" href="#35"> 35: </a>}
+</span><span id="36" class="l"><a class="l" href="#36"> 36: </a>
+</span><span id="37" class="l"><a class="l" href="#37"> 37: </a><span class="php-comment">/**
+</span></span><span id="38" class="l"><a class="l" href="#38"> 38: </a><span class="php-comment"> * Returns the current version of msc_lib
+</span></span><span id="39" class="l"><a class="l" href="#39"> 39: </a><span class="php-comment"> * @return float number of version
+</span></span><span id="40" class="l"><a class="l" href="#40"> 40: </a><span class="php-comment"> */</span>
+</span><span id="41" class="l"><a class="l" href="#41"> 41: </a><span class="php-keyword1">function</span> <a id="_m_lib_version" href="#_m_lib_version">m_lib_version</a>() {
+</span><span id="42" class="l"><a class="l" href="#42"> 42: </a>    <span class="php-keyword1">global</span> <span class="php-var">$CONFIG</span>;
+</span><span id="43" class="l"><a class="l" href="#43"> 43: </a>    <span class="php-keyword1">return</span> <span class="php-var">$CONFIG</span>-&gt;version;
+</span><span id="44" class="l"><a class="l" href="#44"> 44: </a>}
+</span><span id="45" class="l"><a class="l" href="#45"> 45: </a>
+</span><span id="46" class="l"><a class="l" href="#46"> 46: </a><span class="php-comment">/**
+</span></span><span id="47" class="l"><a class="l" href="#47"> 47: </a><span class="php-comment"> * Retrieves a safe temp dir
+</span></span><span id="48" class="l"><a class="l" href="#48"> 48: </a><span class="php-comment"> * @return [type] [description]
+</span></span><span id="49" class="l"><a class="l" href="#49"> 49: </a><span class="php-comment"> */</span>
+</span><span id="50" class="l"><a class="l" href="#50"> 50: </a><span class="php-keyword1">function</span> <a id="_m_temp_dir" href="#_m_temp_dir">m_temp_dir</a>() {
+</span><span id="51" class="l"><a class="l" href="#51"> 51: </a>    <span class="php-keyword1">return</span> <span class="php-keyword2">ini_get</span>(<span class="php-quote">'upload_tmp_dir'</span>) ? <span class="php-keyword2">ini_get</span>(<span class="php-quote">'upload_tmp_dir'</span>) : <span class="php-keyword2">sys_get_temp_dir</span>();
+</span><span id="52" class="l"><a class="l" href="#52"> 52: </a>}
+</span><span id="53" class="l"><a class="l" href="#53"> 53: </a>
+</span><span id="54" class="l"><a class="l" href="#54"> 54: </a><span class="php-comment">/**
+</span></span><span id="55" class="l"><a class="l" href="#55"> 55: </a><span class="php-comment"> * Returns a var from superglobals vars _REQUEST, _GET, _POST
+</span></span><span id="56" class="l"><a class="l" href="#56"> 56: </a><span class="php-comment"> * @param $var var string to search in superglobals
+</span></span><span id="57" class="l"><a class="l" href="#57"> 57: </a><span class="php-comment"> * @param $default default value if $var is not set (empty var returns empty)
+</span></span><span id="58" class="l"><a class="l" href="#58"> 58: </a><span class="php-comment"> * @param $globals array with then name of globals to search vars
+</span></span><span id="59" class="l"><a class="l" href="#59"> 59: </a><span class="php-comment"> */</span>
+</span><span id="60" class="l"><a class="l" href="#60"> 60: </a><span class="php-keyword1">function</span> <a id="_m_input" href="#_m_input">m_input</a>(<span class="php-var">$var</span>,<span class="php-var">$default</span>=<span class="php-quote">''</span>,<span class="php-var">$globals</span> = <span class="php-keyword1">array</span>(<span class="php-quote">'_GET'</span>,<span class="php-quote">'_POST'</span>, <span class="php-quote">'_REQUEST'</span>)) {
+</span><span id="61" class="l"><a class="l" href="#61"> 61: </a>    <span class="php-keyword1">global</span> <span class="php-var">$CONFIG</span>;
+</span><span id="62" class="l"><a class="l" href="#62"> 62: </a>
+</span><span id="63" class="l"><a class="l" href="#63"> 63: </a>    <span class="php-var">$v</span> = <span class="php-keyword1">null</span>;
+</span><span id="64" class="l"><a class="l" href="#64"> 64: </a>    <span class="php-keyword1">foreach</span>(<span class="php-var">$globals</span> <span class="php-keyword1">as</span> <span class="php-var">$g</span>) {
+</span><span id="65" class="l"><a class="l" href="#65"> 65: </a>        <span class="php-keyword1">switch</span>(<span class="php-var">$g</span>) {
+</span><span id="66" class="l"><a class="l" href="#66"> 66: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'_GET'</span>: <span class="php-keyword1">if</span>(<span class="php-keyword1">isset</span>(<span class="php-var">$_GET</span>[<span class="php-var">$var</span>])) <span class="php-var">$v</span> = <span class="php-var">$_GET</span>[<span class="php-var">$var</span>];
+</span><span id="67" class="l"><a class="l" href="#67"> 67: </a>                <span class="php-keyword1">break</span>;
+</span><span id="68" class="l"><a class="l" href="#68"> 68: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'_POST'</span>: <span class="php-keyword1">if</span>(<span class="php-keyword1">isset</span>(<span class="php-var">$_POST</span>[<span class="php-var">$var</span>])) <span class="php-var">$v</span> = <span class="php-var">$_POST</span>[<span class="php-var">$var</span>];
+</span><span id="69" class="l"><a class="l" href="#69"> 69: </a>                <span class="php-keyword1">break</span>;
+</span><span id="70" class="l"><a class="l" href="#70"> 70: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'_REQUEST'</span>: <span class="php-keyword1">if</span>(<span class="php-keyword1">isset</span>(<span class="php-var">$_REQUEST</span>[<span class="php-var">$var</span>])) <span class="php-var">$v</span> = <span class="php-var">$_REQUEST</span>[<span class="php-var">$var</span>];
+</span><span id="71" class="l"><a class="l" href="#71"> 71: </a>                <span class="php-keyword1">break</span>;
+</span><span id="72" class="l"><a class="l" href="#72"> 72: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'_COOKIE'</span>: <span class="php-keyword1">if</span>(<span class="php-keyword1">isset</span>(<span class="php-var">$_COOKIE</span>[<span class="php-var">$var</span>])) <span class="php-var">$v</span> = <span class="php-var">$_COOKIE</span>[<span class="php-var">$var</span>];
+</span><span id="73" class="l"><a class="l" href="#73"> 73: </a>                <span class="php-keyword1">break</span>;
+</span><span id="74" class="l"><a class="l" href="#74"> 74: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'_SESSION'</span>: <span class="php-keyword1">if</span>(<span class="php-keyword1">isset</span>(<span class="php-var">$_SESSION</span>[<span class="php-var">$var</span>])) <span class="php-var">$v</span> = <span class="php-var">$_SESSION</span>[<span class="php-var">$var</span>];
+</span><span id="75" class="l"><a class="l" href="#75"> 75: </a>                <span class="php-keyword1">break</span>;
+</span><span id="76" class="l"><a class="l" href="#76"> 76: </a>        }
+</span><span id="77" class="l"><a class="l" href="#77"> 77: </a>        <span class="php-keyword1">if</span>(<span class="php-var">$v</span>) <span class="php-keyword1">break</span>;
+</span><span id="78" class="l"><a class="l" href="#78"> 78: </a>    }
+</span><span id="79" class="l"><a class="l" href="#79"> 79: </a>    <span class="php-var">$v</span> = m_stripslashes(<span class="php-var">$v</span>);
+</span><span id="80" class="l"><a class="l" href="#80"> 80: </a>    <span class="php-keyword1">if</span>(!<span class="php-keyword1">isset</span>(<span class="php-var">$v</span>) &amp;&amp; <span class="php-var">$default</span>) <span class="php-var">$v</span> = <span class="php-var">$default</span>;
+</span><span id="81" class="l"><a class="l" href="#81"> 81: </a>    <span class="php-keyword1">return</span> <span class="php-var">$v</span>;
+</span><span id="82" class="l"><a class="l" href="#82"> 82: </a>}
+</span><span id="83" class="l"><a class="l" href="#83"> 83: </a>
+</span><span id="84" class="l"><a class="l" href="#84"> 84: </a><span class="php-comment">/**
+</span></span><span id="85" class="l"><a class="l" href="#85"> 85: </a><span class="php-comment"> * Combines 2 arrays (similar to array_merge_recursive but without
+</span></span><span id="86" class="l"><a class="l" href="#86"> 86: </a><span class="php-comment"> * @param multidimensional array1, array2, array3, etc
+</span></span><span id="87" class="l"><a class="l" href="#87"> 87: </a><span class="php-comment"> *
+</span></span><span id="88" class="l"><a class="l" href="#88"> 88: </a><span class="php-comment"> * si el primer parametre es un numero, només es farà recursió fins a aquell numero
+</span></span><span id="89" class="l"><a class="l" href="#89"> 89: </a><span class="php-comment"> * */</span>
+</span><span id="90" class="l"><a class="l" href="#90"> 90: </a><span class="php-keyword1">function</span> <a id="_m_array_merge_recursive" href="#_m_array_merge_recursive">m_array_merge_recursive</a>() {
+</span><span id="91" class="l"><a class="l" href="#91"> 91: </a>    <span class="php-var">$arrays</span> = <span class="php-keyword2">func_get_args</span>();
+</span><span id="92" class="l"><a class="l" href="#92"> 92: </a>    <span class="php-var">$base</span> = <span class="php-keyword2">array_shift</span>(<span class="php-var">$arrays</span>);
+</span><span id="93" class="l"><a class="l" href="#93"> 93: </a>    <span class="php-keyword1">if</span>(<span class="php-keyword2">is_numeric</span>(<span class="php-var">$base</span>)) {
+</span><span id="94" class="l"><a class="l" href="#94"> 94: </a>        <span class="php-var">$max_recursion</span> = <span class="php-var">$base</span>;
+</span><span id="95" class="l"><a class="l" href="#95"> 95: </a>        <span class="php-var">$base</span> = <span class="php-keyword2">array_shift</span>(<span class="php-var">$arrays</span>);
+</span><span id="96" class="l"><a class="l" href="#96"> 96: </a>    }
+</span><span id="97" class="l"><a class="l" href="#97"> 97: </a>    <span class="php-keyword1">foreach</span> (<span class="php-var">$arrays</span> <span class="php-keyword1">as</span> <span class="php-var">$array</span>) {
+</span><span id="98" class="l"><a class="l" href="#98"> 98: </a>        <span class="php-keyword2">reset</span>(<span class="php-var">$base</span>); <span class="php-comment">//important</span>
+</span><span id="99" class="l"><a class="l" href="#99"> 99: </a>        <span class="php-keyword1">while</span> (<span class="php-keyword1">list</span>(<span class="php-var">$key</span>, <span class="php-var">$value</span>) = @<span class="php-keyword2">each</span>(<span class="php-var">$array</span>)) {
+</span><span id="100" class="l"><a class="l" href="#100">100: </a>            <span class="php-comment">//normal, infinite recursion</span>
+</span><span id="101" class="l"><a class="l" href="#101">101: </a>            <span class="php-keyword1">if</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$value</span>) &amp;&amp; @<span class="php-keyword2">is_array</span>(<span class="php-var">$base</span>[<span class="php-var">$key</span>]) &amp;&amp; !<span class="php-keyword1">isset</span>(<span class="php-var">$max_recursion</span>)) {
+</span><span id="102" class="l"><a class="l" href="#102">102: </a>                <span class="php-var">$base</span>[<span class="php-var">$key</span>] = m_array_merge_recursive(<span class="php-var">$base</span>[<span class="php-var">$key</span>], <span class="php-var">$value</span>);
+</span><span id="103" class="l"><a class="l" href="#103">103: </a>            }
+</span><span id="104" class="l"><a class="l" href="#104">104: </a>            <span class="php-comment">//recursion limited</span>
+</span><span id="105" class="l"><a class="l" href="#105">105: </a>            <span class="php-keyword1">elseif</span> (<span class="php-keyword2">is_array</span>(<span class="php-var">$value</span>) &amp;&amp; @<span class="php-keyword2">is_array</span>(<span class="php-var">$base</span>[<span class="php-var">$key</span>]) &amp;&amp; <span class="php-var">$max_recursion</span>&gt;<span class="php-num">1</span>) {
+</span><span id="106" class="l"><a class="l" href="#106">106: </a>                <span class="php-var">$base</span>[<span class="php-var">$key</span>] = m_array_merge_recursive(<span class="php-var">$max_recursion</span>-<span class="php-num">1</span>,<span class="php-var">$base</span>[<span class="php-var">$key</span>], <span class="php-var">$value</span>);
+</span><span id="107" class="l"><a class="l" href="#107">107: </a>            }
+</span><span id="108" class="l"><a class="l" href="#108">108: </a>            <span class="php-keyword1">else</span> {
+</span><span id="109" class="l"><a class="l" href="#109">109: </a>                <span class="php-var">$base</span>[<span class="php-var">$key</span>] = <span class="php-var">$value</span>;
+</span><span id="110" class="l"><a class="l" href="#110">110: </a>                <span class="php-comment">//echo &quot;recursio: $max_recursion key: $key\n&quot;;</span>
+</span><span id="111" class="l"><a class="l" href="#111">111: </a>            }
+</span><span id="112" class="l"><a class="l" href="#112">112: </a>        }
+</span><span id="113" class="l"><a class="l" href="#113">113: </a>    }
+</span><span id="114" class="l"><a class="l" href="#114">114: </a>
+</span><span id="115" class="l"><a class="l" href="#115">115: </a>    <span class="php-keyword1">return</span> <span class="php-var">$base</span>;
+</span><span id="116" class="l"><a class="l" href="#116">116: </a>}
+</span><span id="117" class="l"><a class="l" href="#117">117: </a>
+</span><span id="118" class="l"><a class="l" href="#118">118: </a><span class="php-comment">/**
+</span></span><span id="119" class="l"><a class="l" href="#119">119: </a><span class="php-comment"> * Detect if current browser is mobile
+</span></span><span id="120" class="l"><a class="l" href="#120">120: </a><span class="php-comment"> * from http://detectmobilebrowsers.com/
+</span></span><span id="121" class="l"><a class="l" href="#121">121: </a><span class="php-comment"> * @return [type] [description]
+</span></span><span id="122" class="l"><a class="l" href="#122">122: </a><span class="php-comment"> */</span>
+</span><span id="123" class="l"><a class="l" href="#123">123: </a><span class="php-keyword1">function</span> <a id="_m_is_mobile" href="#_m_is_mobile">m_is_mobile</a>() {
+</span><span id="124" class="l"><a class="l" href="#124">124: </a>    <span class="php-var">$useragent</span>=<span class="php-var">$_SERVER</span>[<span class="php-quote">'HTTP_USER_AGENT'</span>];
+</span><span id="125" class="l"><a class="l" href="#125">125: </a>    <span class="php-keyword1">return</span> (<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows (ce|phone)|xda|xiino/i'</span>,<span class="php-var">$useragent</span>)||<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i'</span>,<span class="php-keyword2">substr</span>(<span class="php-var">$useragent</span>,<span class="php-num">0</span>,<span class="php-num">4</span>)));
+</span><span id="126" class="l"><a class="l" href="#126">126: </a>
+</span><span id="127" class="l"><a class="l" href="#127">127: </a>}
+</span><span id="128" class="l"><a class="l" href="#128">128: </a>
+</span><span id="129" class="l"><a class="l" href="#129">129: </a><span class="php-comment">/**
+</span></span><span id="130" class="l"><a class="l" href="#130">130: </a><span class="php-comment"> * From: http://www.php.net/manual/en/function.get-browser.php#101125
+</span></span><span id="131" class="l"><a class="l" href="#131">131: </a><span class="php-comment"> * $ua = m_get _browser();
+</span></span><span id="132" class="l"><a class="l" href="#132">132: </a><span class="php-comment"> * $yourbrowser= &quot;Your browser: &quot; . $ua['name'] . &quot; &quot; . $ua['version'] . &quot; on &quot; .$ua['platform'] . &quot; reports: &lt;br &gt;&quot; . $ua['userAgent'];
+</span></span><span id="133" class="l"><a class="l" href="#133">133: </a><span class="php-comment"> * print_r($yourbrowser);
+</span></span><span id="134" class="l"><a class="l" href="#134">134: </a><span class="php-comment"> * */</span>
+</span><span id="135" class="l"><a class="l" href="#135">135: </a><span class="php-keyword1">function</span> <a id="_m_get_browser" href="#_m_get_browser">m_get_browser</a>() {
+</span><span id="136" class="l"><a class="l" href="#136">136: </a>    <span class="php-var">$u_agent</span> = <span class="php-var">$_SERVER</span>[<span class="php-quote">'HTTP_USER_AGENT'</span>];
+</span><span id="137" class="l"><a class="l" href="#137">137: </a>    <span class="php-var">$bname</span> = <span class="php-quote">'Unknown'</span>;
+</span><span id="138" class="l"><a class="l" href="#138">138: </a>    <span class="php-var">$platform</span> = <span class="php-quote">'Unknown'</span>;
+</span><span id="139" class="l"><a class="l" href="#139">139: </a>    <span class="php-var">$version</span>= <span class="php-quote">&quot;&quot;</span>;
+</span><span id="140" class="l"><a class="l" href="#140">140: </a>
+</span><span id="141" class="l"><a class="l" href="#141">141: </a>    <span class="php-comment">//First get the platform?</span>
+</span><span id="142" class="l"><a class="l" href="#142">142: </a>    <span class="php-keyword1">if</span> (<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/linux/i'</span>, <span class="php-var">$u_agent</span>)) {
+</span><span id="143" class="l"><a class="l" href="#143">143: </a>        <span class="php-var">$platform</span> = <span class="php-quote">'linux'</span>;
+</span><span id="144" class="l"><a class="l" href="#144">144: </a>    }
+</span><span id="145" class="l"><a class="l" href="#145">145: </a>    <span class="php-keyword1">elseif</span> (<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/macintosh|mac os x/i'</span>, <span class="php-var">$u_agent</span>)) {
+</span><span id="146" class="l"><a class="l" href="#146">146: </a>        <span class="php-var">$platform</span> = <span class="php-quote">'mac'</span>;
+</span><span id="147" class="l"><a class="l" href="#147">147: </a>    }
+</span><span id="148" class="l"><a class="l" href="#148">148: </a>    <span class="php-keyword1">elseif</span> (<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/windows|win32/i'</span>, <span class="php-var">$u_agent</span>)) {
+</span><span id="149" class="l"><a class="l" href="#149">149: </a>        <span class="php-var">$platform</span> = <span class="php-quote">'windows'</span>;
+</span><span id="150" class="l"><a class="l" href="#150">150: </a>    }
+</span><span id="151" class="l"><a class="l" href="#151">151: </a>
+</span><span id="152" class="l"><a class="l" href="#152">152: </a>    <span class="php-comment">// Next get the name of the useragent yes seperately and for good reason</span>
+</span><span id="153" class="l"><a class="l" href="#153">153: </a>    <span class="php-keyword1">if</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/MSIE/i'</span>,<span class="php-var">$u_agent</span>) &amp;&amp; !<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Opera/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="154" class="l"><a class="l" href="#154">154: </a>    {
+</span><span id="155" class="l"><a class="l" href="#155">155: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Internet Explorer'</span>;
+</span><span id="156" class="l"><a class="l" href="#156">156: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;MSIE&quot;</span>;
+</span><span id="157" class="l"><a class="l" href="#157">157: </a>    }
+</span><span id="158" class="l"><a class="l" href="#158">158: </a>    <span class="php-keyword1">elseif</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Firefox/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="159" class="l"><a class="l" href="#159">159: </a>    {
+</span><span id="160" class="l"><a class="l" href="#160">160: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Mozilla Firefox'</span>;
+</span><span id="161" class="l"><a class="l" href="#161">161: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;Firefox&quot;</span>;
+</span><span id="162" class="l"><a class="l" href="#162">162: </a>    }
+</span><span id="163" class="l"><a class="l" href="#163">163: </a>    <span class="php-keyword1">elseif</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Chrome/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="164" class="l"><a class="l" href="#164">164: </a>    {
+</span><span id="165" class="l"><a class="l" href="#165">165: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Google Chrome'</span>;
+</span><span id="166" class="l"><a class="l" href="#166">166: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;Chrome&quot;</span>;
+</span><span id="167" class="l"><a class="l" href="#167">167: </a>    }
+</span><span id="168" class="l"><a class="l" href="#168">168: </a>    <span class="php-keyword1">elseif</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Safari/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="169" class="l"><a class="l" href="#169">169: </a>    {
+</span><span id="170" class="l"><a class="l" href="#170">170: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Apple Safari'</span>;
+</span><span id="171" class="l"><a class="l" href="#171">171: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;Safari&quot;</span>;
+</span><span id="172" class="l"><a class="l" href="#172">172: </a>    }
+</span><span id="173" class="l"><a class="l" href="#173">173: </a>    <span class="php-keyword1">elseif</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Opera/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="174" class="l"><a class="l" href="#174">174: </a>    {
+</span><span id="175" class="l"><a class="l" href="#175">175: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Opera'</span>;
+</span><span id="176" class="l"><a class="l" href="#176">176: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;Opera&quot;</span>;
+</span><span id="177" class="l"><a class="l" href="#177">177: </a>    }
+</span><span id="178" class="l"><a class="l" href="#178">178: </a>    <span class="php-keyword1">elseif</span>(<span class="php-keyword2">preg_match</span>(<span class="php-quote">'/Netscape/i'</span>,<span class="php-var">$u_agent</span>))
+</span><span id="179" class="l"><a class="l" href="#179">179: </a>    {
+</span><span id="180" class="l"><a class="l" href="#180">180: </a>        <span class="php-var">$bname</span> = <span class="php-quote">'Netscape'</span>;
+</span><span id="181" class="l"><a class="l" href="#181">181: </a>        <span class="php-var">$ub</span> = <span class="php-quote">&quot;Netscape&quot;</span>;
+</span><span id="182" class="l"><a class="l" href="#182">182: </a>    }
+</span><span id="183" class="l"><a class="l" href="#183">183: </a>
+</span><span id="184" class="l"><a class="l" href="#184">184: </a>    <span class="php-comment">// finally get the correct version number</span>
+</span><span id="185" class="l"><a class="l" href="#185">185: </a>    <span class="php-var">$known</span> = <span class="php-keyword1">array</span>(<span class="php-quote">'Version'</span>, <span class="php-var">$ub</span>, <span class="php-quote">'other'</span>);
+</span><span id="186" class="l"><a class="l" href="#186">186: </a>    <span class="php-var">$pattern</span> = <span class="php-quote">'#(?&lt;browser&gt;'</span> . <span class="php-keyword2">join</span>(<span class="php-quote">'|'</span>, <span class="php-var">$known</span>) .
+</span><span id="187" class="l"><a class="l" href="#187">187: </a>    <span class="php-quote">')[/ ]+(?&lt;version&gt;[0-9.|a-zA-Z.]*)#'</span>;
+</span><span id="188" class="l"><a class="l" href="#188">188: </a>    <span class="php-keyword1">if</span> (!<span class="php-keyword2">preg_match_all</span>(<span class="php-var">$pattern</span>, <span class="php-var">$u_agent</span>, <span class="php-var">$matches</span>)) {
+</span><span id="189" class="l"><a class="l" href="#189">189: </a>        <span class="php-comment">// we have no matching number just continue</span>
+</span><span id="190" class="l"><a class="l" href="#190">190: </a>    }
+</span><span id="191" class="l"><a class="l" href="#191">191: </a>
+</span><span id="192" class="l"><a class="l" href="#192">192: </a>    <span class="php-comment">// see how many we have</span>
+</span><span id="193" class="l"><a class="l" href="#193">193: </a>    <span class="php-var">$i</span> = <span class="php-keyword2">count</span>(<span class="php-var">$matches</span>[<span class="php-quote">'browser'</span>]);
+</span><span id="194" class="l"><a class="l" href="#194">194: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$i</span> != <span class="php-num">1</span>) {
+</span><span id="195" class="l"><a class="l" href="#195">195: </a>        <span class="php-comment">//we will have two since we are not using 'other' argument yet</span>
+</span><span id="196" class="l"><a class="l" href="#196">196: </a>        <span class="php-comment">//see if version is before or after the name</span>
+</span><span id="197" class="l"><a class="l" href="#197">197: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">strripos</span>(<span class="php-var">$u_agent</span>,<span class="php-quote">&quot;Version&quot;</span>) &lt; <span class="php-keyword2">strripos</span>(<span class="php-var">$u_agent</span>,<span class="php-var">$ub</span>)){
+</span><span id="198" class="l"><a class="l" href="#198">198: </a>            <span class="php-var">$version</span>= <span class="php-var">$matches</span>[<span class="php-quote">'version'</span>][<span class="php-num">0</span>];
+</span><span id="199" class="l"><a class="l" href="#199">199: </a>        }
+</span><span id="200" class="l"><a class="l" href="#200">200: </a>        <span class="php-keyword1">else</span> {
+</span><span id="201" class="l"><a class="l" href="#201">201: </a>            <span class="php-var">$version</span>= <span class="php-var">$matches</span>[<span class="php-quote">'version'</span>][<span class="php-num">1</span>];
+</span><span id="202" class="l"><a class="l" href="#202">202: </a>        }
+</span><span id="203" class="l"><a class="l" href="#203">203: </a>    }
+</span><span id="204" class="l"><a class="l" href="#204">204: </a>    <span class="php-keyword1">else</span> {
+</span><span id="205" class="l"><a class="l" href="#205">205: </a>        <span class="php-var">$version</span>= <span class="php-var">$matches</span>[<span class="php-quote">'version'</span>][<span class="php-num">0</span>];
+</span><span id="206" class="l"><a class="l" href="#206">206: </a>    }
+</span><span id="207" class="l"><a class="l" href="#207">207: </a>
+</span><span id="208" class="l"><a class="l" href="#208">208: </a>    <span class="php-comment">// check if we have a number</span>
+</span><span id="209" class="l"><a class="l" href="#209">209: </a>    <span class="php-keyword1">if</span> (<span class="php-var">$version</span>==<span class="php-keyword1">null</span> || <span class="php-var">$version</span>==<span class="php-quote">&quot;&quot;</span>) {<span class="php-var">$version</span>=<span class="php-quote">&quot;?&quot;</span>;}
+</span><span id="210" class="l"><a class="l" href="#210">210: </a>
+</span><span id="211" class="l"><a class="l" href="#211">211: </a>    <span class="php-keyword1">return</span> <span class="php-keyword1">array</span>(
+</span><span id="212" class="l"><a class="l" href="#212">212: </a>        <span class="php-quote">'userAgent'</span> =&gt; <span class="php-var">$u_agent</span>,
+</span><span id="213" class="l"><a class="l" href="#213">213: </a>        <span class="php-quote">'name'</span>      =&gt; <span class="php-var">$bname</span>,
+</span><span id="214" class="l"><a class="l" href="#214">214: </a>        <span class="php-quote">'version'</span>   =&gt; <span class="php-var">$version</span>,
+</span><span id="215" class="l"><a class="l" href="#215">215: </a>        <span class="php-quote">'platform'</span>  =&gt; <span class="php-var">$platform</span>,
+</span><span id="216" class="l"><a class="l" href="#216">216: </a>        <span class="php-quote">'pattern'</span>    =&gt; <span class="php-var">$pattern</span>
+</span><span id="217" class="l"><a class="l" href="#217">217: </a>    );
+</span><span id="218" class="l"><a class="l" href="#218">218: </a>}
+</span><span id="219" class="l"><a class="l" href="#219">219: </a></span></code></pre>
+
+	<div id="footer">
+		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>
+	</div>
+</div>
+</div>
+</body>
+</html>
