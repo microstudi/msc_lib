@@ -10,20 +10,24 @@ USAGE:
 
 * First include the start file:
 
+```php
 <?php
 
 include_once("msc_lib/start.php");
 
 ?>
+```
 
 * Getting started:
 
+```php
 <?php
 
 include('msc_lib/start.php');
 echo m_view('html', array('tagtitle' => "This is a test page", 'body' => "Hello world"));
 
 ?>
+```
 
 Check for examples and the full documentation here:
 http://www.microstudi.net/msc_lib/examples/
