@@ -1,13 +1,15 @@
 <?php
 /**
 * @file views/html5/html.php
-* @author Ivan Vergés
-* @brief \<html> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @brief tag for the default HTML5 view
+*
+* @section usage Example:
+* <code>
 * echo m_view("html",array('title'=>"Html page title",'head'=>"head html part, css definitions, javascript...",'body'=>"Body html content"));\n
+* </code>
 *
-* @param title html page title (inside \<title>...\</title>)
+* @param tagtitle html page title (inside \<title>...\</title>)
 * @param head html head content after title, (inside \<head>...\</head>)
 * @param body html content inside \<body>...\</body>
 */
@@ -45,4 +47,3 @@ else {
 	echo $body;
 	echo '</html>';
 }
-?>

@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<form> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("form",array('id'=>"form1",'class'=>"my_class",'body'=>"Form html content"));\n
 * //or\n
 * echo m_view("form","Form html content");
+* </code>
 *
 * @param action html label action
 * @param method html label method (post, get)
@@ -45,4 +47,3 @@ echo '>';
 echo $body;
 
 echo '</form>';
-?>

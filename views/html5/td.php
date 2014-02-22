@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<td> tag for the default XHTML view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("td",array('id'=>"td1",'class'=>"my_class",'body'=>"TD html content"));\n
 * //or\n
 * echo m_view("td","TD html content");
+* </code>
 *
 * @param id html id
 * @param class html label class
@@ -36,5 +38,3 @@ echo '>';
 echo $body;
 
 echo '</td>';
-
-?>

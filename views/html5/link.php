@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<link> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("link",array('id'=>"img1",'class'=>"my_class",'src'=>"href URL"));\n
 * //or\n
 * echo m_view("link","href URL");
+* </code>
 *
 * @param href html label href (href URL)
 */
@@ -40,5 +42,3 @@ echo ($vars['sizes'] ? ' sizes="' . htmlspecialchars($vars['sizes']) . '"' : '')
 echo ($vars['type'] ? ' type="' . htmlspecialchars($vars['type']) . '"' : '');
 
 echo ">\n";
-
-?>

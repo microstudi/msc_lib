@@ -4,7 +4,8 @@
 * @author Ivan Vergés
 * @brief \<table> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("table",array('id'=>"table1",'class'=>"my_class",'body'=>"TABLE html content"));\n
 * //or\n
 * $items = array();\n
@@ -21,7 +22,7 @@
 * $items[] = array('id'=>"item1",'body'=>array("td 1/1","td 1/2"));\n
 * $items[] = array('id'=>"item2",'body'=>array("td 2/1","td 2/2"));\n
 * echo m_view("table",array('id'=>"table1",'class'=>"my_class",'items'=>$items));\n
-*
+* </code>
 *
 * @param border border or not
 * @param body html content inside \<table>...\</table>
@@ -79,5 +80,3 @@ elseif(is_array($vars['items'])) {
 }
 
 echo "</table>\n";
-
-?>

@@ -3,10 +3,13 @@
 * @file views/html5/li.php
 * @author Ivan Vergés
 * @brief \<li> tag for the default HTML5 view\n
-* @section usage Usage
+*
+* @section usage Example:
+* <code>
 * echo m_view("li",array('id'=>"item1",'class'=>"my_class",'body'=>"Item 1 description"));\n
 * //or\n
 * echo m_view("li","Item 1 description");
+* </code>
 *
 * @param body html content inside \<li>...\</li>
 */
@@ -30,4 +33,3 @@ echo $body;
 
 echo '</li>';
 
-?>

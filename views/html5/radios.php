@@ -4,11 +4,13 @@
 * @author Ivan Vergés
 * @brief \<input type="radio"> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * $items = array();\n
 * $items[] = array('label'=>'Label 1','id'=>"item1",'value'=>"value1",'class'=>"my_class");\n
 * $items[] = array('label'=>'Label 2','id'=>"item2",'value'=>"value2",'class'=>"my_class");\n
 * echo m_view("radios",array('options'=>$items,'addbr'=>true));\n
+* </code>
 *
 * @param addbr adds a \<br> tag between the \<input> tags
 * @param options a array of items (every \<input>) with the different options:\n
@@ -53,4 +55,3 @@ if(is_array($vars['options'])) {
 	if(isset($vars['addbr'])) echo implode('<br>',$items);
 	else echo implode('',$items);
 }
-?>

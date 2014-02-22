@@ -1,15 +1,19 @@
 <?php
 /**
-* @file views/html5/a.php
-* @author Ivan Vergés
-* @brief \<a> tag for the default HTML5 view\n
-*
-* @section usage Usage
-* echo m_view("a",array('id'=>"anchor1",'class'=>"my_class",'body'=>"Link description",'href'=>"http://URL"));
-*
-* @param rel html label rev
-* @param body html content inside \<a>...\</a>
-*/
+ * @file views/html5/a.php
+ * @author Ivan Vergés
+ * @brief \<a> tag for the default HTML5 view
+ *
+ * @section usage Example:
+ * <code>
+ * echo m_view("a",array('id'=>"anchor1",'class'=>"my_class",'body'=>"Link description",'href'=>"http://URL"));
+ * </code>
+ *
+ * @param rel html label rev
+ * @param body html content inside \<a>...\</a>
+ *
+ */
+
 if(is_array($vars)) {
 	$body = $vars['body'];
 	$href = $vars['href'];
@@ -48,4 +52,3 @@ echo '>';
 echo $body;
 
 echo '</a>';
-?>

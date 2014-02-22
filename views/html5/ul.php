@@ -3,7 +3,9 @@
 * @file views/html5/ul.php
 * @author Ivan Vergés
 * @brief \<ul> tag for the default HTML5 view\n
-* @section usage Usage
+*
+* @section usage Example:
+* <code>
 * echo m_view("ul",array('id'=>"ul1",'class'=>"my_class",'body'=>"UL html content"));\n
 * //or\n
 * echo m_view("ul","UL html content");\n
@@ -17,6 +19,7 @@
 * $items[] = array('id'=>"item1",'title'=>"Item 1 title",'body'=>"Item 1 content");\n
 * $items[] = array('id'=>"item2",'title'=>"Item 2 title",'body'=>"Item 2 content");\n
 * echo m_view("ul",array('id'=>"ul1",'class'=>"my_class",'items'=>$items));\n
+* </code>
 *
 * @param id html id
 * @param class html class
@@ -43,25 +46,7 @@ if($body) echo $body;
 elseif(is_array($vars['items'])) {
 	foreach($vars['items'] as $item) {
 		echo m_view("li", $item);
-		/*
-		if(is_array($item)) {
-			echo '<li';
-			echo ($item['id'] ? ' id="' . htmlspecialchars($item['id']) . '"' : '');
-			echo ($item['class'] ? ' class="' . htmlspecialchars($item['class']) . '"' : '');
-			echo ($item['style'] ? ' style="' . htmlspecialchars($item['style']) . '"' : '');
-			echo ($item['title'] ? ' title="' . htmlspecialchars($item['title']) . '"' : '');
-			foreach($item as $_k => $_v) {
-				if(strpos($_k,'data-') === 0) echo " $_k=\"" . htmlspecialchars($_v) . '"';
-			}
-			echo '>'.$item['body'].'</li>';
-		}
-		else {
-			echo '<li>'.$item.'</li>';
-		}
-		*/
 	}
 }
 
 echo '</ul>';
-
-?>

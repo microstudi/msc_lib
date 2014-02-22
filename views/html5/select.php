@@ -4,7 +4,8 @@
 * @author Ivan Vergés
 * @brief \<select> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("select",array('id'=>"select1",'class'=>"my_class",'body'=>"SELECT html content"));\n
 * //or\n
 * $items = array();\n
@@ -16,6 +17,7 @@
 * $items[] = array('id'=>"option1",'value'=>"option_1_value",'text'=>"Option 1 text");\n
 * $items[] = array('id'=>"option2",'value'=>"option_2_value",'text'=>"Option 2 text");\n
 * echo m_view("select",array('id'=>"select1",'class'=>"my_class",'items'=>$items));\n
+* </code>
 *
 * @param divinput encapsulates <input> in a div with the class specified
 * @param name html name
@@ -74,24 +76,10 @@ elseif(is_array($vars['options'])) {
 	foreach($vars['options'] as $i => $item) {
 		if(is_array($item)) {
 
-			echo '<option';
+			if(in_array($item['value'], $value) && !array_key_exists('selected', $item)) $item['selected'] = true;
 
-			echo ($item['id'] ? ' id="'.htmlspecialchars($item['id']).'"' : '');
+			echo m_view("option", $item);
 
-			echo (isset($item['value']) ? ' value="'.htmlspecialchars($item['value']).'"' : '');
-
-			echo ($item['class'] ? ' class="'.htmlspecialchars($item['class']).'"' : '');
-			echo ($item['style'] ? ' style="'.htmlspecialchars($item['style']).'"' : '');
-
-			foreach($item as $_k => $_v) {
-				if(strpos($_k,'data-') === 0) echo " $_k=\"" . htmlspecialchars($_v) . '"';
-			}
-
-			if(in_array($item['value'], $value)) echo ' selected="selected"';
-
-			if($item['disabled']) $ret .= ' disabled="disabled"';
-
-			echo '>'.htmlspecialchars($item['text'] ? $item['text'] : $item['value']).'</option>';
 		}
 		elseif(is_numeric($i) && !$associative) {
 			echo '<option'.(in_array($item, $value) ? ' selected="selected"' : '').'>' . htmlspecialchars($item) . '</option>';
@@ -109,4 +97,3 @@ if(isset($vars['helpp'])) echo '<p' . ($vars['helppclass'] ? ' class="' . $vars[
 if(isset($vars['divinput'])) echo '</div>';
 
 if($vars['endlabel']) echo $label;
-?>

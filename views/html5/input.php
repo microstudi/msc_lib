@@ -4,8 +4,10 @@
 * @author Ivan Vergés
 * @brief \<input> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("input",array('id'=>"input1",'class'=>"my_class",'body'=>"DIV html content"));\n
+* </code>
 *
 * @param divinput encapsulates <input> in a div with the class specified
 * @param type html type (text, button, radio, checkbox, textarea, ...)
@@ -103,4 +105,3 @@ if($vars['label'] && $vars['type'] == 'checkbox' && !$vars['id']) {
 }
 
 if(isset($vars['endlabel'])) echo $label;
-?>

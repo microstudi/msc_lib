@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<style> tag for the default XHTML view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("style",array('body'=>"Style content",'media'=>"media query",'scoped'=>true,'type'=>"MIME type"));\n
 * //or\n
 * echo m_view("style","Style content");
+* </code>
 *
 * @param media async property (true|false)
 * @param scope defer property (true|false)
@@ -37,4 +39,3 @@ echo '>';
 echo $body;
 
 echo '</style>';
-?>

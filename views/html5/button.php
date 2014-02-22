@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<button> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("button",array('id'=>"button1",'class'=>"my_class",'button'=>"BUTTON html content"));\n
 * //or\n
 * echo m_view("button","BUTTON html content");
+* </code>
 *
 * @param body html content inside \<button>...\</button>
 */
@@ -39,4 +41,3 @@ echo '>';
 echo $body;
 
 echo '</button>';
-?>

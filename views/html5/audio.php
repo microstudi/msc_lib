@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<audio> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("audio",array('id'=>"th1",'class'=>"my_class",'body'=>"AUDIO alternative html content"));\n
 * //or\n
 * echo m_view("audio","AUDIO alternative html content");
+* </code>
 *
 * @param body html content inside \<audio>...\</audio>
 */
@@ -49,6 +51,3 @@ else {
 }
 
 echo '</audio>';
-
-
-?>

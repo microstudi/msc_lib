@@ -1,0 +1,1 @@
+<p>This content is only for mobiles</p>

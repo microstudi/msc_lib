@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<map> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("map",array('id'=>"map1",'class'=>"my_class",'map'=>"map html content"));\n
 * //or\n
 * echo m_view("map","map html content");
+* </code>
 *
 * @param body html content inside \<map>...\</map>
 */
@@ -31,4 +33,3 @@ echo '>';
 echo $body;
 
 echo '</map>';
-?>

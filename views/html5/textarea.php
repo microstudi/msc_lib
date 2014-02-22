@@ -4,8 +4,10 @@
 * @author Ivan Vergés
 * @brief \<textarea> tag for the default XHTML view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("textarea",array('id'=>"textarea1",'class'=>"my_class",'body'=>"DIV html content"));\n
+* </code>
 *
 * @param name html name
 * @param disabled html label disabled (true or false)
@@ -68,5 +70,3 @@ if(isset($vars['helpp'])) echo '<p' . ($vars['helppclass'] ? ' class="' . $vars[
 if(isset($vars['divinput'])) echo '</div>';
 
 if(isset($vars['endlabel'])) echo $label;
-
-?>

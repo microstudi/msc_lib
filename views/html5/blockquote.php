@@ -1,9 +1,16 @@
 <?php
 /**
 * @file views/html5/blockquote.php
-* @author Ivan Vergés
 * @brief \<blockquote> tag for the default HTML5 view\n
 *
+* @section usage Example:
+* <code>
+* echo m_view("blockquote",array('id'=>"div1",'class'=>"my_class",'body'=>"B html content"));\n
+* //or\n
+* echo m_view("blockquote","B html content");
+* </code>
+*
+* @author Ivan Vergés
 */
 
 if(is_array($vars)) $body = $vars['body'];
@@ -25,4 +32,3 @@ echo '>';
 echo $body;
 
 echo '</blockquote>';
-?>

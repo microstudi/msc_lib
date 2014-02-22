@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<col> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("col",array('id'=>"th1",'class'=>"my_class",'body'=>"col alternative html content"));\n
 * //or\n
 * echo m_view("col","col alternative html content");
+* </code>
 *
 * @param body html content inside \<col>...\</col>
 */
@@ -30,6 +32,3 @@ echo '>';
 echo $body;
 
 echo '</col>';
-
-
-?>

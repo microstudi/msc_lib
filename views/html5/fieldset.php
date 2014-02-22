@@ -4,13 +4,16 @@
 * @author Ivan Vergés
 * @brief \<fieldset> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("fieldset",array('id'=>"fieldset1",'class'=>"my_class",'fieldset'=>"fieldset html content"));\n
 * //or\n
 * echo m_view("fieldset","fieldset html content");
+* </code>
 *
 * @param body html content inside \<fieldset>...\</fieldset>
 */
+
 if(is_array($vars)) $body = $vars['body'];
 else {
 	$body = $vars;
@@ -32,4 +35,3 @@ echo '>';
 echo $body;
 
 echo '</fieldset>';
-?>

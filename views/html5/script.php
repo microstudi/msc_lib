@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<script> tag for the default XHTML view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("script",array('body'=>"Script content",'src'=>"src_javascript",'async'=>true,'defer'=>true,'type'=>"MIME type"));\n
 * //or\n
 * echo m_view("script","Script content");
+* </code>
 *
 * @param src Javascript src path
 * @param async async property (true|false)
@@ -36,4 +38,3 @@ echo '>';
 echo $body;
 
 echo "</script>\n";
-?>

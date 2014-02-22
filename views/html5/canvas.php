@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<canvas> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("canvas",array('id'=>"th1",'class'=>"my_class",'body'=>"VIDEO alternative html content"));\n
 * //or\n
 * echo m_view("canvas","VIDEO alternative html content");
+* </code>
 *
 * @param body html content inside \<th>...\</th>
 */
@@ -31,6 +33,3 @@ echo '>';
 echo $body;
 
 echo '</canvas>';
-
-
-?>

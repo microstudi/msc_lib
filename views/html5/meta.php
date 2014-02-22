@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<meta> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("meta",array('id'=>"meta1",'charset'=>"charset_set"));\n
 * //or\n
 * echo m_view("meta","charset_set");
+* </code>
 *
 * @param charset charset_set
 */
@@ -28,4 +30,3 @@ echo (in_array($vars['http-equiv'],array("content-type", "default-style", "refre
 echo (in_array($vars['name'],array("application-name", "author", "description", "generator", "keywords")) ? ' name="' . $vars['name'] . '"' : '');
 
 echo '>';
-?>

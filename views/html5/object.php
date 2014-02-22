@@ -4,8 +4,10 @@
 * @author Ivan Vergés
 * @brief \<object> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("object",array('id'=>"object1",'class'=>"my_class",'body'=>"Object 1 description"));
+* </code>
 *
 * @param data html label data
 * @param type html label type
@@ -54,4 +56,3 @@ elseif(is_array($vars['params'])) {
 	}
 }
 echo '</object>';
-?>

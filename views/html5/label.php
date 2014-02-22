@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<label> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("label",array('id'=>"img1",'class'=>"my_class",'src'=>"label content"));\n
 * //or\n
 * echo m_view("label","label content");
+* </code>
 *
 * @param for for input id
 */
@@ -30,5 +32,3 @@ echo ($vars['for'] ? ' for="' . htmlspecialchars($vars['for']) . '"' : '');
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');
 
 echo '>' . $body .'</label>';
-
-?>

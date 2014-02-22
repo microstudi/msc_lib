@@ -4,8 +4,10 @@
 * @author Ivan Vergés
 * @brief \<head> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("head",array('title'=>"Html page title",'body'=>"head html part, css definitions, javascript..."));\n
+* </code>
 *
 * @param title html page title (inside \<title>...\</title>)
 * @param body html head content after title, (inside \<head>...\</head>)
@@ -34,4 +36,3 @@ else {
 	echo $body;
 	echo '</head>';
 }
-?>

@@ -89,5 +89,3 @@ $events = array(
 foreach($events as $ev) {
 	echo ($vars[$ev] ? ' ' . $ev . '="' . htmlspecialchars($vars[$ev]) . '"' : '');
 }
-
-?>

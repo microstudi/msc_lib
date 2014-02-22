@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<th> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("th",array('id'=>"th1",'class'=>"my_class",'body'=>"TH html content"));\n
 * //or\n
 * echo m_view("th","TH html content");
+* </code>
 *
 * @param body html content inside \<th>...\</th>
 */
@@ -33,6 +35,3 @@ echo '>';
 echo $body;
 
 echo '</th>';
-
-
-?>

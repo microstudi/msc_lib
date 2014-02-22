@@ -1,10 +1,11 @@
 <?php
 /**
-* @file views/html5/_generic_tag.php
-* @author Ivan Vergés
-* @brief \<{ANY}> tag for the default XHTML view\n
-*
-*/
+ * @file views/html5/_generic_tag.php
+ * @brief \<{ANY}> tag for the default XHTML view
+ *
+ * @author Ivan Vergés
+ */
+
 if(empty($tag)) $tag = 'div';
 if(is_array($vars)) $body = $vars['body'];
 else {
@@ -22,4 +23,3 @@ echo '>';
 echo $body;
 
 echo "</$tag>";
-?>

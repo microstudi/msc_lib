@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<colgroup> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("colgroup",array('id'=>"th1",'class'=>"my_class",'body'=>"colgroup alternative html content"));\n
 * //or\n
 * echo m_view("colgroup","colgroup alternative html content");
+* </code>
 *
 * @param body html content inside \<colgroup>...\</colgroup>
 */
@@ -30,6 +32,3 @@ echo '>';
 echo $body;
 
 echo '</colgroup>';
-
-
-?>

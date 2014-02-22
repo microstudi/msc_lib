@@ -52,9 +52,14 @@ if(isset($run)) {
 }
 
 //change the global var title in this section
-m_config_var('title', "MSC LIB Image processing examples");
+m_config_var('title', m_lang_echo('default_title') .": ". m_lang_echo("title-images"));
 
 ?>
+<div class="page-header">
+	<h1><?php echo m_lang_echo("title-images"); ?></h1>
+</div>
+<p>Checkout the complete <a href="../doc/package-Images.html">function reference</a> for images.</p>
+
 <?php
 
 foreach($examples as $i => $a):
@@ -79,4 +84,3 @@ die;
 	</section>
 <?php
 endforeach;
-?>

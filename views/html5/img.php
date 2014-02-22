@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<img> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("img",array('id'=>"img1",'class'=>"my_class",'src'=>"URL Image",'alt'=>"Alt text"));\n
 * //or\n
 * echo m_view("img","URL image");
+* </code>
 *
 * @param src html label src (URL image)
 */
@@ -31,4 +33,3 @@ echo (empty($vars['ismap']) ? '' : ' ismap="ismap"');
 echo ($vars['usemap'] ? ' usemap="' . htmlspecialchars($vars['usemap']) . '"' : '');
 
 echo '>';
-?>

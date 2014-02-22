@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<dl> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("dl",array('id'=>"div1",'class'=>"my_class",'body'=>"dl html content"));\n
 * //or\n
 * echo m_view("dl","dl html content");
+* </code>
 *
 * @param body html content inside \<b>...\</b>
 */
@@ -50,4 +52,3 @@ elseif(is_array($vars['items'])) {
 
 echo '</dl>';
 
-?>

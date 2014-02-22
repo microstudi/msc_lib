@@ -4,10 +4,12 @@
 * @author Ivan Vergés
 * @brief \<embed> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("embed",array('id'=>"img1",'class'=>"my_class",'src'=>"src URL"));\n
 * //or\n
 * echo m_view("embed","src URL");
+* </code>
 *
 * @param src html label src (src URL)
 */
@@ -29,5 +31,3 @@ echo ($vars['type'] ? ' type="' . htmlspecialchars($vars['type']) . '"' : '');
 echo ($vars['width'] ? ' width="' . htmlspecialchars($vars['width']) . '"' : '');
 
 echo '>';
-
-?>

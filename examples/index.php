@@ -27,10 +27,10 @@ foreach($options as $part) {
 	$menu[] = array('class' => $active, 'id' => "m-$part", 'body' => m_view("a", array('href' => $href, 'body' => m_lang_echo("menu-$part"))));
 }
 
+//a var from the _GET or _POST vars to know if we are running examples
 $run = m_input("run");
 
 //the the content of the menu without error message
-
 $body = m_view("parts/$view", array( 'menu' => $menu, 'run' => $run), true);
 
 //if empty view, redirect to default

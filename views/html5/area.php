@@ -4,8 +4,10 @@
 * @author Ivan Vergés
 * @brief \<area> tag for the default HTML5 view\n
 *
-* @section usage Usage
+* @section usage Example:
+* <code>
 * echo m_view("area",array('id'=>"area1",'class'=>"my_class",'body'=>"area content",'href'=>"http://URL"));
+* </code>
 *
 * @param rel html label rev
 * @param body html content inside \<area>...\</area>
@@ -56,4 +58,3 @@ echo '>';
 echo $body;
 
 echo '</area>';
-?>
