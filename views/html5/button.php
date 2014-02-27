@@ -34,7 +34,7 @@ echo (empty($vars['formnovalidate']) ? '' : ' formnovalidate="formnovalidate"');
 echo ($vars['formtarget'] ? ' formtarget="' . htmlspecialchars($vars['formtarget']) . '"' : '');
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');
 echo (in_array($vars['type'], array("button", "reset", "submit")) ? ' type="' . $vars['type'] . '"' : '');
-echo ($vars['value'] ? ' value="' . htmlspecialchars($vars['value']) . '"' : '');
+echo (isset($vars['value']) ? ' value="' . htmlspecialchars($vars['value']) . '"' : '');
 
 echo '>';
 

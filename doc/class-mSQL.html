@@ -7,7 +7,7 @@
 	<title>Class mSQL | MSC LIB</title>
 
 	<script type="text/javascript" src="resources/combined.js?394153670"></script>
-	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<script type="text/javascript" src="elementlist.js?3464195859"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
 
 </head>
@@ -70,6 +70,7 @@
 				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
 				<li><a href="function-m_create_table.html">m_create_table</a></li>
 				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li><a href="function-m_sql_clear_cache.html">m_sql_clear_cache</a></li>
 				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
 				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
 				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
@@ -118,9 +119,6 @@
 			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
-			</li>
 		</ul>
 	</div>
 
@@ -171,13 +169,60 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 				<b>Author:</b>
 				Ivan Vergés<br>
-		<b>Located at</b> <a href="source-class-mSQL.html#12-59" title="Go to source code">classes/sql.php</a><br>
+		<b>Located at</b> <a href="source-class-mSQL.html#12-85" title="Go to source code">classes/sql.php</a><br>
 	</div>
 
 
 
 	<table class="summary" id="methods">
 	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-mSQL.html#36-53" title="Go to source code">__construct</a>( <span>mixed <var>$host</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$name</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$user</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$pass</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$utf8</var> = <span class="php-keyword1">true</span></span> )</code>
+
+		<div class="description short">
+			
+<p>Constructor, pass the connection data to the class</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+<p>Constructor, pass the connection data to the class</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$host</var></dt>
+					<dd><code>mixed</code><br>$host Host of MySQL server</dd>
+					<dt><var>$name</var></dt>
+					<dd><code>mixed</code><br>$name Name of the database to connect</dd>
+					<dt><var>$user</var></dt>
+					<dd><code>mixed</code><br>$user MySQL username</dd>
+					<dt><var>$pass</var></dt>
+					<dd><code>mixed</code><br>$pass MySQL password</dd>
+					<dt><var>$utf8</var></dt>
+					<dd><code>mixed</code><br>$utf8 retrieves data from MySQL as UTF-8 (ie: sends the command SET NAMES UTF8
+before every query)</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="open" id="_open">
 
 		<td class="attributes"><code>
@@ -189,7 +234,7 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_open">#</a>
-		<code><a href="source-class-mSQL.html#29-33" title="Go to source code">open</a>( )</code>
+		<code><a href="source-class-mSQL.html#55-59" title="Go to source code">open</a>( )</code>
 
 		<div class="description short">
 			
@@ -222,7 +267,7 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_close">#</a>
-		<code><a href="source-class-mSQL.html#35-39" title="Go to source code">close</a>( )</code>
+		<code><a href="source-class-mSQL.html#61-65" title="Go to source code">close</a>( )</code>
 
 		<div class="description short">
 			
@@ -255,7 +300,7 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_query">#</a>
-		<code><a href="source-class-mSQL.html#41-44" title="Go to source code">query</a>( <span>mixed <var>$sql</var></span>, <span>mixed <var>$mode</var> = <span class="php-quote">''</span></span> )</code>
+		<code><a href="source-class-mSQL.html#67-70" title="Go to source code">query</a>( <span>mixed <var>$sql</var></span>, <span>mixed <var>$mode</var> = <span class="php-quote">''</span></span> )</code>
 
 		<div class="description short">
 			
@@ -284,7 +329,7 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_escape">#</a>
-		<code><a href="source-class-mSQL.html#46-51" title="Go to source code">escape</a>( <span>mixed <var>$val</var></span> )</code>
+		<code><a href="source-class-mSQL.html#72-77" title="Go to source code">escape</a>( <span>mixed <var>$val</var></span> )</code>
 
 		<div class="description short">
 			
@@ -317,7 +362,7 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 		<td class="name"><div>
 		<a class="anchor" href="#_getError">#</a>
-		<code><a href="source-class-mSQL.html#53-57" title="Go to source code">getError</a>( )</code>
+		<code><a href="source-class-mSQL.html#79-83" title="Go to source code">getError</a>( )</code>
 
 		<div class="description short">
 			
@@ -352,6 +397,32 @@ class="php-quote">&quot;SELECT * FROM users&quot;</span>);
 
 
 
+	<table class="summary" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="token" id="$token">
+		<td class="attributes"><code>
+			public  
+			string
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-mSQL.html#34" title="Go to source code"><var>$token</var></a>
+		</td>
+		<td class="value"><code><span class="php-quote">''</span></code></td>
+		<td class="description"><div>
+			<a href="#$token" class="anchor">#</a>
+
+			<div class="description short">
+				
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+			</div>
+		</div></td>
+	</tr>
+	</table>
 
 
 

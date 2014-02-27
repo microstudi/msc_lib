@@ -25,6 +25,32 @@
  *
  */
 abstract class mSQL {
+	private $host = null;
+	private $name = null;
+	private $user = null;
+	private $pass = null;
+	private $conn = null;
+	private $utf8 = true;
+	public $token = '';
+
+	/**
+	 * Constructor, pass the connection data to the class
+	 *
+	 * @param $host Host of MySQL server
+	 * @param $name Name of the database to connect
+	 * @param $user MySQL username
+	 * @param $pass MySQL password
+	 * @param $utf8 retrieves data from MySQL as UTF-8 (ie: sends the command SET NAMES UTF8 before every query)
+	 *
+	 */
+	public function __construct ($host = null, $name = null, $user = null, $pass = null, $utf8=true){
+		$this->host = $host;
+		$this->name = $name;
+		$this->user = $user;
+		$this->pass = $pass;
+		$this->utf8 = $utf8;
+		$this->token = "$host-$name";
+	}
 
 	/**
 	 * open a connection if is not opened

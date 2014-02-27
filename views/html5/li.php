@@ -25,7 +25,7 @@ echo '<li';
 require("_common_html5_attributes.php");
 require("_common_html5_event_attributes.php");
 
-echo ($vars['value'] ? ' value="'.intval($vars['value']).'"' : '');
+echo (isset($vars['value']) ? ' value="'.intval($vars['value']).'"' : '');
 
 echo '>';
 

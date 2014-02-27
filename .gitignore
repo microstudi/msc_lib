@@ -1,5 +1,7 @@
 sftp-config.json
 phpdoc.xml
+doxygen.conf
+generate_doc.sh
 apigen.conf
 test/*
 doc/.*

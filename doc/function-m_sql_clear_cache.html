@@ -4,7 +4,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<meta name="generator" content="ApiGen 2.8.0">
 
-	<title>Function m_file_error | MSC LIB</title>
+	<title>Function m_sql_clear_cache | MSC LIB</title>
 
 	<script type="text/javascript" src="resources/combined.js?394153670"></script>
 	<script type="text/javascript" src="elementlist.js?3464195859"></script>
@@ -23,7 +23,7 @@
 			<ul>
 				<li><a href="package-Compressor.html">Compressor</a>
 						</li>
-				<li class="active"><a href="package-Files.html">Files</a>
+				<li><a href="package-Files.html">Files</a>
 						</li>
 				<li><a href="package-Images.html">Images</a>
 						</li>
@@ -33,7 +33,7 @@
 						</li>
 				<li><a href="package-Sessions.html">Sessions</a>
 						</li>
-				<li><a href="package-SQL.html">SQL</a>
+				<li class="active"><a href="package-SQL.html">SQL</a>
 						</li>
 				<li><a href="package-Utilities.html">Utilities<span></span></a>
 						<ul>
@@ -57,8 +57,8 @@
 		<div id="elements">
 			<h3>Classes</h3>
 			<ul>
-				<li><a href="class-mCache.html">mCache</a></li>
-				<li><a href="class-mFile.html">mFile</a></li>
+				<li><a href="class-mMySQL.html">mMySQL</a></li>
+				<li><a href="class-mSQL.html">mSQL</a></li>
 			</ul>
 
 
@@ -67,18 +67,25 @@
 
 			<h3>Functions</h3>
 			<ul>
-				<li><a href="function-m_file_delete.html">m_file_delete</a></li>
-				<li class="active"><a href="function-m_file_error.html">m_file_error</a></li>
-				<li><a href="function-m_file_get.html">m_file_get</a></li>
-				<li><a href="function-m_file_path.html">m_file_path</a></li>
-				<li><a href="function-m_file_put.html">m_file_put</a></li>
-				<li><a href="function-m_file_rename.html">m_file_rename</a></li>
-				<li><a href="function-m_file_rmdir.html">m_file_rmdir</a></li>
-				<li><a href="function-m_file_set_remote.html">m_file_set_remote</a></li>
-				<li><a href="function-m_file_size.html">m_file_size</a></li>
-				<li><a href="function-m_file_time.html">m_file_time</a></li>
-				<li><a href="function-m_file_url.html">m_file_url</a></li>
-				<li><a href="function-m_file_url_prefix.html">m_file_url_prefix</a></li>
+				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
+				<li><a href="function-m_create_table.html">m_create_table</a></li>
+				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li class="active"><a href="function-m_sql_clear_cache.html">m_sql_clear_cache</a></li>
+				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
+				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
+				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
+				<li><a href="function-m_sql_error.html">m_sql_error</a></li>
+				<li><a href="function-m_sql_escape.html">m_sql_escape</a></li>
+				<li><a href="function-m_sql_exec.html">m_sql_exec</a></li>
+				<li><a href="function-m_sql_insert.html">m_sql_insert</a></li>
+				<li><a href="function-m_sql_insert_update.html">m_sql_insert_update</a></li>
+				<li><a href="function-m_sql_list.html">m_sql_list</a></li>
+				<li><a href="function-m_sql_no_cache.html">m_sql_no_cache</a></li>
+				<li><a href="function-m_sql_objects.html">m_sql_objects</a></li>
+				<li><a href="function-m_sql_open.html">m_sql_open</a></li>
+				<li><a href="function-m_sql_set_cache.html">m_sql_set_cache</a></li>
+				<li><a href="function-m_sql_set_database.html">m_sql_set_database</a></li>
+				<li><a href="function-m_sql_update.html">m_sql_update</a></li>
 			</ul>
 		</div>
 	</div>
@@ -101,7 +108,7 @@
 				<a href="index.html" title="Overview"><span>Overview</span></a>
 			</li>
 			<li>
-				<a href="package-Files.html" title="Summary of Files"><span>Package</span></a>
+				<a href="package-SQL.html" title="Summary of SQL"><span>Package</span></a>
 			</li>
 			<li class="active">
 <span>Function</span>			</li>
@@ -116,36 +123,25 @@
 	</div>
 
 <div id="content" class="function">
-	<h1>Function m_file_error</h1>
+	<h1>Function m_sql_clear_cache</h1>
 
 
 	<div class="description">
 	
-<p>Returns the last error (if any)</p>
+<p>Wipes the cache</p>
 
 	</div>
 
 	<div class="info">
 		
-		<b>Package:</b> <a href="package-Files.html">Files</a><br>
+		<b>Package:</b> <a href="package-SQL.html">SQL</a><br>
 				<b>Author:</b>
 				Ivan Vergés<br>
-		<b>Located at</b> <a href="source-function-m_file_error.html#238-248" title="Go to source code">functions/file.php</a><br>
+		<b>Located at</b> <a href="source-function-m_sql_clear_cache.html#66-73" title="Go to source code">functions/sql.php</a><br>
 	</div>
 
 
 
-	<table class="summary" id="returns">
-	<caption>Return value summary</caption>
-	<tr>
-		<td class="name"><code>
-			string
-		</code></td>
-		<td>
-			Description of the error, empty if no errors
-		</td>
-	</tr>
-	</table>
 
 
 </div>

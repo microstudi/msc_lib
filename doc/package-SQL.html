@@ -7,7 +7,7 @@
 	<title>Package SQL | MSC LIB</title>
 
 	<script type="text/javascript" src="resources/combined.js?394153670"></script>
-	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<script type="text/javascript" src="elementlist.js?3464195859"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
 
 </head>
@@ -70,6 +70,7 @@
 				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
 				<li><a href="function-m_create_table.html">m_create_table</a></li>
 				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li><a href="function-m_sql_clear_cache.html">m_sql_clear_cache</a></li>
 				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
 				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
 				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
@@ -117,9 +118,6 @@
 			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
-			</li>
 		</ul>
 	</div>
 
@@ -157,6 +155,10 @@
 <tr>
 	<td class="name"><a href="function-m_sql_cache.html">m_sql_cache</a></td>
 	<td>Enable/disable the cache</td>
+</tr>
+<tr>
+	<td class="name"><a href="function-m_sql_clear_cache.html">m_sql_clear_cache</a></td>
+	<td>Wipes the cache</td>
 </tr>
 <tr>
 	<td class="name"><a href="function-m_sql_close.html">m_sql_close</a></td>
@@ -198,8 +200,8 @@ items also</td>
 </tr>
 <tr>
 	<td class="name"><a href="function-m_sql_no_cache.html">m_sql_no_cache</a></td>
-	<td>Does not aplies the cache in the next (only) query, subsequents query will
-aplies cache</td>
+	<td>Does not applies the cache in the next (only) query, for next coming queries
+cache will apply again</td>
 </tr>
 <tr>
 	<td class="name"><a href="function-m_sql_objects.html">m_sql_objects</a></td>
@@ -216,7 +218,7 @@ href="http://www.phpfastcache.com/">http://www.phpfastcache.com/</a></td>
 </tr>
 <tr>
 	<td class="name"><a href="function-m_sql_set_database.html">m_sql_set_database</a></td>
-	<td></td>
+	<td>Setup the database connection</td>
 </tr>
 <tr>
 	<td class="name"><a href="function-m_sql_update.html">m_sql_update</a></td>

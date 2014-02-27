@@ -13,7 +13,7 @@
  */
 
 /**
-*
+* Setup the database connection
 */
 function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $type='mysql') {
 	global $CONFIG;
@@ -30,26 +30,50 @@ function m_sql_set_database($dbhost='', $dbname='', $dbuser='', $dbpass='', $typ
  * Set a cache from the library phpfastcache
  * http://www.phpfastcache.com/
  *
- * valid for m_sql_list && m_sql_count functions
+ * valid for select & show queries only
  *
- * @param  string $type    'auto', "apc", "memcache", "memcached", "wincache" ,"files", "sqlite" and "xcache"
+ * Example
+ * <code>
+ * //enables runtime cache
+ * m_sql_set_cache();
+ * m_sql_list('table'); //this query goes to the mysql server
+ * m_sql_list('table'); //this query is repeated, readed from the runtime cache
+ *
+ * //enables long-term cache for 5 minutes
+ * m_sql_set_cache('files', 300, 'temp_dir');
+ * </code>
+ *
+ * @param  string $type    'runtime' This provides cache for repeated queries while script is executing
+ *         				   'auto', "apc", "memcache", "memcached", "wincache" ,"files", "sqlite" and "xcache"
  * @param integer $time     seconds to store the cache
- * @param  array  $options [description]
- * @return [type]          [description]
+ * @param  string  $path path to dir where to cache in case of files
  */
-function m_sql_set_cache($type = 'auto', $time = 60, $options = array()) {
+function m_sql_set_cache($type = 'runtime', $time = 60, $path = '', $options = array()) {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/phpfastcache/phpfastcache.php");
+	//runtime cache enable by default
+	$CONFIG->database_run_cache = array();
 
-	$CONFIG->database_cache = phpFastCache($type);
-	$CONFIG->database_cache_time = $time;
+	if(in_array($type, array('auto', 'apc', 'memcache', 'memcached', 'wincache' ,'files', 'sqlite', 'xcache'))) {
+		require_once(dirname(dirname(__FILE__)) . "/classes/phpfastcache/phpfastcache.php");
+
+		$CONFIG->database_cache = phpFastCache(array('storage' => $type, 'path' => $path) + $options);
+		$CONFIG->database_cache_time = $time;
+	}
+	$CONFIG->database_cache_enabled = true;
 }
 
 /**
+ * Wipes the cache
+ */
+function m_sql_clear_cache() {
+	if($CONFIG->database_cache) {
+		$CONFIG->database_cache->clean();
+	}
+}
+/**
  * Enable/disable the cache
  * @param  boolean $enable [description]
- * @return [type]          [description]
  */
 function m_sql_cache($enable = true) {
 	global $CONFIG;
@@ -58,8 +82,7 @@ function m_sql_cache($enable = true) {
 }
 
 /**
- * Does not aplies the cache in the next (only) query, subsequents query will aplies cache
- * @return [type] [description]
+ * Does not applies the cache in the next (only) query, for next coming queries cache will apply again
  */
 function m_sql_no_cache() {
 	global $CONFIG;
@@ -171,16 +194,52 @@ function m_auto_create_table($table, $array=array()){
  */
 function m_sql_objects($sql, $class='') {
 	global $CONFIG;
+
 	//open connection if not opened
 	if(!m_sql_open()) return false;
+	$is_select = false;
+	//cache on select or show only
+	if($CONFIG->database_cache_enabled) {
+		$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,7))) == "select" || strtolower(rtrim(substr(ltrim($sql),0 ,4))) == "show" );
+		if($is_select) {
+			$id = "m_sql-" . $CONFIG->db->token. "-" . md5($sql);
+
+			if (is_array($CONFIG->database_run_cache) && array_key_exists($id, $CONFIG->database_run_cache)) {
+				return unserialize($CONFIG->database_run_cache[$id]);
+			}
+			if($CONFIG->database_cache) {
+				$rows = $CONFIG->database_cache->get($id);
+				if($rows !== null) {
+					$rows = $CONFIG->database_cache->touch($id, $CONFIG->database_cache_time);
+					return $rows;
+				}
+			}
+		}
+	}
 
 	$ret = array();
+	// $t = microtime(true);
 	if($res = $CONFIG->db->query($sql)) {
+		// echo round(microtime(true) - $t, 4)."s :$sql\n";
 		while($ob = $CONFIG->db->fetch($res,false, $class ? $class : 'stdClass')) {
 			$ret[] = $ob;
 		}
+
+		//store cache
+		if((is_array($CONFIG->database_run_cache) || $CONFIG->database_cache) && $is_select) {
+			//set runtime cache
+			$CONFIG->database_run_cache[$id] = serialize($ret);
+			//set long term cache
+			if($CONFIG->database_cache) $CONFIG->database_cache->set($id, $ret, $CONFIG->database_cache_time);
+			if($CONFIG->database_cache_paused && !$CONFIG->database_cache_enabled) {
+				$CONFIG->database_cache_enabled = true;
+				$CONFIG->database_cache_paused = false;
+			}
+		}
+
 		return $ret;
 	}
+
 	return false;
 }
 
@@ -222,25 +281,7 @@ function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $orde
 	if($order) $sql .= " ORDER BY $order";
 	$sql .= " LIMIT $offset, $limit";
 
-	//try to get from cache
-	if($CONFIG->database_cache && $CONFIG->database_cache_enabled) {
-		$id = "m_sql_list-" . md5($sql);
-		$rows = $CONFIG->database_cache->get($id);
-		if($rows != null) {
-			return $rows;
-		}
-	}
-
 	$rows = m_sql_objects($sql, $class);
-
-	//store cache
-	if($CONFIG->database_cache) {
-		$CONFIG->database_cache->set($id, $rows, $CONFIG->database_cache_time);
-		if($CONFIG->database_cache_paused && !$CONFIG->database_cache_enabled) {
-			$CONFIG->database_cache_enabled = true;
-			$CONFIG->database_cache_paused = false;
-		}
-	}
 
 	return $rows;
 
@@ -271,21 +312,7 @@ function m_sql_count($table, $where='', $fields='*') {
 
 	//echo $sql;
 
-	//try to get from cache
-	if($CONFIG->database_cache && $CONFIG->database_cache_enabled) {
-		$id = "m_sql_count-" . md5($sql);
-		$rows = $CONFIG->database_cache->get($id);
-		if($rows != null) {
-			return $rows;
-		}
-	}
-
 	$rows = m_sql_objects($sql);
-
-	//store cache
-	if($CONFIG->database_cache) {
-		$CONFIG->database_cache->set($id, $rows, $CONFIG->database_cache_time);
-	}
 
 	return $rows[0]->total;
 

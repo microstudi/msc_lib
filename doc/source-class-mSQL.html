@@ -8,7 +8,7 @@
 	<title>File classes/sql.php | MSC LIB</title>
 
 	<script type="text/javascript" src="resources/combined.js?394153670"></script>
-	<script type="text/javascript" src="elementlist.js?1921751119"></script>
+	<script type="text/javascript" src="elementlist.js?3464195859"></script>
 	<link rel="stylesheet" type="text/css" media="all" href="resources/style.css?3505392360">
 
 </head>
@@ -71,6 +71,7 @@
 				<li><a href="function-m_auto_create_table.html">m_auto_create_table</a></li>
 				<li><a href="function-m_create_table.html">m_create_table</a></li>
 				<li><a href="function-m_sql_cache.html">m_sql_cache</a></li>
+				<li><a href="function-m_sql_clear_cache.html">m_sql_clear_cache</a></li>
 				<li><a href="function-m_sql_close.html">m_sql_close</a></li>
 				<li><a href="function-m_sql_count.html">m_sql_count</a></li>
 				<li><a href="function-m_sql_delete.html">m_sql_delete</a></li>
@@ -120,9 +121,6 @@
 			</li>
 		</ul>
 		<ul>
-			<li>
-				<a href="msc-lib-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
-			</li>
 		</ul>
 	</div>
 
@@ -153,40 +151,66 @@
 </span></span><span id="25" class="l"><a class="l" href="#25">25: </a><span class="php-comment"> *
 </span></span><span id="26" class="l"><a class="l" href="#26">26: </a><span class="php-comment"> */</span>
 </span><span id="27" class="l"><a class="l" href="#27">27: </a><span class="php-keyword1">abstract</span> <span class="php-keyword1">class</span> <span class="php-keyword2">mSQL</span> {
-</span><span id="28" class="l"><a class="l" href="#28">28: </a>
-</span><span id="29" class="l"><a class="l" href="#29">29: </a>    <span class="php-comment">/**
-</span></span><span id="30" class="l"><a class="l" href="#30">30: </a><span class="php-comment">     * open a connection if is not opened
-</span></span><span id="31" class="l"><a class="l" href="#31">31: </a><span class="php-comment">     */</span>
-</span><span id="32" class="l"><a class="l" href="#32">32: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_open" href="#_open">open</a> (){
-</span><span id="33" class="l"><a class="l" href="#33">33: </a>    }
-</span><span id="34" class="l"><a class="l" href="#34">34: </a>
-</span><span id="35" class="l"><a class="l" href="#35">35: </a>    <span class="php-comment">/**
-</span></span><span id="36" class="l"><a class="l" href="#36">36: </a><span class="php-comment">     * Closes the connection
-</span></span><span id="37" class="l"><a class="l" href="#37">37: </a><span class="php-comment">     */</span>
-</span><span id="38" class="l"><a class="l" href="#38">38: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_close" href="#_close">close</a> (){
-</span><span id="39" class="l"><a class="l" href="#39">39: </a>    }
-</span><span id="40" class="l"><a class="l" href="#40">40: </a>
-</span><span id="41" class="l"><a class="l" href="#41">41: </a>    <span class="php-comment">/**
-</span></span><span id="42" class="l"><a class="l" href="#42">42: </a><span class="php-comment">     */</span>
-</span><span id="43" class="l"><a class="l" href="#43">43: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_query" href="#_query">query</a> (<span class="php-var">$sql</span>, <span class="php-var">$mode</span>=<span class="php-quote">''</span>){
-</span><span id="44" class="l"><a class="l" href="#44">44: </a>    }
-</span><span id="45" class="l"><a class="l" href="#45">45: </a>
-</span><span id="46" class="l"><a class="l" href="#46">46: </a>    <span class="php-comment">/**
-</span></span><span id="47" class="l"><a class="l" href="#47">47: </a><span class="php-comment">     * Escapes SQL strings
-</span></span><span id="48" class="l"><a class="l" href="#48">48: </a><span class="php-comment">     */</span>
-</span><span id="49" class="l"><a class="l" href="#49">49: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_escape" href="#_escape">escape</a>(<span class="php-var">$val</span>) {
-</span><span id="50" class="l"><a class="l" href="#50">50: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">str_replace</span>(<span class="php-quote">&quot;\\&quot;</span>,<span class="php-quote">&quot;\\\\&quot;</span>, <span class="php-keyword2">str_replace</span>(<span class="php-quote">&quot;'&quot;</span>,<span class="php-quote">&quot;\'&quot;</span>, <span class="php-keyword2">stripslashes</span>(<span class="php-var">$val</span>)));
-</span><span id="51" class="l"><a class="l" href="#51">51: </a>    }
-</span><span id="52" class="l"><a class="l" href="#52">52: </a>
-</span><span id="53" class="l"><a class="l" href="#53">53: </a>    <span class="php-comment">/**
-</span></span><span id="54" class="l"><a class="l" href="#54">54: </a><span class="php-comment">     * Return last error
-</span></span><span id="55" class="l"><a class="l" href="#55">55: </a><span class="php-comment">     */</span>
-</span><span id="56" class="l"><a class="l" href="#56">56: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getError" href="#_getError">getError</a>() {
-</span><span id="57" class="l"><a class="l" href="#57">57: </a>    }
-</span><span id="58" class="l"><a class="l" href="#58">58: </a>
-</span><span id="59" class="l"><a class="l" href="#59">59: </a>}
+</span><span id="28" class="l"><a class="l" href="#28">28: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$host" href="#$host">$host</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="29" class="l"><a class="l" href="#29">29: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$name" href="#$name">$name</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="30" class="l"><a class="l" href="#30">30: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$user" href="#$user">$user</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="31" class="l"><a class="l" href="#31">31: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$pass" href="#$pass">$pass</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="32" class="l"><a class="l" href="#32">32: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$conn" href="#$conn">$conn</a></span> = <span class="php-keyword1">null</span>;
+</span><span id="33" class="l"><a class="l" href="#33">33: </a>    <span class="php-keyword1">private</span> <span class="php-var"><a id="$utf8" href="#$utf8">$utf8</a></span> = <span class="php-keyword1">true</span>;
+</span><span id="34" class="l"><a class="l" href="#34">34: </a>    <span class="php-keyword1">public</span> <span class="php-var"><a id="$token" href="#$token">$token</a></span> = <span class="php-quote">''</span>;
+</span><span id="35" class="l"><a class="l" href="#35">35: </a>
+</span><span id="36" class="l"><a class="l" href="#36">36: </a>    <span class="php-comment">/**
+</span></span><span id="37" class="l"><a class="l" href="#37">37: </a><span class="php-comment">     * Constructor, pass the connection data to the class
+</span></span><span id="38" class="l"><a class="l" href="#38">38: </a><span class="php-comment">     *
+</span></span><span id="39" class="l"><a class="l" href="#39">39: </a><span class="php-comment">     * @param $host Host of MySQL server
+</span></span><span id="40" class="l"><a class="l" href="#40">40: </a><span class="php-comment">     * @param $name Name of the database to connect
+</span></span><span id="41" class="l"><a class="l" href="#41">41: </a><span class="php-comment">     * @param $user MySQL username
+</span></span><span id="42" class="l"><a class="l" href="#42">42: </a><span class="php-comment">     * @param $pass MySQL password
+</span></span><span id="43" class="l"><a class="l" href="#43">43: </a><span class="php-comment">     * @param $utf8 retrieves data from MySQL as UTF-8 (ie: sends the command SET NAMES UTF8 before every query)
+</span></span><span id="44" class="l"><a class="l" href="#44">44: </a><span class="php-comment">     *
+</span></span><span id="45" class="l"><a class="l" href="#45">45: </a><span class="php-comment">     */</span>
+</span><span id="46" class="l"><a class="l" href="#46">46: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="___construct" href="#___construct">__construct</a> (<span class="php-var">$host</span> = <span class="php-keyword1">null</span>, <span class="php-var">$name</span> = <span class="php-keyword1">null</span>, <span class="php-var">$user</span> = <span class="php-keyword1">null</span>, <span class="php-var">$pass</span> = <span class="php-keyword1">null</span>, <span class="php-var">$utf8</span>=<span class="php-keyword1">true</span>){
+</span><span id="47" class="l"><a class="l" href="#47">47: </a>        <span class="php-var">$this</span>-&gt;host = <span class="php-var">$host</span>;
+</span><span id="48" class="l"><a class="l" href="#48">48: </a>        <span class="php-var">$this</span>-&gt;name = <span class="php-var">$name</span>;
+</span><span id="49" class="l"><a class="l" href="#49">49: </a>        <span class="php-var">$this</span>-&gt;user = <span class="php-var">$user</span>;
+</span><span id="50" class="l"><a class="l" href="#50">50: </a>        <span class="php-var">$this</span>-&gt;pass = <span class="php-var">$pass</span>;
+</span><span id="51" class="l"><a class="l" href="#51">51: </a>        <span class="php-var">$this</span>-&gt;utf8 = <span class="php-var">$utf8</span>;
+</span><span id="52" class="l"><a class="l" href="#52">52: </a>        <span class="php-var">$this</span>-&gt;token = <span class="php-quote">&quot;</span><span class="php-var">$host</span><span class="php-quote">-</span><span class="php-var">$name</span><span class="php-quote">&quot;</span>;
+</span><span id="53" class="l"><a class="l" href="#53">53: </a>    }
+</span><span id="54" class="l"><a class="l" href="#54">54: </a>
+</span><span id="55" class="l"><a class="l" href="#55">55: </a>    <span class="php-comment">/**
+</span></span><span id="56" class="l"><a class="l" href="#56">56: </a><span class="php-comment">     * open a connection if is not opened
+</span></span><span id="57" class="l"><a class="l" href="#57">57: </a><span class="php-comment">     */</span>
+</span><span id="58" class="l"><a class="l" href="#58">58: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_open" href="#_open">open</a> (){
+</span><span id="59" class="l"><a class="l" href="#59">59: </a>    }
 </span><span id="60" class="l"><a class="l" href="#60">60: </a>
-</span><span id="61" class="l"><a class="l" href="#61">61: </a></span></code></pre>
+</span><span id="61" class="l"><a class="l" href="#61">61: </a>    <span class="php-comment">/**
+</span></span><span id="62" class="l"><a class="l" href="#62">62: </a><span class="php-comment">     * Closes the connection
+</span></span><span id="63" class="l"><a class="l" href="#63">63: </a><span class="php-comment">     */</span>
+</span><span id="64" class="l"><a class="l" href="#64">64: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_close" href="#_close">close</a> (){
+</span><span id="65" class="l"><a class="l" href="#65">65: </a>    }
+</span><span id="66" class="l"><a class="l" href="#66">66: </a>
+</span><span id="67" class="l"><a class="l" href="#67">67: </a>    <span class="php-comment">/**
+</span></span><span id="68" class="l"><a class="l" href="#68">68: </a><span class="php-comment">     */</span>
+</span><span id="69" class="l"><a class="l" href="#69">69: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_query" href="#_query">query</a> (<span class="php-var">$sql</span>, <span class="php-var">$mode</span>=<span class="php-quote">''</span>){
+</span><span id="70" class="l"><a class="l" href="#70">70: </a>    }
+</span><span id="71" class="l"><a class="l" href="#71">71: </a>
+</span><span id="72" class="l"><a class="l" href="#72">72: </a>    <span class="php-comment">/**
+</span></span><span id="73" class="l"><a class="l" href="#73">73: </a><span class="php-comment">     * Escapes SQL strings
+</span></span><span id="74" class="l"><a class="l" href="#74">74: </a><span class="php-comment">     */</span>
+</span><span id="75" class="l"><a class="l" href="#75">75: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_escape" href="#_escape">escape</a>(<span class="php-var">$val</span>) {
+</span><span id="76" class="l"><a class="l" href="#76">76: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">str_replace</span>(<span class="php-quote">&quot;\\&quot;</span>,<span class="php-quote">&quot;\\\\&quot;</span>, <span class="php-keyword2">str_replace</span>(<span class="php-quote">&quot;'&quot;</span>,<span class="php-quote">&quot;\'&quot;</span>, <span class="php-keyword2">stripslashes</span>(<span class="php-var">$val</span>)));
+</span><span id="77" class="l"><a class="l" href="#77">77: </a>    }
+</span><span id="78" class="l"><a class="l" href="#78">78: </a>
+</span><span id="79" class="l"><a class="l" href="#79">79: </a>    <span class="php-comment">/**
+</span></span><span id="80" class="l"><a class="l" href="#80">80: </a><span class="php-comment">     * Return last error
+</span></span><span id="81" class="l"><a class="l" href="#81">81: </a><span class="php-comment">     */</span>
+</span><span id="82" class="l"><a class="l" href="#82">82: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> <a id="_getError" href="#_getError">getError</a>() {
+</span><span id="83" class="l"><a class="l" href="#83">83: </a>    }
+</span><span id="84" class="l"><a class="l" href="#84">84: </a>
+</span><span id="85" class="l"><a class="l" href="#85">85: </a>}
+</span><span id="86" class="l"><a class="l" href="#86">86: </a>
+</span><span id="87" class="l"><a class="l" href="#87">87: </a></span></code></pre>
 
 	<div id="footer">
 		MSC LIB API documentation generated by <a href="http://apigen.org">ApiGen 2.8.0</a>

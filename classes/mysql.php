@@ -43,12 +43,13 @@ class mMySQL extends mSQL {
 	 * @param $utf8 retrieves data from MySQL as UTF-8 (ie: sends the command SET NAMES UTF8 before every query)
 	 *
 	 */
-	function __construct ($host = null, $name = null, $user = null, $pass = null, $utf8=true){
+	public function __construct ($host = null, $name = null, $user = null, $pass = null, $utf8=true){
 		$this->host = $host;
 		$this->name = $name;
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->utf8 = $utf8;
+		$this->token = "$host-$name";
 	}
 
 	/**
