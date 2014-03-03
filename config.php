@@ -8,7 +8,6 @@
  * Global vars used in the framework
  *
  * @category MSCLIB
- * @package Utilities/MediaEmbed
  * @author Ivan Vergés
  */
 
@@ -21,7 +20,7 @@ global $CONFIG;
 
 ///Global var $CONFIG
 $CONFIG = new stdClass;
-$CONFIG->version = 0.9;
+$CONFIG->version = 0.91;
 ///set to true to show errors
 $CONFIG->debug = true;
 
@@ -49,9 +48,10 @@ $CONFIG->lang_available = array();
 $CONFIG->lang_files = array();
 ///current lang
 $CONFIG->lang = '';
+///if empty codes must be searched in other messages
+$CONFIG->lang_follow = true;
 ///used to store pairs lang_code => paths with files
 $CONFIG->locale = array();
-$CONFIG->locale_lang = array();
 ///prefix to be added to the string code in case of lang error (by default \b {)
 $CONFIG->lang_error_prefix = '';
 ///sufix to be added to the string code in case of lang error (by default \b })

@@ -67,12 +67,18 @@ function m_sql_set_cache($type = 'runtime', $time = 60, $path = '', $options = a
  * Wipes the cache
  */
 function m_sql_clear_cache() {
+	global $CONFIG;
+
 	if($CONFIG->database_cache) {
 		$CONFIG->database_cache->clean();
+	}
+	if(is_array($CONFIG->database_run_cache)) {
+		$CONFIG->database_run_cache = array();
 	}
 }
 /**
  * Enable/disable the cache
+ * Even if cache is disable, new data will be updated in the cache
  * @param  boolean $enable [description]
  */
 function m_sql_cache($enable = true) {
@@ -83,6 +89,7 @@ function m_sql_cache($enable = true) {
 
 /**
  * Does not applies the cache in the next (only) query, for next coming queries cache will apply again
+ * However, cache will be update with the new data
  */
 function m_sql_no_cache() {
 	global $CONFIG;

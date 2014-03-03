@@ -28,13 +28,34 @@
 function m_lang_echo($code, $return_false=false) {
 	global $CONFIG;
 
-	if($CONFIG->locale[$code])	$txt = $CONFIG->locale[$code];
-	elseif($return_false) return false;
-	else $txt = "{"."$code}";
-	$lang = $CONFIG->locale_lang[$code];
-
-	if($lang != $CONFIG->lang && ($CONFIG->lang_error_prefix || $CONFIG->lang_error_sufix)) {
-		eval('$txt = "' . $CONFIG->lang_error_prefix . '".$txt."' . $CONFIG->lang_error_sufix .'";');
+	$txt = '';
+	if(is_array($CONFIG->locale[$CONFIG->lang]) && $CONFIG->locale[$CONFIG->lang][$code]) {
+		//returns the correct language
+		$txt = $CONFIG->locale[$CONFIG->lang][$code];
+	}
+	elseif($return_false) {
+		//nothing to return
+		return false;
+	}
+	else {
+		//if follows, search for alternative
+		if($CONFIG->lang_follow) {
+			foreach($CONFIG->locale as $l => $locale) {
+				if(is_array($locale) && $locale[$code]) {
+					$txt = $locale[$code];
+					if($CONFIG->lang_error_prefix) {
+						$txt = str_replace('{lang}', $l, $CONFIG->lang_error_prefix) . $txt;
+					}
+					if($CONFIG->lang_error_sufix) {
+						$txt = $txt . str_replace('{lang}', $l, $CONFIG->lang_error_sufix);
+					}
+					break;
+				}
+			}
+		}
+		if(empty($txt)) {
+			$txt = '{' . $code . '}';
+		}
 	}
 	return $txt;
 }
@@ -50,24 +71,67 @@ function m_lang_set($dir=null, $langs=array()) {
 
 	if(!is_array($CONFIG->lang_available)) $CONFIG->lang_available = array();
 	if(!is_array($CONFIG->lang_files)) $CONFIG->lang_files = array();
+	$add_langs = $langs;
+	if(empty($langs) || !is_array($langs)) $add_langs = $CONFIG->lang_available;
+
 	if(is_dir($dir)) {
-		foreach($langs as $lang) {
-			if(empty($CONFIG->lang)) $CONFIG->lang = $lang;
-			if(!in_array($lang, $CONFIG->lang_available)) $CONFIG->lang_available[] = $lang;
-			if(is_file("$dir/$lang.php")) {
-				if(!is_array($CONFIG->lang_files[$lang])) $CONFIG->lang_files[$lang] = array();
-				$CONFIG->lang_files[$lang][] = "$dir/$lang.php";
+		foreach($add_langs as $l) {
+			if(empty($CONFIG->lang)) $CONFIG->lang = $l;
+			if(!in_array($l, $CONFIG->lang_available)) $CONFIG->lang_available[] = $l;
+			//PHP files:
+			// $lang = array( 'code' => "Translation");
+			$file = "$dir/$l.php";
+			if(is_file($file)) {
+				if(!is_array($CONFIG->lang_files[$l])) $CONFIG->lang_files[$l] = array();
+				if(!in_array($file, $CONFIG->lang_files[$l])) {
+					//read file
+					ob_start();
+					if(include($file)) {
+						$CONFIG->lang_files[$l][] = $file;
+						if(is_array($lang)) {
+							if(!is_array($CONFIG->locale[$l])) $CONFIG->locale[$l] = array();
+							foreach($lang as $k => $v) {
+								if(empty($CONFIG->locale[$l][$k])) {
+									$CONFIG->locale[$l][$k] = $v;
+								}
+							}
+						}
+					}
+					ob_end_clean();
+				}
+			}
+			//JSON files:
+			// { 'code' => "Translation" }
+			$file = "$dir/$l.json";
+			if(is_file($file)) {
+				if(!is_array($CONFIG->lang_files[$l])) $CONFIG->lang_files[$l] = array();
+				if(!in_array($file, $CONFIG->lang_files[$l])) {
+					$json = @file_get_contents($file);
+					if(($lang = json_decode($json, true)) !== null) {
+						if(is_array($lang)) {
+							$CONFIG->lang_files[$l][] = $file;
+							if(!is_array($CONFIG->locale[$l])) $CONFIG->locale[$l] = array();
+							foreach($lang as $k => $v) {
+								if(empty($CONFIG->locale[$l][$k])) {
+									$CONFIG->locale[$l][$k] = $v;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}
+	// print_r($CONFIG->locale);
 	return $CONFIG->lang_available;
 }
 
 /**
  * Select the current lang
  * @param $language language to use
- * @param $error_prefix or @param $error_sufix will be evaluated with eval()\n
- * EX: m_lang_select("es",true,'<span style=\"color:red\">[$lang]</span>');
+ * @param $error_prefix '', prefix to be added, if {lang} is passed as string, will be replaced by the lang used
+ * @param $error_sufix ''
+ * EX: m_lang_select("es",true,'<span style="color:red;" class="{lang}">[$lang]</span>');
  * @param $follow if <b>true</b> searches for alternative languages files correspondences if the original code is not found in the current lang file
  * */
 function m_lang_select($language=null, $follow=true, $error_prefix='', $error_sufix = '') {
@@ -78,35 +142,10 @@ function m_lang_select($language=null, $follow=true, $error_prefix='', $error_su
 			$language = current($CONFIG->lang_available);
 		}
 
-		if( !$follow && !array_key_exists($language, $CONFIG->lang_files) ) {
-			return $CONFIG->lang;
-		}
-
 		$CONFIG->lang = $language;
+		$CONFIG->lang_follow = $follow;
 		$CONFIG->lang_error_prefix = $error_prefix;
-		$CONFIG->lang_error_sufix = $error_sufix;
-		$processed = array();
-
-		foreach((array($language => $CONFIG->lang_files[$language]) + $CONFIG->lang_files) as $l => $arr) {
-			if(!is_array($arr)) continue;
-			foreach($arr as $f) {
-				if(in_array($f, $processed)) continue;
-				$processed[] = $f;
-				ob_start();
-				if(include($f)) {
-					if(is_array($lang)) {
-						foreach($lang as $k => $v) {
-							if(empty($CONFIG->locale[$k])) {
-								$CONFIG->locale[$k] = $v;
-								$CONFIG->locale_lang[$k] = $l;
-							}
-						}
-					}
-				}
-				ob_end_clean();
-				//echo "[$l]: ";print_r($CONFIG->locale_lang);
-			}
-		}
+		$CONFIG->lang_error_sufix  = $error_sufix;
 	}
 	return $CONFIG->lang;
 }

@@ -133,26 +133,33 @@ function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {
  */
 function m_parse_embed($video, $w=0, $h=0) {
 	if($h && $w) {
-		$video = preg_replace("#(width|height)=[\'\"](\d)+[\'\"]#ies","(strtolower('\\1')=='width') ? \"\\1='$w'\":\"\\1='$h'\"", $video);
+		$video = preg_replace_callback("#(width|height)=[\'\"](\d)+['\"]#is",
+			function($m) use ($w, $h) {
+				return $m[1] . '="' . (strtolower($m[1]) == 'width' ? $w : $h) .'"';
+			}, $video);
 	}
 	elseif($w) {
-		$video = preg_replace(array(
-			"#height=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#ies",
-			"#width=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#ies"
-			),array(
-			"'width=\"$w\" height=\"' . round($w*\\1/\\2) .'\"'",
-			"'width=\"$w\" height=\"' . round($w*\\2/\\1) .'\"'"
-			)
+		$video = preg_replace_callback(array(
+			"#(height)=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#is",
+			"#(width)=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#is"
+			),
+			function($m) use ($w, $h) {
+				if($m[1] == 'height') $factor = $m[2]/$m[3];
+				else $factor = $m[3]/$m[2];
+				return 'width="' . $w . '" height="' . round($w * $factor) .'"';
+			}
 		, $video);
 	}
 	elseif($h) {
-		$video = preg_replace(array(
-			"#height=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#ies",
-			"#width=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#ies"
-			),array(
-			"'height=\"$h\" width=\"' . round($h*\\2/\\1) .'\"'",
-			"'height=\"$h\" width=\"' . round($h*\\1/\\2) .'\"'"
-			)
+		$video = preg_replace_callback(array(
+			"#(height)=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#is",
+			"#(width)=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#is"
+			),
+			function($m) use ($w, $h) {
+				if($m[1] == 'width') $factor = $m[2]/$m[3];
+				else $factor = $m[3]/$m[2];
+				return 'height="' . $h . '" width="' . round($h * $factor) .'"';
+			}
 		, $video);
 	}
 

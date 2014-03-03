@@ -17,15 +17,20 @@
 * @param $dir if specified, generated name will be changed if exists in that dir, if $dir is array, then will be check with in_array() func
 */
 function m_check_filename($name='',$dir=null){
-	$name = preg_replace("/[^a-z0-9_~\.-]+/i","-",m_normalize($name));
+    // $name = preg_replace("/[^a-z0-9_~\.-]+/i","-",m_normalize($name));
+	$name = preg_replace("/[^a-z0-9_~\.-]+/i","-",($name));
 	if(is_array($dir)) {
 		while ( in_array ($name, $dir )) {
-			$name = preg_replace ( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/e", "'\$1_'.(\$3+1).'\$4'", $name );
+            $name = preg_replace_callback( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/", function($m){
+                return $m[1] ."_" . ($m[3]+1) . $m[4];
+            }, $name );
 		}
 	}
 	elseif(is_dir($dir)) {
 		while ( file_exists ( "$dir/$name" )) {
-			$name = preg_replace ( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/e", "'\$1_'.(\$3+1).'\$4'", $name );
+			$name = preg_replace_callback( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/", function($m){
+                return $m[1] ."_" . ($m[3]+1) . $m[4];
+            }, $name );
 		}
 	}
 	return $name;
