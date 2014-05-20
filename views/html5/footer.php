@@ -14,5 +14,5 @@
 * @param body html content inside \<b>...\</b>
 */
 
-$tag = "footer";
-require("_generic_tag.php");
+$tag = 'footer';
+require('_generic_tag.php');

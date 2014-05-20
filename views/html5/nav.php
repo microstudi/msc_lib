@@ -14,6 +14,6 @@
 * @param body html content inside \<nav>...\</nav>
 */
 
-$tag = "nav";
-require("_generic_tag.php");
+$tag = 'nav';
+require('_generic_tag.php');
 

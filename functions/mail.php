@@ -34,10 +34,10 @@
 function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '', $port='') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/PHPMailerAutoload.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/phpmailer/PHPMailerAutoload.php');
 
 	//reset the mailer if instantiated
-	$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
+	$CONFIG->mailer = new PHPMailer(true); //defaults to using php 'mail()'; the true param means it will throw exceptions on errors, which we need to catch
 	try {
 		$CONFIG->mailer->IsSMTP(); // telling the class to use SMTP
 		$CONFIG->mailer->Host          = $host; // sets the SMTP server
@@ -47,7 +47,7 @@ function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '',
 			$CONFIG->mailer->Username = $username; // SMTP account username
 			$CONFIG->mailer->Password = $password; // SMTP account password
 		}
-		if(in_array($secure, array('', "ssl", "tls"))) $CONFIG->mailer->SMTPSecure = $secure;   // sets the security
+		if(in_array($secure, array('', 'ssl', 'tls'))) $CONFIG->mailer->SMTPSecure = $secure;   // sets the security
 		if($port) $CONFIG->mailer->Port = $port; // set the SMTP port
 
 	} catch (phpmailerException $e) {
@@ -66,21 +66,22 @@ function m_mail_set_smtp($host = '', $username='', $password = '', $secure = '',
  * @param $html if exists the html body to send
  * @param $from from email
  * @param $replyTo reply-to email
+ * @param $attachments file or array of files to send as attachment
  * @return the error or empty string if sent is ok
  */
-function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
+function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='', $attachments = null) {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/phpmailer/PHPMailerAutoload.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/phpmailer/PHPMailerAutoload.php');
 
 	if( !($CONFIG->mailer instanceOf PHPMailer) ) {
-		$CONFIG->mailer = new PHPMailer(true); //defaults to using php "mail()"; the true param means it will throw exceptions on errors, which we need to catch
+		$CONFIG->mailer = new PHPMailer(true); //defaults to using php 'mail()'; the true param means it will throw exceptions on errors, which we need to catch
 	}
 	try {
 
 		$CONFIG->mailer->Priority = 3;
-		$CONFIG->mailer->Encoding = "8bit";
-		$CONFIG->mailer->CharSet = "utf-8";
+		$CONFIG->mailer->Encoding = '8bit';
+		$CONFIG->mailer->CharSet = 'utf-8';
 		$CONFIG->mailer->WordWrap = 0;
 
 		//reset from
@@ -88,8 +89,8 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 		$CONFIG->mailer->FromName = '';
 		$CONFIG->mailer->ClearAllRecipients();
 		if($from) {
-			if(strpos($from, "<") !== false) {
-				$CONFIG->mailer->SetFrom(trim(str_replace(">", "", substr($from, strpos($from, "<") + 1))), trim(str_replace('"', '', substr($from, 0, strpos($from, "<")))), false);
+			if(strpos($from, '<') !== false) {
+				$CONFIG->mailer->SetFrom(trim(str_replace('>', '', substr($from, strpos($from, '<') + 1))), trim(str_replace('"', '', substr($from, 0, strpos($from, '<')))), false);
 			}
 			else {
 				$CONFIG->mailer->SetFrom($from, '', false);
@@ -109,9 +110,9 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 		if(is_array($email)) $emails = $email;
 		else 				 $emails = array($email);
 		foreach($emails as $email) {
-			if(strpos($email, "<") !== false) {
-				$e = trim(str_replace(">", "", substr($email, strpos($email, "<") + 1)));
-				$n = trim(str_replace('"', '', substr($email, 0, strpos($email, "<"))));
+			if(strpos($email, '<') !== false) {
+				$e = trim(str_replace('>', '', substr($email, strpos($email, '<') + 1)));
+				$n = trim(str_replace('"', '', substr($email, 0, strpos($email, '<'))));
 				//echo "$email $n $e";
 				$CONFIG->mailer->AddAddress($e, $n);
 			}
@@ -121,14 +122,22 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
 		}
 
 		if($replyto) {
-			if(strpos($replyto, "<") !== false) {
-				$CONFIG->mailer->AddReplyTo(trim(str_replace(">", "", substr($replyto, strpos($replyto, "<") + 1))), trim(str_replace('"', '', substr($replyto, 0, strpos($replyto, "<")))));
+			if(strpos($replyto, '<') !== false) {
+				$CONFIG->mailer->AddReplyTo(trim(str_replace('>', '', substr($replyto, strpos($replyto, '<') + 1))), trim(str_replace('"', '', substr($replyto, 0, strpos($replyto, '<')))));
 			}
 			else {
 				$CONFIG->mailer->AddReplyTo($replyto);
 			}
 		}
 		//print_r($CONFIG->mailer);
+		if($attachments) {
+			if(!is_array($attachments)) $attachments = array($attachments);
+			foreach($attachments as $file) {
+				if(is_file($file)) {
+					$CONFIG->mailer->addAttachment($file);
+				}
+			}
+		}
 
 		$result =  $CONFIG->mailer->Send();
 
@@ -148,13 +157,13 @@ function m_mail_send($email, $subject, $body, $html='', $from='', $replyto='') {
  * */
 function m_valid_email($email, $check_dns=true) {
 	//comprovacio de caracters
-	if(!preg_match("/^([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}/i", $email)) return false;
+	if(!preg_match('/^([-_\.]?[a-z0-9])+@[a-z0-9]+([-_\.]?[a-z0-9])+\.[a-z]{2,4}/i', $email)) return false;
 
 	//aixo només funciona en linux
 	if(function_exists('checkdnsrr') && $check_dns) {
 		// take a given email address and split it into the username and domain.
-		list($userName, $mailDomain) = explode("@", $email);
-		if (checkdnsrr($mailDomain, "MX")) {
+		list($userName, $mailDomain) = explode('@', $email);
+		if (checkdnsrr($mailDomain, 'MX')) {
 			// this is a valid email domain!
 			return true;
 		}
@@ -173,7 +182,7 @@ function m_valid_email($email, $check_dns=true) {
 * @return array of emails
 */
 function m_get_emails_from_text($text) {
-	$pattern = "/([\s]*)([_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*([ ]+|)@([ ]+|)([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}))([\s]*)/i";
+	$pattern = '/([\s]*)([_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*([ ]+|)@([ ]+|)([a-zA-Z0-9-]+\.)+([a-zA-Z]{2,}))([\s]*)/i';
 	preg_match_all($pattern, $text, $matches);
 	return array_map('trim', array_unique($matches[0]));
 }

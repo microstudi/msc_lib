@@ -6,13 +6,13 @@
 *
 * @section usage Example:
 * <code>
-* echo m_view("samp",array('id'=>"div1",'class'=>"my_class",'body'=>"samp html content"));\n
+* echo m_view('samp',array('id'=>'div1','class'=>'my_class','body'=>'samp html content'));\n
 * //or\n
-* echo m_view("samp","samp html content");
+* echo m_view('samp','samp html content');
 * </code>
 *
 * @param body html content inside \<samp>...\</samp>
 */
 
-$tag = "samp";
-require("_generic_tag.php");
+$tag = 'samp';
+require('_generic_tag.php');

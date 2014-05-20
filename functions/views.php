@@ -22,7 +22,7 @@ function m_view_select($type) {
 	global $CONFIG;
 	$CONFIG->default_view = $type;
 
-	$paths = array($CONFIG->views_path."/".$CONFIG->default_view);
+	$paths = array($CONFIG->views_path.'/'.$CONFIG->default_view);
 
 	$CONFIG->view = new mView($paths);
 

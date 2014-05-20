@@ -33,35 +33,19 @@ else {
 
 echo '<ol';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo (empty($vars['reversed']) ? '' : ' reversed="reversed"');
 echo ($vars['start'] ? ' start="' . intval($vars['start']) . '"' : '');
-echo (in_array($vars['type'], array("1", "A", "a", "I", "i")) ? ' type="' . $vars['type'] . '"' : '');
+echo (in_array($vars['type'], array('1', 'A', 'a', 'I', 'i')) ? ' type="' . $vars['type'] . '"' : '');
 
 echo '>';
 
 if($body) echo $body;
 elseif(is_array($vars['items'])) {
 	foreach($vars['items'] as $item) {
-		echo m_view("li", $item);
-		/*
-		if(is_array($item)) {
-			echo '<li';
-			echo ($item['id'] ? ' id="' . htmlspecialchars($item['id']) . '"' : '');
-			echo ($item['class'] ? ' class="' . htmlspecialchars($item['class']) . '"' : '');
-			echo ($item['style'] ? ' style="' . htmlspecialchars($item['style']) . '"' : '');
-			echo ($item['title'] ? ' title="' . htmlspecialchars($item['title']) . '"' : '');
-			foreach($item as $_k => $_v) {
-				if(strpos($_k,'data-') === 0) echo " $_k=\"" . htmlspecialchars($_v) . '"';
-			}
-			echo '>'.$item['body'].'</li>';
-		}
-		else {
-			echo '<li>'.$item.'</li>';
-		}
-		*/
+		echo m_view('li', $item);
 	}
 }
 ?>

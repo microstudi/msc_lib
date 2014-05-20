@@ -6,6 +6,6 @@
 *
 */
 
-$tag = "h6";
-require("_generic_tag.php");
+$tag = 'h6';
+require('_generic_tag.php');
 

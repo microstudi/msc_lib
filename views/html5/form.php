@@ -26,17 +26,17 @@ else {
 echo '<form';
 
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['accept-charset'] ? ' accept-charset="' . htmlspecialchars($vars['accept-charset']) . '"' : '');
 
 echo ($vars['action'] ? ' action="' . htmlspecialchars($vars['action']) . '"' : '');
 
-echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+echo (in_array($vars['autocomplete'], array('on', 'off')) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
 
-echo (in_array($vars['enctype'], array("application/x-www-form-urlencoded", "multipart/form-data", "text/plain")) ? ' enctype="' . $vars['enctype'] . '"' : '');
-echo (in_array($vars['method'], array("get", "post")) ? ' method="' . $vars['method'] . '"' : '');
+echo (in_array($vars['enctype'], array('application/x-www-form-urlencoded', 'multipart/form-data', 'text/plain')) ? ' enctype="' . $vars['enctype'] . '"' : '');
+echo (in_array($vars['method'], array('get', 'post')) ? ' method="' . $vars['method'] . '"' : '');
 
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');
 echo (empty($vars['novalidate']) ? '' : ' novalidate="novalidate"');

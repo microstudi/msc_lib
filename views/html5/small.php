@@ -14,5 +14,5 @@
 * @param body html content inside \<small>...\</small>
 */
 
-$tag = "small";
-require("_generic_tag.php");
+$tag = 'small';
+require('_generic_tag.php');

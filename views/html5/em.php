@@ -12,5 +12,5 @@
 * </code>
 */
 
-$tag = "em";
-require("_generic_tag.php");
+$tag = 'em';
+require('_generic_tag.php');

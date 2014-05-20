@@ -17,9 +17,9 @@
  * @return string      full url with the thumbnail
  */
 function m_media_url($url) {
-	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/media_embed.php');
 
-	if(stripos($url, "http") !== 0) $url = "http://$url";
+	if(stripos($url, 'http') !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
 	$site = $em->get_site();
@@ -37,14 +37,14 @@ function m_media_url($url) {
  * @return string      full url with the thumbnail
  */
 function m_media_thumb($url, $size = 'small') {
-	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/media_embed.php');
 
-	if(stripos($url, "http") !== 0) $url = "http://$url";
+	if(stripos($url, 'http') !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
 	$site = $em->get_site();
 	$thumb = '';
-	if($site != "")	{
+	if($site != '')	{
 		$thumb = $em->get_thumb($size);
 	}
 	return $thumb;
@@ -56,14 +56,14 @@ function m_media_thumb($url, $size = 'small') {
  * @return string      full url with the thumbnail
  */
 function m_media_embed($url, $width = 0, $height = 0) {
-	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/media_embed.php');
 
-	if(stripos($url, "http") !== 0) $url = "http://$url";
+	if(stripos($url, 'http') !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	//check if found anything useful
 	$site = $em->get_site();
 	$iframe = '';
-	if($site != "")	{
+	if($site != '')	{
 		$width  = (int) $width;
 		$height = (int) $height;
 		$wh = $em->get_size();
@@ -92,14 +92,14 @@ function m_media_embed($url, $width = 0, $height = 0) {
  * @return string      full url with the thumbnail
  */
 function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {
-	require_once(dirname(dirname(__FILE__)) . "/classes/media_embed.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/media_embed.php');
 
-	if(stripos($url, "http") !== 0) $url = "http://$url";
+	if(stripos($url, 'http') !== 0) $url = "http://$url";
 	$em = new MediaEmbed($url);
 	$site = $em->get_site();
 	$parts = array('url' => '', 'title' => '', 'embed' => '', 'thumb' => '');
 	//check if found anything useful
-	if($site != "")	{
+	if($site != '')	{
 		$width  = (int) $width;
 		$height = (int) $height;
 		$wh = $em->get_size();
@@ -133,15 +133,15 @@ function m_media_parts($url, $size = 'small', $width = 0, $height = 0) {
  */
 function m_parse_embed($video, $w=0, $h=0) {
 	if($h && $w) {
-		$video = preg_replace_callback("#(width|height)=[\'\"](\d)+['\"]#is",
+		$video = preg_replace_callback('#(width|height)=[\'"](\d)+[\'"]#is',
 			function($m) use ($w, $h) {
 				return $m[1] . '="' . (strtolower($m[1]) == 'width' ? $w : $h) .'"';
 			}, $video);
 	}
 	elseif($w) {
 		$video = preg_replace_callback(array(
-			"#(height)=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#is",
-			"#(width)=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#is"
+			'#(height)=[\'"](\d+)[\'"][ ]+width=[\'"](\d+)[\'"]#is',
+			'#(width)=[\'"](\d+)[\'"][ ]+height=[\'"](\d+)[\'"]#is'
 			),
 			function($m) use ($w, $h) {
 				if($m[1] == 'height') $factor = $m[2]/$m[3];
@@ -152,8 +152,8 @@ function m_parse_embed($video, $w=0, $h=0) {
 	}
 	elseif($h) {
 		$video = preg_replace_callback(array(
-			"#(height)=[\'\"](\d+)[\'\"][ ]+width=[\'\"](\d+)[\'\"]#is",
-			"#(width)=[\'\"](\d+)[\'\"][ ]+height=[\'\"](\d+)[\'\"]#is"
+			'#(height)=[\'"](\d+)[\'"][ ]+width=[\'"](\d+)[\'"]#is',
+			'#(width)=[\'"](\d+)[\'"][ ]+height=[\'"](\d+)[\'"]#is'
 			),
 			function($m) use ($w, $h) {
 				if($m[1] == 'width') $factor = $m[2]/$m[3];
@@ -163,14 +163,14 @@ function m_parse_embed($video, $w=0, $h=0) {
 		, $video);
 	}
 
-	if(preg_match("/<iframe/i", $video)) {
-		$video = preg_replace('#src="(.*)youtube.com/embed/([a-z0-9_-]*)([\?]*)(.*)#i',"src=\"\\1youtube.com/embed/\\2?wmode=transparent&amp;\\4", $video);
+	if(preg_match('/<iframe/i', $video)) {
+		$video = preg_replace('#src="(.*)youtube.com/embed/([a-z0-9_-]*)([\?]*)(.*)#i', 'src="\\1youtube.com/embed/\\2?wmode=transparent&amp;\\4', $video);
 	}
-	if(preg_match("/<object/i", $video) && !preg_match('/<param name="wmode" value="transparent">/i', $video)) {
-		$video = preg_replace("#</object>#",'<param name="wmode" value="transparent"></object>', $video);
+	if(preg_match('/<object/i', $video) && !preg_match('/<param name="wmode" value="transparent">/i', $video)) {
+		$video = preg_replace('#</object>#','<param name="wmode" value="transparent"></object>', $video);
 	}
-	if(preg_match("/<embed/i", $video) && !preg_match('/wmode="transparent"/i', $video)) {
-		$video = preg_replace("#<embed #",'<embed wmode="transparent" ', $video);
+	if(preg_match('/<embed/i', $video) && !preg_match('/wmode="transparent"/i', $video)) {
+		$video = preg_replace('#<embed #','<embed wmode="transparent" ', $video);
 	}
 	return $video;
 }

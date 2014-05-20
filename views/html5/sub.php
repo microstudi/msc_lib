@@ -14,5 +14,5 @@
 * @param body html content inside \<sub>...\</sub>
 */
 
-$tag = "sub";
-require("_generic_tag.php");
+$tag = 'sub';
+require('_generic_tag.php');

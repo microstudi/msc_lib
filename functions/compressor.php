@@ -23,13 +23,13 @@
 function m_compressor_cache_dir($dir='') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
-	require_once(dirname(dirname(__FILE__)) . "/classes/CSSCompressor.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/JSCompressor.php');
+	require_once(dirname(dirname(__FILE__)) . '/classes/CSSCompressor.php');
 
-	if( ! $CONFIG->css_compressor instanceOf CSSCompressor) $CONFIG->css_compressor = new CSSCompressor(null,$dir);
+	if( ! $CONFIG->css_compressor instanceOf CSSCompressor) $CONFIG->css_compressor = new CSSCompressor(null, $dir);
 	else $CONFIG->css_compressor->setCacheDir($dir);
 
-	if( ! $CONFIG->js_compressor instanceOf JSCompressor) $CONFIG->js_compressor = new JSCompressor(null,$dir);
+	if( ! $CONFIG->js_compressor instanceOf JSCompressor) $CONFIG->js_compressor = new JSCompressor(null, $dir);
 	else $CONFIG->js_compressor->setCacheDir($dir);
 }
 
@@ -40,16 +40,17 @@ function m_compressor_cache_dir($dir='') {
  *
  * @param $dir if $dir is a file then returns the compressed data, if is a directory returns all files inside joined & compressed
  * @param $mode 'code' returns the raw css code compressed, 'file' returns the path to the compressed file generated
+ * @param $encoding : 'Debug', 'Normal'
  * */
-function m_css_compressor($dir,$mode='code') {
+function m_css_compressor($dir, $mode='code', $encoding = 'Normal') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/JSCompressor.php');
 
 	if( ! $CONFIG->css_compressor instanceOf CSSCompressor) $CONFIG->css_compressor = new CSSCompressor($dir);
 	else $CONFIG->css_compressor->setDirs($dir);
 
-	$pack = $CONFIG->css_compressor->pack();
+	$pack = $CONFIG->css_compressor->pack($encoding);
 
 	if($mode == 'code') return $pack;
 	else return $CONFIG->css_compressor->get_cache_name();
@@ -62,12 +63,12 @@ function m_css_compressor($dir,$mode='code') {
  *
  * @param $dir if $dir is a file then returns the compressed data, if is a directory returns all files inside joined & compressed
  * @param $mode 'code' returns the raw css code compressed, 'file' returns the path to the compressed file generated
- * @param $encoding : None', 'Numeric', 'Normal', 'High ASCII'
+ * @param $encoding : 'Debug', 'None', 'Numeric', 'Normal', 'High ASCII'
  * */
-function m_js_compressor($dir,$mode='code',$encoding='Normal') {
+function m_js_compressor($dir, $mode='code', $encoding='Normal') {
 	global $CONFIG;
 
-	require_once(dirname(dirname(__FILE__)) . "/classes/JSCompressor.php");
+	require_once(dirname(dirname(__FILE__)) . '/classes/JSCompressor.php');
 
 	if( ! $CONFIG->js_compressor instanceOf JSCompressor) $CONFIG->js_compressor = new JSCompressor($dir);
 	else $CONFIG->js_compressor->setDirs($dir);

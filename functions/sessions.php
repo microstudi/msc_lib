@@ -73,29 +73,29 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 		if(is_array($dir)) {
 			if($dir['handler'] == 'memcache') {
 				if($dir['user']) {
-					require_once($d . "/classes/MemcacheSASL.php");
+					require_once($d . '/classes/MemcacheSASL.php');
 					$m = new MemcacheSASL;
 					$m->addServer($dir['server'], $dir['port'] ? $dir['port'] : 11211);
 					$m->setSaslAuthData($dir['user'], $dir['password']);
 					$m->setSaveHandler();
 				}
 				else {
-					ini_set("session.save_handle", 'memcache');
-					if($dir['save_path']) ini_set("session.save_path", $dir['save_path']);
+					ini_set('session.save_handler', 'memcache');
+					if($dir['save_path']) ini_set('session.save_path', $dir['save_path']);
 				}
 			}
 
 			if($dir['handler'] == 'redis' && $dir['port'] && $dir['host']) {
 				// SessionHandlerInterface
 				if (!interface_exists('SessionHandlerInterface')) {
-    				require_once($d . "/classes/SessionHandlerInterface.php");
+    				require_once($d . '/classes/SessionHandlerInterface.php');
 				}
 				require_once($d. '/classes/credis/Client.php');
 				require_once($d. '/classes/credis/RedisSessionHandler.php');
 				$redis = new Credis_Client($dir['host'], $dir['port'] ? $dir['port'] : 6379);
 				if($dir['password']) $redis->auth($dir['password']);
 				$sessHandler = new RedisSessionHandler($redis);
-				if (version_compare(phpversion(), '5.4.0', ">=")) {
+				if (version_compare(phpversion(), '5.4.0', '>=')) {
 					session_set_save_handler($sessHandler);
 				}
 				else {
@@ -114,8 +114,8 @@ function m_session_start($name='', $dir='', $gc = array('gc_probability' => 1, '
 			}
 
 			if($dir['handler'] == 'ironcache' && $dir['token'] && $dir['project_id']) {
-				require_once($d . "/classes/iron/IronCore.class.php");
-				require_once($d . "/classes/iron/IronCache.class.php");
+				require_once($d . '/classes/iron/IronCore.class.php');
+				require_once($d . '/classes/iron/IronCache.class.php');
 				$cache = new IronCache(array(
 					//'protocol' => "http", //can fix http exception http error 0 https://github.com/iron-io/iron_cache_php
 				    'token' => $dir['token'],

@@ -21,8 +21,8 @@ else {
 
 echo '<map';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');

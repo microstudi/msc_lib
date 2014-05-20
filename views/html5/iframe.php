@@ -22,12 +22,12 @@ else {
 
 echo '<iframe';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['height'] ? ' height="' . htmlspecialchars($vars['height']) . '"' : '');
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');
-echo (in_array($vars['sandbox'], array("allow-forms", "allow-same-origin", "allow-scripts", "allow-top-navigation")) ? ' sandbox="' . $vars['sandbox'] . '"' : '');
+echo (in_array($vars['sandbox'], array('allow-forms', 'allow-same-origin', 'allow-scripts', 'allow-top-navigation')) ? ' sandbox="' . $vars['sandbox'] . '"' : '');
 echo (empty($vars['seamless']) ? '' : ' seamless="seamless"');
 echo ($vars['src'] ? ' src="' . htmlspecialchars($vars['src']) . '"' : '');
 echo ($vars['srcdoc'] ? ' srcdoc="' . htmlspecialchars($vars['srcdoc']) . '"' : '');

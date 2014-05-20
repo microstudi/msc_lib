@@ -73,7 +73,7 @@ abstract class mSQL {
 	 * Escapes SQL strings
 	 */
 	public function escape($val) {
-		return str_replace("\\","\\\\", str_replace("'","\'", stripslashes($val)));
+		return str_replace('\\','\\\\', str_replace("'","\'", stripslashes($val)));
 	}
 
 	/**

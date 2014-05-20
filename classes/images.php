@@ -195,7 +195,7 @@ class mImage {
 	 *  */
 	protected function add_transparency($gd=null) {
 		if(is_null($gd)) $gd = $this->gd;
-		if(!self::is_gd($gd))	    $this->throwError("New GD is not a valid resource");
+		if(!self::is_gd($gd))	    $this->throwError('New GD is not a valid resource');
 
 		$trnprt_indx = imagecolortransparent($this->gd);
 		// If we have a specific transparent color
@@ -372,7 +372,7 @@ class mImage {
 		//open && analyze files
 		if(!$this->open()) return false;
 
-		list($red, $green, $blue) = sscanf($color, "%02x%02x%02x");
+		list($red, $green, $blue) = sscanf($color, '%02x%02x%02x');
 		$text_color = imagecolorallocate($this->gd, $red, $green, $blue);
 		$font_w     = imagefontwidth($size);
 		$font_h     = imagefontheight($size);
@@ -415,7 +415,7 @@ class mImage {
 			imagecolortransparent($this->gd, $bg_color);
 		}
 		else {
-			list($red, $green, $blue) = sscanf($bgcolor, "%02x%02x%02x");
+			list($red, $green, $blue) = sscanf($bgcolor, '%02x%02x%02x');
 			$bg_color = imagecolorallocate($this->gd, $red, $green, $blue);
 		}
 		imagefill($this->gd, 0, 0, $bg_color);
@@ -459,7 +459,7 @@ class mImage {
 	public function flush($exit = true) {
 		$gd = $this->gd();
 
-		header("Content-type: " . image_type_to_mime_type($this->type));
+		header('Content-type: ' . image_type_to_mime_type($this->type));
 		header('Content-Disposition: inline; filename="' . str_replace("'", "\'", basename($this->file)) . '"');
 
 		switch ($this->type) {
@@ -485,7 +485,7 @@ class mImage {
 
 	public function gd() {
 		if(self::is_gd($this->gd)) return $this->gd;
-		else $this->throwError("Not a valid GD to return!");
+		else $this->throwError('Not a valid GD to return!');
 	}
 
 	public function destroy() {
@@ -513,14 +513,14 @@ class mImage {
 			else {
 				$type = strtolower(pathinfo($file, PATHINFO_EXTENSION));
 				die($type);
-				if($type == 'jpg') $type = "jpeg";
+				if($type == 'jpg') $type = 'jpeg';
 				if(!in_array($type, array('jpeg', 'png', 'gif'))) die("file $type not image!");
 				$type = "image/$type";
 			}
 
-			header("Content-type: " . $type);
+			header('Content-type: ' . $type);
 			header('Content-Disposition: inline; filename="' . str_replace("'", "\'", basename($file)) . '"');
-			header("Content-Length: " . @filesize($file));
+			header('Content-Length: ' . @filesize($file));
 			readfile($file);
 		}
 		if($exit) exit;

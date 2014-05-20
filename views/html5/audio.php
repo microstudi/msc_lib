@@ -22,13 +22,13 @@ else {
 
 echo '<audio';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo (empty($vars['autoplay']) ? '' : ' autoplay="autoplay"');
 echo (empty($vars['controls']) ? '' : ' controls="controls"');
 echo (empty($vars['loop']) ? '' : ' loop="loop"');
-echo (in_array($vars['preload'], array("auto", "metadata", "none")) ? ' preload="' . $vars['preload'] . '"' : '');
+echo (in_array($vars['preload'], array('auto', 'metadata', 'none')) ? ' preload="' . $vars['preload'] . '"' : '');
 echo ($vars['url'] ? ' url="' . htmlspecialchars($vars['url']) . '"' : '');
 
 echo '>';

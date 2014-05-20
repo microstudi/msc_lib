@@ -48,10 +48,10 @@ class mRouter {
 
     function findAction($url) {
     	//url without base path
-		$url = preg_replace("/^" . str_replace("/", "\/", quotemeta($this->base_path)) . "/", "", $url);
+		$url = preg_replace('/^' . str_replace('/', '\/', quotemeta($this->base_path)) . '/', '', $url);
 		//url without query part
 		$this->current_url = $url;
-		if($url{0} != '?') $url = strtok($url, "?");
+		if($url{0} != '?') $url = strtok($url, '?');
 		else $url = '';
 		// echo "[$url]";
         foreach($this->route as $reg_expr => $acts) {
@@ -127,7 +127,7 @@ class mRouter {
 
 		if(!is_null($this->error_action)) {
 
-			header("HTTP/1.1 404 Not Found");
+			header('HTTP/1.1 404 Not Found');
 			$url = $this->current_url;
 			if(is_callable($this->error_action)) {
 				$ret = call_user_func($this->error_action);

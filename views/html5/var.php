@@ -14,5 +14,5 @@
 * @param body html content inside \<var>...\</var>
 */
 
-$tag = "var";
-require("_generic_tag.php");
+$tag = 'var';
+require('_generic_tag.php');

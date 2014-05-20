@@ -25,8 +25,8 @@ else {
 
 echo '<label';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['for'] ? ' for="' . htmlspecialchars($vars['for']) . '"' : '');
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');

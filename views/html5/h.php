@@ -21,5 +21,5 @@ $i = 1;
 if(is_array($vars) && $vars['h']) $i = max( min( intval($vars['h']), 6 ), 1 );
 
 $tag = "h$i";
-require("_generic_tag.php");
+require('_generic_tag.php');
 

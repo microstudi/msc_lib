@@ -37,15 +37,15 @@ else {
 
 echo '<ul';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo '>';
 
 if($body) echo $body;
 elseif(is_array($vars['items'])) {
 	foreach($vars['items'] as $item) {
-		echo m_view("li", $item);
+		echo m_view('li', $item);
 	}
 }
 

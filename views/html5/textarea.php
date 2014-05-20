@@ -42,10 +42,10 @@ else {
 if(isset($vars['divinput'])) echo '<div' . ($vars['divinput'] ? ' class="' . $vars['divinput'] . '"' : '').'>';
 echo '<textarea';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
-echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+echo (in_array($vars['autocomplete'], array('on', 'off')) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
 
 echo (empty($vars['autofocus']) ? '' : ' autofocus="autofocus"');
 echo ($vars['cols'] ? ' cols="' . intval($vars['cols']) . '"' : '');
@@ -57,7 +57,7 @@ echo ($vars['placeholder'] ? ' placeholder="' . htmlspecialchars($vars['placehol
 echo (empty($vars['readonly']) ? '' : ' readonly="readonly"');
 echo (empty($vars['required']) ? '' : ' required="required"');
 echo ($vars['rows'] ? ' rows="' . intval($vars['rows']) . '"' : '');
-echo (in_array($vars['wrap'], array("hard", "soft")) ? ' wrap="' . $vars['wrap'] . '"' : '');
+echo (in_array($vars['wrap'], array('hard', 'soft')) ? ' wrap="' . $vars['wrap'] . '"' : '');
 echo '>';
 
 echo htmlspecialchars($vars['value']);

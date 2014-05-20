@@ -22,7 +22,7 @@
  * */
 function m_htmlawed($in, $options=array('safe'=>1, 'elements'=>'a, b, strong, i, em, li, ol, ul'), $spec=array()) {
 
-	include_once(dirname(dirname(__FILE__)) . "/classes/htmLawed.php");
+	include_once(dirname(dirname(__FILE__)) . '/classes/htmLawed.php');
 
 	return htmLawed::hl($in, $options, $spec);
 }
@@ -92,17 +92,17 @@ function m_trim($var) {
  * @return The friendly time
  */
 function m_friendly_time($time, $titles=array(
-	'seconds'=> "just now",
-	'minute' => "a minute ago",
-	'minutes' => "%s minutes ago",
-	'hour' => "an hour ago",
-	'hours' => "%s hours ago",
-	'day' => "yesterday",
-	'days' => "%s days ago",
-	'month' => "over a month",
-	'months' => "%s months ago",
-	'year' => "over a year",
-	'years' => "%s years ago")) {
+	'seconds'=> 'just now',
+	'minute' => 'a minute ago',
+	'minutes' => '%s minutes ago',
+	'hour' => 'an hour ago',
+	'hours' => '%s hours ago',
+	'day' => 'yesterday',
+	'days' => '%s days ago',
+	'month' => 'over a month',
+	'months' => '%s months ago',
+	'year' => 'over a year',
+	'years' => '%s years ago')) {
 
 	$diff = time() - ((int) $time);
 	$string = '';
@@ -122,12 +122,43 @@ function m_friendly_time($time, $titles=array(
 
 }
 
+
 /**
- *
+ * check if a password hash is ok
+ * @param  [type] $passwd [description]
+ * @param  [type] $hash   [description]
+ * @param  integer $iteration_count_log2 [description]
+ * @return [type]         [description]
+ */
+function m_password_check($passwd, $hash, $iteration_count_log2 = 8) {
+	require_once(dirname(dirname(__FILE__)) . '/classes/PasswordHash.php');
+
+	$hasher = new PasswordHash((int)$iteration_count_log2, false);
+	if($hasher->CheckPassword($passwd, $hash)) return true;
+
+	return false;
+}
+
+/**
+ * Genetares a pasword hash
+ * @param  [type]  $passwd               [description]
+ * @param  integer $iteration_count_log2 [description]
+ * @return [type]                        [description]
+ */
+function m_password_hash($passwd, $iteration_count_log2 = 8) {
+	require_once(dirname(dirname(__FILE__)) . '/classes/PasswordHash.php');
+
+	$hasher = new PasswordHash((int)$iteration_count_log2, false);
+	return $hasher->HashPassword($passwd);
+}
+
+/**
+ * Encrypts (2 ways) a string with the key provided
+ * Can be decoded with m_decrypt
  *
  * */
 function m_encrypt($str, $key) {
-	if(!function_exists("mcrypt_encrypt")) return $str;
+	if(!function_exists('mcrypt_encrypt')) return $str;
 	$key = substr($key,0,8);
 
     # Add PKCS7 padding.
@@ -140,11 +171,11 @@ function m_encrypt($str, $key) {
 }
 
 /**
- *
+ * Decrypts a encrypted string encoded with m_encrypt()
  *
  * */
 function m_decrypt($str, $key) {
-	if(!function_exists("mcrypt_decrypt")) return $str;
+	if(!function_exists('mcrypt_decrypt')) return $str;
 	$key = substr($key,0,8);
     $str = @mcrypt_decrypt(MCRYPT_DES, $key, $str, MCRYPT_MODE_ECB);
 
@@ -169,16 +200,16 @@ function m_decrypt($str, $key) {
 function m_txt_parse_links($text, $add='', $add_not_tohost='') {
 	global $CONFIG;
 
-    $text= preg_replace("/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,\"\n\r\t<]*)/is", "$1$2<a href=\"$3\"" . ($add ? " $add" : '') . ">$3</a>", $text);
-    $text= preg_replace("/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,\"\t\n\r<]*)/is", "$1$2<a href=\"http://$3\"" . ($add ? " $add" : '') . ">$3</a>", $text);
+    $text= preg_replace('/(^|[\n ])([\w]*?)((ht|f)tp(s)?:\/\/[\w]+[^ \,"\n\r\t<]*)/is', '$1$2<a href="$3"' . ($add ? " $add" : '') . '>$3</a>', $text);
+    $text= preg_replace('/(^|[\n ])([\w]*?)((www|ftp)\.[^ \,"\t\n\r<]*)/is', '$1$2<a href="http://$3"' . ($add ? " $add" : '') . '>$3</a>', $text);
 	//parsing emails
-    $text= preg_replace("/(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+)+)/i", "$1<a href=\"mailto:$2@$3\"" . ($add ? " $add" : '') . ">$2@$3</a>", $text);
+    $text= preg_replace('/(^|[\n ])([a-z0-9&\-_\.]+?)@([\w\-]+\.([\w\-\.]+)+)/i', '$1<a href="mailto:$2@$3"' . ($add ? " $add" : '') . '>$2@$3</a>', $text);
 
 
 	if(!empty($add_not_tohost)) {
 		if(!is_array($add_not_tohost)) $add_not_tohost = array($add_not_tohost);
 		foreach($add_not_tohost as $host) {
-			$text = preg_replace('!((\"'.$host.')[-a-zA-Z0-9@:%_\+\.~#?&/=]+\")('.quotemeta(" $add").')!i','\\1', $text);
+			$text = preg_replace('!(("'.$host.')[-a-zA-Z0-9@:%_\+\.~#?&/=]+")('.quotemeta(" $add").')!i','\\1', $text);
 		}
 	}
 
@@ -193,7 +224,7 @@ function m_txt_parse_links($text, $add='', $add_not_tohost='') {
 * @return array of links
 */
 function m_get_links_from_text($text) {
-	$pattern = "!((f|ht){1}tp[s]*://)([-a-z0-9@:%_\+\.~#?&/=,]+)!i";
+	$pattern = '!((f|ht){1}tp[s]*://)([-a-z0-9@:%_\+\.~#?&/=,]+)!i';
 	preg_match_all($pattern, $text, $matches);
 	return array_map('trim', array_unique($matches[0]));
 }
@@ -209,30 +240,30 @@ function m_convert_to_utf8($str) {
     $first4 = substr($str, 0, 3);
 	//UTF32_BIG_ENDIAN_BOM
 	if($first4 == chr(0x00) . chr(0x00) . chr(0xFE) . chr(0xFF)) {
-		$encoding = "UTF-32BE";
+		$encoding = 'UTF-32BE';
 	}
 	//UTF32_LITTLE_ENDIAN_BOM
 	elseif($first4 == chr(0xFF) . chr(0xFE) . chr(0x00) . chr(0x00)) {
-        $encoding = "UTF-32LE";
+        $encoding = 'UTF-32LE';
     }
 	//UTF16_BIG_ENDIAN_BOM
 	elseif($first2 == chr(0xFE) . chr(0xFF)) {
-		$encoding = "UTF-16BE";
+		$encoding = 'UTF-16BE';
 	}
 	//UTF16_LITTLE_ENDIAN_BOM
 	elseif($first2 == chr(0xFF) . chr(0xFE) ) {
-        $encoding = "UTF-16LE";
+        $encoding = 'UTF-16LE';
     }
     //UTF8_BOM
 	elseif($first3 == chr(0xEF) . chr(0xBB) . chr(0xBF)) {
-        $encoding = "UTF-8";
+        $encoding = 'UTF-8';
     }
-	else $encoding = mb_detect_encoding($str,"ASCII,JIS,UTF-8,EUC-JP,SJIS,ISO-8859-1,GBK");
+	else $encoding = mb_detect_encoding($str,'ASCII,JIS,UTF-8,EUC-JP,SJIS,ISO-8859-1,GBK');
 
 	//return $encoding;
 	//return $str;
-	if( $encoding != "UTF-8" ) {
-		return  mb_convert_encoding($str,"UTF-8", $encoding);
+	if( $encoding != 'UTF-8' ) {
+		return  mb_convert_encoding($str,'UTF-8', $encoding);
 	}
 	else {
 		return $str;
@@ -244,9 +275,9 @@ function m_convert_to_utf8($str) {
 * @param $value string to transform
 */
 function m_compute_char($value) {
-	$out="";
+	$out='';
 	for($i=0; $i<strlen($value); $i++) {
-		$out.="&#".ord($value{$i}).";";
+		$out.='&#'.ord($value{$i}).';';
 	}
 	return $out;
 }
@@ -259,7 +290,7 @@ function m_compute_char($value) {
 function m_reverse_date($date) {
 	$d=$c1=$m=$c2=$y=$c3=$hora='';
 
-	preg_match("/([0-9]+)([^0-9]{1,1})([0-9]+)([^0-9]{1,1})([0-9]+)(.*)/i", $date, $matches);
+	preg_match('/([0-9]+)([^0-9]{1,1})([0-9]+)([^0-9]{1,1})([0-9]+)(.*)/i', $date, $matches);
 	$d = $matches[1];
 	$c1 = $matches[2];
 	$m = $matches[3];
@@ -268,7 +299,7 @@ function m_reverse_date($date) {
 	$c3 = $matches[6]{0};
 	$hora = substr($matches[6],1);
 
-	$ret = sprintf("%d%s%d%s%d", $y, $c1, $m, $c2, $d);
+	$ret = sprintf('%d%s%d%s%d', $y, $c1, $m, $c2, $d);
 	if($hora) $ret .= "$c3$hora";
 	return $ret;
 }
@@ -294,7 +325,7 @@ function m_normalize($string) {
  *     <b>middle</b>: cut by middle
  * @return the cropped text
  * */
-function m_txt_limit($string="", $size=10, $mode='normal') {
+function m_txt_limit($string='', $size=10, $mode='normal') {
 	$size = abs($size);
 	$encoding = mb_detect_encoding($string);
 	mb_internal_encoding($encoding);
@@ -314,7 +345,7 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 	if($mode=='middle' && mb_strlen($string) > $size) {
 		$t1 = limitLength($string,intval($size/2+2));
 		$t2 = limitLength($string,intval($size/2+1),'reverse');
-		$out = mb_str_replace("......","...", $t1.$t2);
+		$out = mb_str_replace('......','...', $t1.$t2);
 
 		//if($encoding == 'UTF-8') $out = utf8_encode($out);
 		return $out;
@@ -322,10 +353,10 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 	if($mode=='reverse') $string = mb_strrev ($string);
 
 
-	$out = "";
+	$out = '';
 	$tag = false;
 	$closetag = false;
-	$ultim = "";
+	$ultim = '';
 	$l = mb_strlen($string);
 	for($i=0, $j=0; $i<$l ; $i++) {
 		$c = mb_substr($string, $i,1);
@@ -334,7 +365,7 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 			if($tag) {
 				if(mb_substr($string, $i-1,1) == '<' && $c == '/') {
 					$closetag = true;
-					$ultim = "<";
+					$ultim = '<';
 				}
 				if($closetag) $ultim .= $c;
 				if($c == '>') {
@@ -347,7 +378,7 @@ function m_txt_limit($string="", $size=10, $mode='normal') {
 		else {
 			if($c == '>') {
 				$tag = true;
-				$ultim = "";
+				$ultim = '';
 			}
 			if($tag) {
 				$ultim .= $c;
@@ -473,13 +504,13 @@ function m_truncate($text, $length = 100, $ending = '...', $exact = true, $consi
 	return $truncate;
 }
 
-if(!function_exists("mb_str_replace")) {
+if(!function_exists('mb_str_replace')) {
 	function mb_str_replace($needle, $replacement, $haystack) {
 		return implode($replacement, mb_split($needle, $haystack));
 	}
 }
 
-if(!function_exists("mb_strrev")) {
+if(!function_exists('mb_strrev')) {
 	function mb_strrev($text) {
 		return join('', array_reverse(
 			preg_split('~~u', $text, -1, PREG_SPLIT_NO_EMPTY)

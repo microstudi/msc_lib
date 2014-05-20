@@ -37,4 +37,4 @@ echo '>';
 
 echo $body;
 
-echo "</script>\n";
+echo '</script>';

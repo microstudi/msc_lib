@@ -22,8 +22,8 @@ else {
 
 echo '<col';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['span'] ? ' span="' . intval($vars['span']) . '"' : '');
 

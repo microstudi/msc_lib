@@ -18,18 +18,18 @@
 */
 function m_check_filename($name='',$dir=null){
     // $name = preg_replace("/[^a-z0-9_~\.-]+/i","-",m_normalize($name));
-	$name = preg_replace("/[^a-z0-9_~\.-]+/i","-",($name));
+	$name = preg_replace('/[^a-z0-9_~\.-]+/i','-',($name));
 	if(is_array($dir)) {
 		while ( in_array ($name, $dir )) {
-            $name = preg_replace_callback( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/", function($m){
-                return $m[1] ."_" . ($m[3]+1) . $m[4];
+            $name = preg_replace_callback( '/^(.+?)(_?)(\d*)(\.[^.]+)?$/', function($m){
+                return $m[1] .'_' . ($m[3]+1) . $m[4];
             }, $name );
 		}
 	}
 	elseif(is_dir($dir)) {
 		while ( file_exists ( "$dir/$name" )) {
-			$name = preg_replace_callback( "/^(.+?)(_?)(\d*)(\.[^.]+)?$/", function($m){
-                return $m[1] ."_" . ($m[3]+1) . $m[4];
+			$name = preg_replace_callback( '/^(.+?)(_?)(\d*)(\.[^.]+)?$/', function($m){
+                return $m[1] .'_' . ($m[3]+1) . $m[4];
             }, $name );
 		}
 	}
@@ -41,14 +41,14 @@ function m_check_filename($name='',$dir=null){
  * @param $err PHP UPLOAD CODE
  * */
 function m_get_string_for_upload_error($err) {
-	if($err == UPLOAD_ERR_OK)             return "upload_err_ok";
-	elseif($err == UPLOAD_ERR_INI_SIZE)   return "upload_err_ini_size";
-	elseif($err == UPLOAD_ERR_FORM_SIZE)  return "upload_err_form_size";
-	elseif($err == UPLOAD_ERR_PARTIAL)    return "upload_err_partial";
-	elseif($err == UPLOAD_ERR_NO_FILE )   return "upload_err_no_file";
-	elseif($err == UPLOAD_ERR_NO_TMP_DIR) return "upload_err_no_tmp_dir";
-	elseif($err == UPLOAD_ERR_CANT_WRITE) return "upload_err_cant_write";
-	elseif($err == UPLOAD_ERR_EXTENSION)  return "upload_err_extension";
+	if($err == UPLOAD_ERR_OK)             return 'upload_err_ok';
+	elseif($err == UPLOAD_ERR_INI_SIZE)   return 'upload_err_ini_size';
+	elseif($err == UPLOAD_ERR_FORM_SIZE)  return 'upload_err_form_size';
+	elseif($err == UPLOAD_ERR_PARTIAL)    return 'upload_err_partial';
+	elseif($err == UPLOAD_ERR_NO_FILE )   return 'upload_err_no_file';
+	elseif($err == UPLOAD_ERR_NO_TMP_DIR) return 'upload_err_no_tmp_dir';
+	elseif($err == UPLOAD_ERR_CANT_WRITE) return 'upload_err_cant_write';
+	elseif($err == UPLOAD_ERR_EXTENSION)  return 'upload_err_extension';
 	return '';
 }
 
@@ -87,7 +87,7 @@ function m_let_to_num($val){
  * @param $bit units (<b>B</b> => <b>KB</b>, <b>b</b> => <b>Kb</b>)
  * @param $div divisor (1024 by default)
  * */
-function m_num_to_let($bytes, $unit = "", $decimals = 2) {
+function m_num_to_let($bytes, $unit = '', $decimals = 2) {
 	$units = array('B' => 0, 'KB' => 1, 'MB' => 2, 'GB' => 3, 'TB' => 4,
 			'PB' => 5, 'EB' => 6, 'ZB' => 7, 'YB' => 8);
 
@@ -124,9 +124,9 @@ function m_rmdir($dir) {
     if (!is_dir($dir) || is_link($dir)) return unlink($dir);
         foreach (scandir($dir) as $item) {
             if ($item == '.' || $item == '..') continue;
-            if (!m_rmdir($dir . "/" . $item)) {
-                chmod($dir . "/" . $item, 0777);
-                if (!m_rmdir($dir . "/" . $item)) return false;
+            if (!m_rmdir($dir . '/' . $item)) {
+                chmod($dir . '/' . $item, 0777);
+                if (!m_rmdir($dir . '/' . $item)) return false;
             };
         }
         return rmdir($dir);
@@ -146,8 +146,8 @@ function m_list_dir($dir,$iterative=true){
 		if($file{0} != '.'){
 			$file = $dir . $file;
 			if(is_dir($file)) {
-				$files[] = $file."/";
-				if($iterative) $files = array_merge($files, m_list_dir($file."/"));
+				$files[] = $file.'/';
+				if($iterative) $files = array_merge($files, m_list_dir($file.'/'));
 			}
 			else $files[] = $file;
 		}
@@ -164,16 +164,17 @@ function m_url_exists($url_original, $check_alive = true) {
     }
 
     if(!$check_alive) {
-        if(defined("FILTER_VALIDATE_URL")) {
+        if(defined('FILTER_VALIDATE_URL')) {
             return filter_var($url_original, FILTER_VALIDATE_URL);
         }
         else {
-            return preg_match("/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i", $url_original);
+            return preg_match('/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i', $url_original);
         }
     }
 
     $url = array_map('trim', $url);
-    $url['port'] = (!isset($url['port'])) ? 80 : (int)$url['port'];
+    $url['scheme'] = strtolower($url['scheme']);
+    $url['port'] = (!isset($url['port'])) ? ($url['scheme'] == 'https' ? 443 : 80) : (int)$url['port'];
     $path = (isset($url['path'])) ? $url['path'] : '';
 
     if ($path == '') {
@@ -183,12 +184,10 @@ function m_url_exists($url_original, $check_alive = true) {
     $path .= (isset($url['query'])) ? "?$url[query]" : '';
 
     if (isset($url['host']) AND $url['host'] != gethostbyname($url['host'])) {
-        if (PHP_VERSION >= 5)
-        {
+        if (function_exists('get_headers')) {
             $headers = @get_headers("$url[scheme]://$url[host]:$url[port]$path");
         }
-        else
-        {
+        else {
             $fp = @fsockopen($url['host'], $url['port'], $errno, $errstr, 30);
 
             if (!$fp)

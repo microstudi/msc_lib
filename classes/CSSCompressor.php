@@ -86,8 +86,8 @@ class CSSCompressor {
 	 * */
 	function set_cache_name() {
 		if($this->cache_dir) {
-			if(empty($this->files)) $cache_name = md5($this->code).".css";
-			else $cache_name = md5(implode("", $this->files)).".css";
+			if(empty($this->files)) $cache_name = md5($this->code).'.css';
+			else $cache_name = md5(implode('', $this->files)).'.css';
 
 			//echo print_r($this->files);
 			$this->cache_name = $this->cache_dir.$cache_name;
@@ -124,15 +124,17 @@ class CSSCompressor {
 
 	/**
 	 * Compresses the code and takes care of constans
-	 *
+	 * @paramg $encoding 'Debug' => no compress, 'Normal' => 'compress'
 	 */
-	public function pack() {
+	public function pack($encoding = 'Normal') {
 
 		if( ! $this->output_cache() ) {
 
-			$this->compress();
-			//$this->extractConstantSelectors();
-			//$this->replaceConstantDefinitions();
+			if($encoding !== 'Debug') {
+				$this->compress();
+				//$this->extractConstantSelectors();
+				//$this->replaceConstantDefinitions();
+			}
 
 			if($this->cache_name) {
 				file_put_contents($this->cache_name, $this->code);

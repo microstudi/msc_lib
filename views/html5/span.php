@@ -14,5 +14,5 @@
 * @param body html content inside \<span>...\</span>
 */
 
-$tag = "span";
-require("_generic_tag.php");
+$tag = 'span';
+require('_generic_tag.php');

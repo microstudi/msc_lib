@@ -24,8 +24,8 @@ else {
 
 echo '<area';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 //alt
 echo ($vars['alt'] ? ' alt="' . htmlspecialchars($vars['alt']) . '"' : '');
@@ -42,10 +42,10 @@ echo ($vars['hreflang'] ? ' hreflang="' . htmlspecialchars($vars['hreflang']) . 
 echo ($vars['media'] ? ' media="' . htmlspecialchars($vars['media']) . '"' : '');
 
 //rel
-echo (in_array($vars['rel'],array("alternate", "author", "bookmark", "help", "license", "next", "nofollow", "noreferrer", "prefetch", "prev", "search", "tag")) ? ' rel="' . $vars['rel'] . '"' : '');
+echo (in_array($vars['rel'],array('alternate', 'author', 'bookmark', 'help', 'license', 'next', 'nofollow', 'noreferrer', 'prefetch', 'prev', 'search', 'tag')) ? ' rel="' . $vars['rel'] . '"' : '');
 
 //shape
-echo (in_array($vars['shape'],array("default", "rect", "circle", "poly")) ? ' shape="' . $vars['shape'] . '"' : '');
+echo (in_array($vars['shape'],array('default', 'rect', 'circle', 'poly')) ? ' shape="' . $vars['shape'] . '"' : '');
 
 //target
 echo ($vars['target'] ? ' target="' . htmlspecialchars($vars['target']) . '"' : '');

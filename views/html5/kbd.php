@@ -14,5 +14,5 @@
 * @param body html content inside \<kbd>...\</kbd>
 */
 
-$tag = "kbd";
-require("_generic_tag.php");
+$tag = 'kbd';
+require('_generic_tag.php');

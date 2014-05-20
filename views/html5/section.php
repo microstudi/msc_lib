@@ -14,5 +14,5 @@
 * @param body html content inside \<section>...\</section>
 */
 
-$tag = "section";
-require("_generic_tag.php");
+$tag = 'section';
+require('_generic_tag.php');

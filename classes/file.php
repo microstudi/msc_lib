@@ -47,7 +47,7 @@ class mFile {
 		$this->user = $user;
 		$this->pass = $pass;
 		$this->path = $path;
-		if(substr($this->path, -1, 1) != '/') $this->path .= "/";
+		if(substr($this->path, -1, 1) != '/') $this->path .= '/';
 		if($this->type == 's3') {
 			$this->bucket = $port;
 			if(empty($path)) $this->path = '';
@@ -183,7 +183,7 @@ class mFile {
 					}
 					else {
 						if(!is_resource($this->link)) return false;
-						$ok = ssh2_exec($this->link, "exit");
+						$ok = ssh2_exec($this->link, 'exit');
 					}
 				break;
 			case 's3':
@@ -261,7 +261,7 @@ class mFile {
 							}
 						}
 						else {
-							$stream = ssh2_exec($this->link,"readlink -ev " . escapeshellarg($path));
+							$stream = ssh2_exec($this->link,'readlink -ev ' . escapeshellarg($path));
 							$errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
 							// Enable blocking for both streams
 							stream_set_blocking($errorStream, true);
@@ -273,7 +273,7 @@ class mFile {
 							//echo "$path [$stdout][$stderr]";die;
 							if(!$stderr) $realpath = $stdout;
 							else {
-								return $this->throwError($stderr . ": " . $this->last_error);
+								return $this->throwError($stderr . ': ' . $this->last_error);
 							}
 						}
 					break;
@@ -281,7 +281,7 @@ class mFile {
 						return $this->get_path($path);
 					break;
 			}
-			if(substr($realpath, 1, -1)!='/') $realpath .= "/";
+			if(substr($realpath, 1, -1)!='/') $realpath .= '/';
 		}
 		restore_error_handler();
 		return $realpath;
@@ -296,7 +296,7 @@ class mFile {
 	 * @return boolean        returns true if success, false otherwise
 	 */
 	function upload($local, $remote, $auto_create_dirs = true) {
-		if(!$this->connect()) return $this->throwError("connect error: " . $this->last_error);
+		if(!$this->connect()) return $this->throwError('connect error: ' . $this->last_error);
 		$remote = $this->get_path($remote);
 		$this->last_local  = $local;
 		$this->last_remote = $remote;
@@ -318,7 +318,7 @@ class mFile {
 			case 'file':
 					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote));
 					if(copy($local, $remote)) $ok = true;
-					else return $this->throwError("file-error-uploading-to: " . $this->last_error);
+					else return $this->throwError('file-error-uploading-to: ' . $this->last_error);
 				break;
 
 			case 'ftp':
@@ -331,18 +331,18 @@ class mFile {
 					}
 					if(ftp_put($this->link, basename($remote), $local, FTP_BINARY)) $ok = true;
 					if($odir) ftp_chdir($this->link, $odir);
-					if(!$ok) return $this->throwError("ftp-error-uploading-to: " . $this->last_error);
+					if(!$ok) return $this->throwError('ftp-error-uploading-to: ' . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($auto_create_dirs) $this->mkdir_recursive(dirname($remote));
 					if($this->libsec) {
 						if($this->link->put($remote, $local, NET_SFTP_LOCAL_FILE)) $ok = true;
-						else return $this->throwError("ssh2-error-uploading-to: " . $this->last_error);
+						else return $this->throwError('ssh2-error-uploading-to: ' . $this->last_error);
 					}
 					else {
 						if(ssh2_scp_send($this->link, $local, $remote)) $ok = true;
-						else return $this->throwError("ssh2-error-uploading-to: " . $this->last_error);
+						else return $this->throwError('ssh2-error-uploading-to: ' . $this->last_error);
 					}
 				break;
 
@@ -368,7 +368,7 @@ class mFile {
 	 * @return boolean        returns true if success, false otherwise
 	 */
 	function delete($remote, $auto_delete_dirs = true) {
-		if(!$this->connect()) return $this->throwError("connect error: " . $this->last_error);
+		if(!$this->connect()) return $this->throwError('connect error: ' . $this->last_error);
 
 		$remote = $this->get_path($remote);
 		$this->last_remote = $remote;
@@ -381,7 +381,7 @@ class mFile {
 						$ok = true;
 						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote), is_string($auto_delete_dirs) ? $auto_delete_dirs : false);
 					}
-					else return $this->throwError("file-error-deleting-to: " . $this->last_error);
+					else return $this->throwError('file-error-deleting-to: ' . $this->last_error);
 				break;
 
 			case 'ftp':
@@ -394,7 +394,7 @@ class mFile {
 					if(ftp_delete($this->link, basename($remote))) $ok = true;
 					if($odir) ftp_chdir($this->link, $odir);
 					if($auto_delete_dirs) $this->delete_empty_dir($dir, is_string($auto_delete_dirs) ? $auto_delete_dirs : false);
-					if(!$ok) return $this->throwError("ftp-error-deleting-to: " . $this->last_error);
+					if(!$ok) return $this->throwError('ftp-error-deleting-to: ' . $this->last_error);
 				break;
 
 			case 'ssh':
@@ -403,7 +403,7 @@ class mFile {
 							$ok = true;
 							if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote), is_string($auto_delete_dirs) ? $auto_delete_dirs : false);
 						}
-						if(!$ok) return $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
+						if(!$ok) return $this->throwError('ssh2-error-deleting-to: ' . $this->last_error);
 					}
 					else {
 						if($sftp = ssh2_sftp($this->link)) {
@@ -411,7 +411,7 @@ class mFile {
 								$ok = true;
 								if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote), is_string($auto_delete_dirs) ? $auto_delete_dirs : false);
 							}
-							if(!$ok) return $this->throwError("ssh2-error-deleting-to: " . $this->last_error);
+							if(!$ok) return $this->throwError('ssh2-error-deleting-to: ' . $this->last_error);
 						}
 					}
 				break;
@@ -421,7 +421,7 @@ class mFile {
 						$this->link->deleteObject($this->bucket, $remote);
 						$ok = true;
 					} catch(S3Exception $e) {
-						return $this->throwError("s3-error-deleting-to: " . $e->getMessage());
+						return $this->throwError('s3-error-deleting-to: ' . $e->getMessage());
 					}
 				break;
 
@@ -437,11 +437,11 @@ class mFile {
 	 * @return boolean        returns true if success, false otherwise
 	 */
 	public function rmdir($remote_dir_original) {
-		if(!$this->connect()) return $this->throwError("connect error: " . $this->last_error);
+		if(!$this->connect()) return $this->throwError('connect error: ' . $this->last_error);
 		if(!$remote_dir_original) return $this->throwError("remote-dir-error [$remote_dir_original]");
 		$remote = $this->get_path($remote_dir_original);
 		//never delete the working path
-		if($remote == $this->get_path()) return $this->throwError("remote error: [$remote] != [" . $this->get_path() . "]");
+		if($remote == $this->get_path()) return $this->throwError("remote error: [$remote] != [" . $this->get_path() . ']');
 		$this->last_remote = $remote;
 
 		$ok = false;
@@ -451,7 +451,7 @@ class mFile {
 					if(m_rmdir($remote)) {
 						$ok = true;
 					}
-					else return $this->throwError("file-error-rmdir-to: " . $this->last_error);
+					else return $this->throwError('file-error-rmdir-to: ' . $this->last_error);
 				break;
 
 			case 'ftp':
@@ -462,14 +462,14 @@ class mFile {
 						$filelist = @ftp_nlist($this->link, $remote);
 						//loop through the file list and recursively delete the FILE in the list
 						foreach($filelist as $file) {
-							$file = preg_replace("/^" . str_replace("/", "\/", quotemeta($this->path)) . "/", "", $file);
+							$file = preg_replace('/^' . str_replace('/', '\/', quotemeta($this->path)) . '/', '', $file);
 							$this->rmdir($file);
 						}
 						//if the file list is empty, delete the DIRECTORY we passed
 						$ok = $this->rmdir($remote_dir_original);
 					}
 					else $ok = true;
-					if(!$ok) return $this->throwError("ftp-error-rmdir-to: " . $this->last_error);
+					if(!$ok) return $this->throwError('ftp-error-rmdir-to: ' . $this->last_error);
 				break;
 
 			case 'ssh':
@@ -477,10 +477,10 @@ class mFile {
 						if($this->link->delete($remote, true)) {
 							$ok = true;
 						}
-						if(!$ok) return $this->throwError("ssh2-error-rmdir-to: " . $this->last_error);
+						if(!$ok) return $this->throwError('ssh2-error-rmdir-to: ' . $this->last_error);
 					}
 					else {
-						$stream = ssh2_exec($this->link,"rm -rf " . escapeshellarg($remote));
+						$stream = ssh2_exec($this->link,'rm -rf ' . escapeshellarg($remote));
 						$errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
 						// Enable blocking for both streams
 						stream_set_blocking($errorStream, true);
@@ -492,7 +492,7 @@ class mFile {
 						//echo "$path [$stdout][$stderr]";
 						if(!$stderr) $size = (int)$stdout;
 						else {
-							return $this->throwError("ssh2-error-rmdir-to: " . $stderr);
+							return $this->throwError('ssh2-error-rmdir-to: ' . $stderr);
 						}
 					}
 				break;
@@ -510,7 +510,7 @@ class mFile {
 							}
 					    }
 					} catch(S3Exception $e) {
-						return $this->throwError("s3-error-deleting-to: " . $e->getMessage());
+						return $this->throwError('s3-error-deleting-to: ' . $e->getMessage());
 					}
 				break;
 
@@ -572,7 +572,7 @@ class mFile {
 			case 'ftp':
 					$dir = $remote_dir;
 					$odir = ftp_pwd($this->link);
-					$parts = explode("/", $dir);
+					$parts = explode('/', $dir);
 			        $ok = true;
 			        foreach($parts as $part){
 		                if(@ftp_chdir($this->link, $part)) continue;
@@ -608,7 +608,7 @@ class mFile {
 	 * @return boolean        returns true if success, false otherwise
 	 */
 	function download($remote, $local) {
-		if(!$this->connect()) return $this->throwError("connect error: " . $this->last_error);
+		if(!$this->connect()) return $this->throwError('connect error: ' . $this->last_error);
 		$remote = $this->get_path($remote);
 		$this->last_local = $local;
 		$this->last_remote = $remote;
@@ -624,7 +624,7 @@ class mFile {
 		switch($this->type) {
 			case 'file':
 					if(copy($remote, $local)) $ok = true;
-					else return $this->throwError("file-error-downloading-from: " . $this->last_error);
+					else return $this->throwError('file-error-downloading-from: ' . $this->last_error);
 				break;
 
 			case 'ftp':
@@ -636,17 +636,17 @@ class mFile {
 					}
 					if(ftp_get($this->link, $local, basename($remote), FTP_BINARY)) $ok = true;
 					if($odir) ftp_chdir($this->link, $odir);
-					if(!$ok) return $this->throwError("ftp-error-downloading-from: " . $this->last_error);
+					if(!$ok) return $this->throwError('ftp-error-downloading-from: ' . $this->last_error);
 				break;
 
 			case 'ssh':
 					if($this->libsec) {
 						if($this->link->get($remote, $local)) $ok = true;
-						else return $this->throwError("ssh2-error-downloading-from: " . $this->last_error);
+						else return $this->throwError('ssh2-error-downloading-from: ' . $this->last_error);
 					}
 					else {
 						if(ssh2_scp_recv($this->link, $remote, $local)) $ok = true;
-						else return $this->throwError("ssh2-error-downloading-from: " . $this->last_error);
+						else return $this->throwError('ssh2-error-downloading-from: ' . $this->last_error);
 					}
 				break;
 			case 's3':
@@ -672,7 +672,7 @@ class mFile {
 	 * @return boolean        returns true if success, false otherwise
 	 */
 	function rename($remote_source, $remote_dest, $auto_create_dirs = true, $auto_delete_dirs = true) {
-		if(!$this->connect()) return $this->throwError("connect error: " . $this->last_error);
+		if(!$this->connect()) return $this->throwError('connect error: ' . $this->last_error);
 		$remote_source     = $this->get_path($remote_source);
 		$remote_dest       = $this->get_path($remote_dest);
 		if($remote_source == $remote_dest) return $this->throwError("files equals: [$remote_source] == [$remote_dest]");
@@ -688,7 +688,7 @@ class mFile {
 						$ok = true;
 						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
 					}
-					else return $this->throwError("file-error-renaming-to: " . $this->last_error);
+					else return $this->throwError('file-error-renaming-to: ' . $this->last_error);
 				break;
 
 			case 'ftp':
@@ -697,7 +697,7 @@ class mFile {
 						$ok = true;
 						if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
 					}
-					else return $this->throwError("ftp-error-renaming-to: " . $this->last_error);
+					else return $this->throwError('ftp-error-renaming-to: ' . $this->last_error);
 				break;
 
 			case 'ssh':
@@ -707,7 +707,7 @@ class mFile {
 							$ok = true;
 							if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
 						}
-						if(!$ok) return $this->throwError("ssh2-error-renaming-to: " . $this->last_error);
+						if(!$ok) return $this->throwError('ssh2-error-renaming-to: ' . $this->last_error);
 					}
 					else {
 						if($sftp = ssh2_sftp($this->link)) {
@@ -716,7 +716,7 @@ class mFile {
 								if($auto_delete_dirs) $this->delete_empty_dir(dirname($remote_source));
 							}
 						}
-						if(!$ok) return $this->throwError("ssh2-error-renaming-to: ssh2 " . $this->last_error);
+						if(!$ok) return $this->throwError('ssh2-error-renaming-to: ssh2 ' . $this->last_error);
 					}
 				break;
 
@@ -726,7 +726,7 @@ class mFile {
 						$this->link->deleteObject($this->bucket, $remote_source);
 						$ok = true;
 					} catch(S3Exception $e) {
-						return $this->throwError("s3-error-renaming-to: " . $e->getMessage());
+						return $this->throwError('s3-error-renaming-to: ' . $e->getMessage());
 					}
 				break;
 		}
@@ -783,7 +783,7 @@ class mFile {
 						if( false === ($size = $this->link->size($remote)) ) $size = -1;
 					}
 					else {
-						$stream = ssh2_exec($this->link,"stat -c %s " . escapeshellarg($remote));
+						$stream = ssh2_exec($this->link,'stat -c %s ' . escapeshellarg($remote));
 						$errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
 						// Enable blocking for both streams
 						stream_set_blocking($errorStream, true);
@@ -857,10 +857,16 @@ class mFile {
 
 			case 'ssh':
 					if($this->libsec) {
-						if( false === ($modified = $this->link->size($remote)) ) $modified = -1;
+						$stat = $this->link->stat($remote);
+				        if ($stat === false) {
+				            $modified = -1;
+				        }
+				        else {
+				        	$modified = isset($stat['mtime']) ? $stat['mtime'] : -1;
+				        }
 					}
 					else {
-						$stream = ssh2_exec($this->link,"stat -c %Y " . escapeshellarg($remote));
+						$stream = ssh2_exec($this->link,'stat -c %Y ' . escapeshellarg($remote));
 						$errorStream = ssh2_fetch_stream($stream, SSH2_STREAM_STDERR);
 						// Enable blocking for both streams
 						stream_set_blocking($errorStream, true);

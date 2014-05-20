@@ -30,17 +30,18 @@ $CONFIG->db = null;
 $CONFIG->default_database = 'mysql';
 //cache for SELECT clausules
 $CONFIG->database_run_cache = null;
+$CONFIG->database_run_cache_autoclear = false;
 $CONFIG->database_cache = null;
 $CONFIG->database_cache_enabled = false;
 $CONFIG->database_cache_paused = false;
 $CONFIG->database_cache_time = 0;
 
 ///views path
-$CONFIG->views_path = dirname(__FILE__) . "/views";
+$CONFIG->views_path = dirname(__FILE__) . '/views';
 ///default view (subdirectory in views path)
-$CONFIG->default_view = "html5";
+$CONFIG->default_view = 'html5';
 ///fallback view for non-existing views
-$CONFIG->view_fallback = "";
+$CONFIG->view_fallback = '';
 
 ///langs available
 $CONFIG->lang_available = array();
@@ -83,8 +84,8 @@ $CONFIG->css_compressor = null;
 $CONFIG->custom_vars = array();
 
 ///default classes included
-$CONFIG->inc_classes = array("sql", "mysql", "file", "views", "images", 'router', 'cache');
+$CONFIG->inc_classes = array('sql', 'mysql', 'file', 'views', 'images', 'router', 'cache');
 
 ///default functions included
-$CONFIG->inc_functions = array("general", "sql", "file", "views", "images", "langs", "sessions", "text_utils", "files", "compressor", "mail", 'router', 'media_embed');
+$CONFIG->inc_functions = array('general', 'sql', 'file', 'views', 'images', 'langs', 'sessions', 'text_utils', 'files', 'compressor', 'mail', 'router', 'media_embed');
 

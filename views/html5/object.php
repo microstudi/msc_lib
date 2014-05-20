@@ -23,8 +23,8 @@ else {
 
 echo '<object';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['data'] ? ' data="' . htmlspecialchars($vars['data']) . '"' : '');
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');

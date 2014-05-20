@@ -22,8 +22,8 @@ else {
 
 echo '<fieldset';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo (empty($vars['disabled']) ? '' : ' disabled="disabled"');
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');

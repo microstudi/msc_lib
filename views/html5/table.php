@@ -37,13 +37,13 @@ else {
 
 echo '<table';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 //echo (in_array($vars['border'], array("", "1")) ? ' border="' . $vars['border'] . '"' : '');
 echo ($vars['border'] ? ' border="1"' : '');
 
-echo ">\n";
+echo '>';
 
 if($body) echo $body;
 elseif(is_array($vars['items'])) {
@@ -52,18 +52,18 @@ elseif(is_array($vars['items'])) {
 
 			$b = $item['body'];
 			if(is_array($b)) {
-				if($i == 0 && $vars['thfirst'])  $b = "<th>".implode("</th><th>",$b)."</th>\n";
-				else  $b = "<td>".implode("</td><td>",$b)."</td>";
+				if($i == 0 && $vars['thfirst'])  $b = '<th>'.implode('</th><th>',$b).'</th>';
+				else  $b = '<td>'.implode('</td><td>',$b).'</td>';
 			}
 
 			$c = '';
 			foreach($item as $k => $v) {
-				if(in_array($k,array('id','class','style','title')) || strpos($k,"data-")===0) $c .= " $k=\"" . htmlspecialchars($v) . '"';
+				if(in_array($k,array('id','class','style','title')) || strpos($k,'data-')===0) $c .= " $k=\"" . htmlspecialchars($v) . '"';
 			}
 
 			if($i == 0 && $vars['thfirst']) echo "\n<thead>\n<tr$c>$b</tr></thead>\n<tbody>\n";
 			else {
-				if(!$vars['thfirst'] && $i == 0) echo "<tbody>\n";
+				if(!$vars['thfirst'] && $i == 0) echo '<tbody>';
 
 				echo "<tr$c>$b</tr>\n";
 			}
@@ -71,12 +71,12 @@ elseif(is_array($vars['items'])) {
 		else {
 			if($i == 0 && $vars['thfirst']) echo "\n<thead>\n<tr>$item</tr></thead>\n";
 			else {
-				if($i == 1) echo "<tbody>\n";
+				if($i == 1) echo '<tbody>';
 				echo "<tr>$item</tr>\n";
 			}
 		}
 	}
-	if($i > 0 ) echo "</tbody>\n";
+	if($i > 0 ) echo '</tbody>';
 }
 
-echo "</table>\n";
+echo '</table>';

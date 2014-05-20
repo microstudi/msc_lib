@@ -26,8 +26,8 @@ else {
 
 echo '<td';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['colspan'] ? ' colspan="' . intval($vars['colspan']) . '"' : '');
 echo ($vars['rowspan'] ? ' rowspan="' . intval($vars['rowspan']) . '"' : '');

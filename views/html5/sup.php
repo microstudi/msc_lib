@@ -14,5 +14,5 @@
 * @param body html content inside \<sup>...\</sup>
 */
 
-$tag = "sup";
-require("_generic_tag.php");
+$tag = 'sup';
+require('_generic_tag.php');

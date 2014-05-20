@@ -22,8 +22,8 @@ else {
 
 echo '<video';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo (empty($vars['autoplay']) ? '' : ' autoplay="autoplay"');
 echo (empty($vars['controls']) ? '' : ' controls="controls"');
@@ -31,7 +31,7 @@ echo ($vars['height'] ? ' height="' . htmlspecialchars($vars['height']) . '"' : 
 echo (empty($vars['loop']) ? '' : ' loop="loop"');
 echo (empty($vars['muted']) ? '' : ' muted="muted"');
 echo ($vars['poster'] ? ' poster="' . htmlspecialchars($vars['poster']) . '"' : '');
-echo (in_array($vars['preload'], array("auto", "metadata", "none")) ? ' preload="' . $vars['preload'] . '"' : '');
+echo (in_array($vars['preload'], array('auto', 'metadata', 'none')) ? ' preload="' . $vars['preload'] . '"' : '');
 echo ($vars['url'] ? ' url="' . htmlspecialchars($vars['url']) . '"' : '');
 echo ($vars['width'] ? ' width="' . htmlspecialchars($vars['width']) . '"' : '');
 

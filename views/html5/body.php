@@ -14,5 +14,5 @@
 * @param body html content inside \<body>...\</body>
 */
 
-$tag = "body";
-require("_generic_tag.php");
+$tag = 'body';
+require('_generic_tag.php');

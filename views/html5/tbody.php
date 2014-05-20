@@ -14,5 +14,5 @@
 * @param body html content inside \<tbody>...\</tbody>
 */
 
-$tag = "tbody";
-require("_generic_tag.php");
+$tag = 'tbody';
+require('_generic_tag.php');

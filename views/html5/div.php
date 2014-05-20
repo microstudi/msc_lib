@@ -14,5 +14,5 @@
 * @param body html content inside \<div>...\</div>
 */
 
-$tag = "div";
-require("_generic_tag.php");
+$tag = 'div';
+require('_generic_tag.php');

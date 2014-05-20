@@ -43,7 +43,7 @@ class mCache {
 			if(!is_dir($dir)) {
 				if(mkdir($dir, true)) @chmod($dir, 0777);
 			}
-			if(substr($dir, -1, 1) != "/") $dir = "$dir/";
+			if(substr($dir, -1, 1) != '/') $dir = "$dir/";
 			$this->type = 'local';
 			$this->dir = $dir;
 		}
@@ -57,7 +57,7 @@ class mCache {
 
 	function get_path($file='') {
 		$dir = $this->dir;
-		while(substr($dir, -1, 1) != '/') $dir .= "/";
+		while(substr($dir, -1, 1) != '/') $dir .= '/';
 		while($file{0} == '/') $file = substr($file, 1);
 		return $dir . $file;
 	}

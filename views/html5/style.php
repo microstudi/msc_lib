@@ -24,8 +24,8 @@ else {
 
 echo '<style';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 //Media
 echo ($vars['media'] ? ' media="'.$vars['media'].'"' : '');

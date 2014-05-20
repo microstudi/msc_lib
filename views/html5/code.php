@@ -13,5 +13,5 @@
 * @author Ivan Vergés
 */
 
-$tag = "code";
-require("_generic_tag.php");
+$tag = 'code';
+require('_generic_tag.php');

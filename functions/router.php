@@ -39,7 +39,7 @@ function m_router_base($path=null) {
 	if(!($CONFIG->router instanceOf mRouter)) $CONFIG->router = new mRouter();
 	if(is_null($path)) {
 		$path = dirname($_SERVER['SCRIPT_NAME']);
-		if($path != '/') $path .= "/";
+		if($path != '/') $path .= '/';
 	}
 
 	$CONFIG->router->setBasePath($path);

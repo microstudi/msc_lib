@@ -22,11 +22,11 @@ else {
 
 echo '<meta';
 
-require("_common_html5_attributes.php");
+require('_common_html5_attributes.php');
 
 echo ($charset ? ' charset="' . htmlspecialchars($charset) . '"' : '');
 echo ($vars['content'] ? ' content="' . htmlspecialchars($vars['content']) . '"' : '');
-echo (in_array($vars['http-equiv'],array("content-type", "default-style", "refresh")) ? ' http-equiv="' . $vars['http-equiv'] . '"' : '');
-echo (in_array($vars['name'],array("application-name", "author", "description", "generator", "keywords")) ? ' name="' . $vars['name'] . '"' : '');
+echo (in_array($vars['http-equiv'],array('content-type', 'default-style', 'refresh')) ? ' http-equiv="' . $vars['http-equiv'] . '"' : '');
+echo (in_array($vars['name'],array('application-name', 'author', 'description', 'generator', 'keywords')) ? ' name="' . $vars['name'] . '"' : '');
 
 echo '>';

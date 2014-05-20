@@ -23,7 +23,7 @@ else {
 echo '<!DOCTYPE html>
 <html';
 
-require("_common_html5_attributes.php");
+require('_common_html5_attributes.php');
 
 echo ($vars['manifest'] ? ' manifest="' . htmlspecialchars($vars['manifest']) . '"' : '');
 echo (empty($vars['xmlns']) ? '' : ' xmlns="http://www.w3.org/1999/xhtml"');

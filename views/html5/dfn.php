@@ -14,5 +14,5 @@
 * @param body html content inside \<dfn>...\</dfn>
 */
 
-$tag = "dfn";
-require("_generic_tag.php");
+$tag = 'dfn';
+require('_generic_tag.php');

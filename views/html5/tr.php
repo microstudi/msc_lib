@@ -14,5 +14,5 @@
 * @param body html content inside \<tr>...\</tr>
 */
 
-$tag = "tr";
-require("_generic_tag.php");
+$tag = 'tr';
+require('_generic_tag.php');

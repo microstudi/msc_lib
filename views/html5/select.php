@@ -50,8 +50,8 @@ if(isset($vars['divinput'])) echo '<div' . ($vars['divinput'] ? ' class="' . $va
 
 echo '<select';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo (empty($vars['autofocus']) ? '' : ' autofocus="autofocus"');
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');
@@ -59,8 +59,8 @@ echo (empty($vars['disabled']) ? '' : ' disabled="disabled"');
 echo (empty($vars['multiple']) ? '' : ' multiple="multiple"');
 echo ($vars['name'] ? ' name="' . htmlspecialchars($vars['name']) . '"' : '');
 echo ($vars['size'] ? '  size="'.intval($vars['size']).'"' : '');
-
-echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+echo ($vars['required'] ? ' required="' . htmlspecialchars($vars['required']) . '"' : '');
+echo (in_array($vars['autocomplete'], array('on', 'off')) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
 
 echo '>';
 
@@ -78,7 +78,7 @@ elseif(is_array($vars['options'])) {
 
 			if(in_array($item['value'], $value) && !array_key_exists('selected', $item)) $item['selected'] = true;
 
-			echo m_view("option", $item);
+			echo m_view('option', $item);
 
 		}
 		elseif(is_numeric($i) && !$associative) {

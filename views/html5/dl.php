@@ -22,8 +22,8 @@ else {
 
 echo '<dl';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo '>';
 
@@ -31,21 +31,21 @@ if($body) echo $body;
 elseif(is_array($vars['items'])) {
 	if(is_array($vars['items']['dt'])) {
 		foreach($vars['items']['dt'] as $i => $dt) {
-			echo m_view("dt", $dt);
+			echo m_view('dt', $dt);
 			if(is_array($vars['items']['dd']) && array_key_exists($i, $vars['items']['dd'])) {
-				echo m_view("dd", $vars['items']['dd'][$i]);
+				echo m_view('dd', $vars['items']['dd'][$i]);
 			}
 		}
 	}
 	elseif(is_array($vars['items']['dd'])) {
 		foreach($vars['items']['dd'] as $i => $dd) {
-			echo m_view("dd", $dd);
+			echo m_view('dd', $dd);
 		}
 	}
 	else {
 		foreach($vars['items'] as $dt => $dd) {
-			echo m_view("dt", $dt);
-			echo m_view("dd", $dd);
+			echo m_view('dt', $dt);
+			echo m_view('dd', $dd);
 		}
 	}
 }

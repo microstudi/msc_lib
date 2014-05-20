@@ -53,9 +53,10 @@ function m_sql_set_cache($type = 'runtime', $time = 60, $path = '', $options = a
 
 	//runtime cache enable by default
 	$CONFIG->database_run_cache = array();
+	$CONFIG->database_run_cache_autoclear = true; //clears runcache after updates or deletes
 
 	if(in_array($type, array('auto', 'apc', 'memcache', 'memcached', 'wincache' ,'files', 'sqlite', 'xcache'))) {
-		require_once(dirname(dirname(__FILE__)) . "/classes/phpfastcache/phpfastcache.php");
+		require_once(dirname(dirname(__FILE__)) . '/classes/phpfastcache/phpfastcache.php');
 
 		$CONFIG->database_cache = phpFastCache(array('storage' => $type, 'path' => $path) + $options);
 		$CONFIG->database_cache_time = $time;
@@ -142,7 +143,7 @@ function m_sql_escape($val) {
  * @param $fulltext 'field1' //FULLTEXT INDEX FIELDS
  * @param $fulltext array('field1','field2') //FULLTEXT INDEX FIELDS
  */
-function m_create_table($table, $keys=array(), $pk='', $unique='', $fulltext='', $engine="MyISAM", $default_charset="utf8") {
+function m_create_table($table, $keys=array(), $pk='', $unique='', $fulltext='', $engine='MyISAM', $default_charset='utf8') {
 	global $CONFIG;
 
 	$sql = "CREATE TABLE IF NOT EXISTS `$table` (";
@@ -188,7 +189,7 @@ function m_auto_create_table($table, $array=array()){
 			else $type = 'CHAR(255)';
 		}
 		if(is_integer($v)) {
-			$type = "INT";
+			$type = 'INT';
 		}
 		$keys[$k] = $type;
 	}
@@ -207,12 +208,15 @@ function m_sql_objects($sql, $class='') {
 	$is_select = false;
 	//cache on select or show only
 	if($CONFIG->database_cache_enabled) {
-		$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,7))) == "select" || strtolower(rtrim(substr(ltrim($sql),0 ,4))) == "show" );
+		$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'select' || strtolower(rtrim(substr(ltrim($sql),0 ,4))) === 'show' );
+		$is_update = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'update' || strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'delete' );
 		if($is_select) {
-			$id = "m_sql-" . $CONFIG->db->token. "-" . md5($sql);
+			$id = 'm_sql-' . $CONFIG->db->token. '-' . md5($sql);
 
 			if (is_array($CONFIG->database_run_cache) && array_key_exists($id, $CONFIG->database_run_cache)) {
-				return unserialize($CONFIG->database_run_cache[$id]);
+				// echo "EXISTS CACHE [$id] [$sql]\n";
+				$ret = unserialize($CONFIG->database_run_cache[$id]);
+				if($ret) return $ret;
 			}
 			if($CONFIG->database_cache) {
 				$rows = $CONFIG->database_cache->get($id);
@@ -222,6 +226,7 @@ function m_sql_objects($sql, $class='') {
 				}
 			}
 		}
+		if($is_update && $CONFIG->database_run_cache_autoclear) $CONFIG->database_run_cache = array();
 	}
 
 	$ret = array();
@@ -280,7 +285,7 @@ function m_sql_list($table, $offset=0, $limit=100, $fields='*', $where='', $orde
 			foreach($where as $k => $v) {
 				$w[] = "`$k` = '".m_sql_escape($v)."'";
 			}
-			$where = implode(" AND ", $w);
+			$where = implode(' AND ', $w);
 		}
 		$sql .= " WHERE $where";
 	}
@@ -312,7 +317,7 @@ function m_sql_count($table, $where='', $fields='*') {
 			foreach($where as $k => $v) {
 				$w[] = "`$k` = '".m_sql_escape($v)."'";
 			}
-			$where = implode(" AND ", $w);
+			$where = implode(' AND ', $w);
 		}
 		$sql .= " WHERE $where";
 	}
@@ -340,6 +345,11 @@ function m_sql_exec($sql, $mode='') {
 	if(!m_sql_open()) return false;
 
 	$res = $CONFIG->db->query($sql, $mode);
+	if($CONFIG->database_cache_enabled) {
+		$is_update = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'update' || strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'delete' );
+
+		if($is_update && $CONFIG->database_run_cache_autoclear) $CONFIG->database_run_cache = array();
+	}
 
 	return $res;
 }
@@ -360,12 +370,14 @@ function m_sql_delete($table, $where='') {
 			foreach($where as $k => $v) {
 				$w[] = "`$k` = '".m_sql_escape($v)."'";
 			}
-			$where = implode(" AND ", $w);
+			$where = implode(' AND ', $w);
 		}
 		$sql .= " WHERE $where";
 	}
 	//echo $sql;
-	return m_sql_exec($sql,'delete');
+	$res = m_sql_exec($sql,'delete');
+	if($CONFIG->database_run_cache_autoclear) $CONFIG->database_run_cache = array();
+	return $res;
 }
 
 /**
@@ -389,7 +401,7 @@ function m_sql_insert($table, $insert=array(), $as_insert=true, $escape=true) {
 		}
 	}
 	$sql = "INSERT INTO `$table`
-	(".implode(",",array_keys($inserts)).") VALUES (".implode(",", $inserts).")";
+	(".implode(',',array_keys($inserts)).') VALUES ('.implode(',', $inserts).')';
 
 	return m_sql_exec($sql,($as_insert ? 'insert' : ''));
 }
@@ -417,7 +429,7 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
 			}
 		}
 		$sql = "UPDATE `$table` SET
-			".implode(",", $updates);
+			".implode(',', $updates);
 	}
 	else {
 		$sql = "UPDATE `$table` SET $insert";
@@ -429,12 +441,14 @@ function m_sql_update($table, $insert=array(), $where='', $escape=true, $return_
 			foreach($where as $k => $v) {
 				$w[] = "`$k` = '".m_sql_escape($v)."'";
 			}
-			$where = implode(" AND ", $w);
+			$where = implode(' AND ', $w);
 		}
 		$sql .= " WHERE $where";
 	}
 
-	return m_sql_exec($sql,($return_only_affected_rows ? 'affected' : 'update'));
+	$res = m_sql_exec($sql,($return_only_affected_rows ? 'affected' : 'update'));
+	if($CONFIG->database_run_cache_autoclear) $CONFIG->database_run_cache = array();
+	return $res;
 }
 
 /**
@@ -474,12 +488,14 @@ function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_
 		$custom_sql_update = '';
 	}
 	$sql = "INSERT INTO `$table`
-	(".implode(",",array_keys($inserts)).") VALUES (".implode(",", $inserts).")
+	(".implode(',',array_keys($inserts)).') VALUES ('.implode(',', $inserts).')
 	ON DUPLICATE KEY UPDATE
-		" . ($custom_sql_update ? $custom_sql_update : implode(",", $updates));
+		' . ($custom_sql_update ? $custom_sql_update : implode(',', $updates));
 
 	//echo "$sql\n";
-	return m_sql_exec($sql);
+	$res = m_sql_exec($sql);
+	if($CONFIG->database_run_cache_autoclear) $CONFIG->database_run_cache = array();
+	return $res;
 }
 
 /**

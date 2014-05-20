@@ -14,5 +14,5 @@
 * @param body html content inside \<aside>...\</aside>
 */
 
-$tag = "aside";
-require("_generic_tag.php");
+$tag = 'aside';
+require('_generic_tag.php');

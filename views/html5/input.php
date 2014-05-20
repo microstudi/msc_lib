@@ -23,7 +23,7 @@
 */
 
 if($vars['type'] == 'textarea') {
-	require("textarea.php");
+	require('textarea.php');
 	return;
 }
 
@@ -58,20 +58,20 @@ else {
 if(isset($vars['divinput'])) echo '<div' . ($vars['divinput'] ? ' class="' . $vars['divinput'] . '"' : '').'>';
 echo '<input';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['accept'] ? ' accept="' . htmlspecialchars($vars['accept']) . '"' : '');
 echo ($vars['alt'] ? ' alt="' . htmlspecialchars($vars['alt']) . '"' : '');
-echo (in_array($vars['autocomplete'], array("on", "off")) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
+echo (in_array($vars['autocomplete'], array('on', 'off')) ? ' autocomplete="' . $vars['autocomplete'] . '"' : '');
 echo (empty($vars['autofocus']) ? '' : ' autofocus="autofocus"');
 echo (empty($vars['checked']) ? '' : ' checked="checked"');
 echo (empty($vars['disabled']) ? '' : ' disabled="disabled"');
 
 echo ($vars['form'] ? ' form="' . htmlspecialchars($vars['form']) . '"' : '');
 echo ($vars['formaction'] ? ' formaction="' . htmlspecialchars($vars['formaction']) . '"' : '');
-echo (in_array($vars['formenctype'], array("application/x-www-form-urlencoded", "multipart/form-data", "text/plain")) ? ' formenctype="' . $vars['formenctype'] . '"' : '');
-echo (in_array($vars['formmethod'], array("get", "post")) ? ' formmethod="' . $vars['formmethod'] . '"' : '');
+echo (in_array($vars['formenctype'], array('application/x-www-form-urlencoded', 'multipart/form-data', 'text/plain')) ? ' formenctype="' . $vars['formenctype'] . '"' : '');
+echo (in_array($vars['formmethod'], array('get', 'post')) ? ' formmethod="' . $vars['formmethod'] . '"' : '');
 echo (empty($vars['formnovalidate']) ? '' : ' formnovalidate="formnovalidate"');
 echo ($vars['formtarget'] ? ' formtarget="' . htmlspecialchars($vars['formtarget']) . '"' : '');
 
@@ -89,7 +89,7 @@ echo ($vars['required'] ? ' required="' . htmlspecialchars($vars['required']) . 
 echo ($vars['size'] ? ' size="' . intval($vars['size']) . '"' : '');
 echo ($vars['src'] ? ' src="' . htmlspecialchars($vars['src']) . '"' : '');
 echo ($vars['step'] ? ' step="' . intval($vars['step']) . '"' : '');
-echo (in_array($vars['type'], array("button", "checkbox", "color", "date", "datetime", "datetime-local", "email", "file", "hidden", "image", "month", "number", "password", "radio", "range", "reset", "search", "submit", "tel", "text", "time", "url", "week")) ? ' type="' . $vars['type'] . '"' : '');
+echo (in_array($vars['type'], array('button', 'checkbox', 'color', 'date', 'datetime', 'datetime-local', 'email', 'file', 'hidden', 'image', 'month', 'number', 'password', 'radio', 'range', 'reset', 'search', 'submit', 'tel', 'text', 'time', 'url', 'week')) ? ' type="' . $vars['type'] . '"' : '');
 echo (isset($vars['value']) ? ' value="' . htmlspecialchars($vars['value']) . '"' : '');
 echo ($vars['width'] ? ' width="' . htmlspecialchars($vars['width']) . '"' : '');
 echo '>';

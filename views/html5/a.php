@@ -26,8 +26,8 @@ else {
 
 echo '<a';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 //href
 echo ($href ? ' href="' . htmlspecialchars($href) . '"' : '');
@@ -38,7 +38,7 @@ echo ($vars['hreflang'] ? ' hreflang="' . htmlspecialchars($vars['hreflang']) . 
 echo ($vars['media'] ? ' media="' . htmlspecialchars($vars['media']) . '"' : '');
 
 //rel
-//echo (in_array($vars['rel'],array("alternate", "author", "bookmark", "help", "license", "next", "nofollow", "noreferrer", "prefetch", "prev", "search", "tag")) ? ' rel="' . $vars['rel'] . '"' : '');
+//echo (in_array($vars['rel'],array('alternate', 'author', 'bookmark', 'help', 'license', 'next', 'nofollow', 'noreferrer', 'prefetch', 'prev', 'search', 'tag')) ? ' rel="' . $vars['rel'] . '"' : '');
 echo ($vars['rel'] ? ' rel="' . htmlspecialchars($vars['rel']) . '"' : '');
 
 //target

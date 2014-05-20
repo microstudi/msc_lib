@@ -14,5 +14,5 @@
 * @param body html content inside \<tfoot>...\</tfoot>
 */
 
-$tag = "tfoot";
-require("_generic_tag.php");
+$tag = 'tfoot';
+require('_generic_tag.php');

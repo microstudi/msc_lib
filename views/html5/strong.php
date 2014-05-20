@@ -13,5 +13,5 @@
 * @param body html content inside \<strong>...\</strong>
 */
 
-$tag = "strong";
-require("_generic_tag.php");
+$tag = 'strong';
+require('_generic_tag.php');

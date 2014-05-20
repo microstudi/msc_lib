@@ -24,7 +24,7 @@
 
 $d = dirname(__FILE__);
 ///Include global vars & definitions
-include_once($d . "/config.php");
+include_once($d . '/config.php');
 
 /// Include libs
 foreach($CONFIG->inc_classes as $mod) {

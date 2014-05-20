@@ -6,5 +6,5 @@
 *
 */
 
-$tag = "hr";
-require("_generic_tag.php");
+$tag = 'hr';
+require('_generic_tag.php');

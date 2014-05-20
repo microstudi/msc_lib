@@ -21,8 +21,8 @@ else {
 
 echo '<blockquote';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 //cite
 echo ($vars['cite'] ? ' cite="' . htmlspecialchars($vars['cite']) . '"' : '');

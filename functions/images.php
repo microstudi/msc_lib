@@ -94,12 +94,12 @@ function m_image($file, $width = 0, $height = 0, $proportional = 1, $return = 'f
 
 	$cache_file = false;
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$cache_file = md5(dirname($file_name)) . "-".((int)$width) . "x" . ((int)$height) . "-$proportional-$quality-" . basename($file_name);
+		$cache_file = md5(dirname($file_name)) . '-'.((int)$width) . 'x' . ((int)$height) . "-$proportional-$quality-" . basename($file_name);
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			if(!($file instanceOf mImage)) {
 				ob_end_clean();
-	    		header("Connection: close", true);
+	    		header('Connection: close', true);
 				mImage::stream($f, false);
 				//close connection with browser
 	    		ob_end_flush();
@@ -176,7 +176,7 @@ function m_image_mix($file, $mix_images = null, $options = null, $return = 'flus
 	foreach($default_ops as $k => $v) if(!array_key_exists($k, $options)) $options[$k] = $v;
 
 	//opcions per defecte per a la mescla d'imatges
-	$default_mix_ops = array('width' => 0, 'height' => 0, 'proportional' => 1, 'position_x' => "center", 'position_y' => "center", 'alpha' => 50);
+	$default_mix_ops = array('width' => 0, 'height' => 0, 'proportional' => 1, 'position_x' => 'center', 'position_y' => 'center', 'alpha' => 50);
 
 	$mix = array();
 	if(is_string($mix_images))  $mix = array($mix_images => $default_mix_ops);
@@ -197,12 +197,12 @@ function m_image_mix($file, $mix_images = null, $options = null, $return = 'flus
 
 	$cache_file = false;
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$cache_file = md5(dirname($file_name) . "-" . serialize($mix) . serialize($options)) . basename($file_name);
+		$cache_file = md5(dirname($file_name) . '-' . serialize($mix) . serialize($options)) . basename($file_name);
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			if(!($file instanceOf mImage)) {
 				ob_end_clean();
-	    		header("Connection: close", true);
+	    		header('Connection: close', true);
 				mImage::stream($f, false);
 				//close connection with browser
 	    		ob_end_flush();
@@ -276,12 +276,12 @@ function m_image_string($file, $options = array(), $return = 'flush') {
 
 	$cache_file = false;
 	if($file && in_array($return, array('flush', 'data')) && !mImage::is_gd($file) && $CONFIG->image_cache instanceOf mCache) {
-		$cache_file = md5(dirname($file_name) . "-" . serialize($options)) . basename($file_name);
+		$cache_file = md5(dirname($file_name) . '-' . serialize($options)) . basename($file_name);
 		//returns the file or url if exists
 		if($f = $CONFIG->image_cache->get($cache_file)) {
 			if(!($file instanceOf mImage)) {
 				ob_end_clean();
-	    		header("Connection: close", true);
+	    		header('Connection: close', true);
 				mImage::stream($f, false);
 				//close connection with browser
 	    		ob_end_flush();

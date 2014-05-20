@@ -14,5 +14,5 @@
 * @param body html content inside \<b>...\</b>
 */
 
-$tag = "cite";
-require("_generic_tag.php");
+$tag = 'cite';
+require('_generic_tag.php');

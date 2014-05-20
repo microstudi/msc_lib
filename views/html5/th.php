@@ -22,13 +22,13 @@ else {
 
 echo '<th';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['colspan'] ? ' colspan="' . intval($vars['colspan']) . '"' : '');
 echo ($vars['rowspan'] ? ' rowspan="' . intval($vars['rowspan']) . '"' : '');
 echo ($vars['headers'] ? ' headers="' . htmlspecialchars($vars['headers']) . '"' : '');
-echo (in_array($vars['scope'], array("col", "colgroup", "row", "rowgroup")) ? ' scope="' . $vars['scope'] . '"' : '');
+echo (in_array($vars['scope'], array('col', 'colgroup', 'row', 'rowgroup')) ? ' scope="' . $vars['scope'] . '"' : '');
 
 echo '>';
 

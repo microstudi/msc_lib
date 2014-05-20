@@ -102,7 +102,7 @@ class mMySQL extends mSQL {
 			$this->conn = null;
 		}
 		else {
-			$this->throwError("Error: No connection has been established to the database. Cannot close connection.");
+			$this->throwError('Error: No connection has been established to the database. Cannot close connection.');
 		}
 	}
 	/**
@@ -137,7 +137,7 @@ class mMySQL extends mSQL {
 					elseif($mode == 'update') {
 						$info_str = mysql_info($this->conn);
 						$a_rows = mysql_affected_rows($this->conn);
-						preg_match("/Rows matched: ([0-9]*)/", $info_str, $r_matched);
+						preg_match('/Rows matched: ([0-9]*)/', $info_str, $r_matched);
 						//print_r($info_str);echo "<br>\n";print_r($r_matched);echo "<br>\n";die("return: ".(($a_rows < 1)?($r_matched[1]?$r_matched[1]:0):$a_rows));
 						$ret = ($a_rows < 1) ? ($r_matched[1] ? $r_matched[1] : 0) : $a_rows;
 					}
@@ -172,7 +172,7 @@ class mMySQL extends mSQL {
 	 * */
 	function setUTF8() {
 		if($this->conn) {
-			if($res = mysql_query("SET NAMES UTF8", $this->conn)) {
+			if($res = mysql_query('SET NAMES UTF8', $this->conn)) {
 				$this->last_error = '';
 				$this->utf8_set = true;
 				return $res;

@@ -14,5 +14,5 @@
 * @param body html content inside \<address>...\</address>
 */
 
-$tag = "address";
-require("_generic_tag.php");
+$tag = 'address';
+require('_generic_tag.php');

@@ -22,8 +22,8 @@ else {
 
 echo '<img';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($src ? ' src="' . htmlspecialchars($src) . '"' : '');
 echo ($vars['alt'] ? ' alt="' . htmlspecialchars($vars['alt']) . '"' : '');

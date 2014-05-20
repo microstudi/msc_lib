@@ -21,7 +21,7 @@ else {
 
 echo '<head';
 
-require("_common_html5_attributes.php");
+require('_common_html5_attributes.php');
 
 echo '>';
 

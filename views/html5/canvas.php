@@ -22,8 +22,8 @@ else {
 
 echo '<canvas';
 
-require("_common_html5_attributes.php");
-require("_common_html5_event_attributes.php");
+require('_common_html5_attributes.php');
+require('_common_html5_event_attributes.php');
 
 echo ($vars['height'] ? ' height="' . htmlspecialchars($vars['height']) . '"' : '');
 echo ($vars['width'] ? ' width="' . htmlspecialchars($vars['width']) . '"' : '');

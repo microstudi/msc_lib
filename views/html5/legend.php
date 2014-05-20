@@ -13,6 +13,6 @@
 * @param body html content inside \<b>...\</b>
 */
 
-$tag = "legend";
-require("_generic_tag.php");
+$tag = 'legend';
+require('_generic_tag.php');
 
