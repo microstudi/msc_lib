@@ -426,7 +426,7 @@ class MediaEmbed {
 		$arr = array();
 		foreach($size_types as $key => $val)
 		{
-			$arr[$key] = 'http://i.ytimg.com/vi/'.($this->code).'/'.$val.'.jpg';
+			$arr[$key] = 'https://i.ytimg.com/vi/'.($this->code).'/'.$val.'.jpg';
 		}
 		return $arr;
 	}
@@ -436,19 +436,19 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function youtube_iframe(){
-		return 'http://www.youtube.com/embed/'.($this->code);
+		return 'https://www.youtube.com/embed/'.($this->code);
 	}
 	//return embed url
 	private function youtube_embed(){
-		return 'http://www.youtube.com/v/'.($this->code);
+		return 'https://www.youtube.com/v/'.($this->code);
 	}
 	//return canonical url
 	private function youtube_url(){
-		return 'http://www.youtube.com/watch?v='.($this->code);
+		return 'https://www.youtube.com/watch?v='.($this->code);
 	}
 	//return website url
 	private function youtube_site(){
-		return 'http://www.youtube.com';
+		return 'https://www.youtube.com';
 	}
 	//return title
 	private function youtube_title($res){
@@ -473,7 +473,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function vimeo_req(){
-		return 'http://vimeo.com/api/v2/video/'.($this->code).'.json';
+		return 'https://vimeo.com/api/v2/video/'.($this->code).'.json';
 	}
 	//return thumbnails
 	private function vimeo_thumb($res){
@@ -504,19 +504,19 @@ class MediaEmbed {
 	}
 	//return iframe link
 	private function vimeo_iframe(){
-		return 'http://player.vimeo.com/video/'.($this->code);
+		return 'https://player.vimeo.com/video/'.($this->code);
 	}
 	//return embed url
 	private function vimeo_embed(){
-		return 'http://vimeo.com/moogaloop.swf?clip_id='.($this->code);
+		return 'https://vimeo.com/moogaloop.swf?clip_id='.($this->code);
 	}
 	//return canonical url
 	private function vimeo_url(){
-		return 'http://www.vimeo.com/'.($this->code);
+		return 'https://www.vimeo.com/'.($this->code);
 	}
 	//return website url
 	private function vimeo_site(){
-		return 'http://www.vimeo.com';
+		return 'https://www.vimeo.com';
 	}
 	//return title
 	private function vimeo_title($res){
@@ -578,7 +578,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function facebook_iframe(){
-		return 'http://www.facebook.com/v/'.($this->code);
+		return 'https://www.facebook.com/v/'.($this->code);
 	}
 	//return embed url
 	private function facebook_embed(){
@@ -586,11 +586,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function facebook_url(){
-		return 'http://www.facebook.com/video/video.php?v='.($this->code);
+		return 'https://www.facebook.com/video/video.php?v='.($this->code);
 	}
 	//return website url
 	private function facebook_site(){
-		return 'http://www.facebook.com';
+		return 'https://www.facebook.com';
 	}
 	//return title
 	private function facebook_title($res){
@@ -620,7 +620,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function dailymotion_req(){
-		return 'http://www.dailymotion.com/services/oembed?format=json&url='.$this->dailymotion_url();
+		return 'https://www.dailymotion.com/services/oembed?format=json&url='.$this->dailymotion_url();
 	}
 	//return thumbnails
 	private function dailymotion_thumb($res){
@@ -640,19 +640,19 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function dailymotion_iframe(){
-		return 'http://www.dailymotion.com/embed/video/'.($this->code);
+		return 'https://www.dailymotion.com/embed/video/'.($this->code);
 	}
 	//return embed url
 	private function dailymotion_embed(){
-		return 'http://www.dailymotion.com/swf/video/'.($this->code);
+		return 'https://www.dailymotion.com/swf/video/'.($this->code);
 	}
 	//return canonical url
 	private function dailymotion_url(){
-		return 'http://www.dailymotion.com/video/'.($this->code);
+		return 'https://www.dailymotion.com/video/'.($this->code);
 	}
 	//return website url
 	private function dailymotion_site(){
-		return 'http://www.dailymotion.com';
+		return 'https://www.dailymotion.com';
 	}
 	//return title
 	private function dailymotion_title($res){
@@ -676,7 +676,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function myspace_req(){
-		return 'http://mediaservices.myspace.com/services/rss.ashx?type=video&videoID='.$this->code;
+		return 'https://mediaservices.myspace.com/services/rss.ashx?type=video&videoID='.$this->code;
 	}
 	//return thumbnails
 	private function myspace_thumb($res){
@@ -703,7 +703,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function myspace_iframe(){
-		return 'http://mediaservices.myspace.com/services/media/embed.aspx/m='.($this->code);
+		return 'https://mediaservices.myspace.com/services/media/embed.aspx/m='.($this->code);
 	}
 	//return embed url
 	private function myspace_embed(){
@@ -711,11 +711,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function myspace_url(){
-		return 'http://www.myspace.com/video/vid/'.($this->code);
+		return 'https://www.myspace.com/video/vid/'.($this->code);
 	}
 	//return website url
 	private function myspace_site(){
-		return 'http://www.myspace.com';
+		return 'https://www.myspace.com';
 	}
 	//return title
 	private function myspace_title($res){
@@ -748,9 +748,9 @@ class MediaEmbed {
 	private function metacafe_thumb(){
 		$arr = array();
 		$parts = explode('/', $this->code);
-		$arr['medium'] = 'http://s.mcstatic.com/thumb/'.$parts[0].'.jpg';
-		$arr['large'] = 'http://s.mcstatic.com/thumb/'.$parts[0].'/0/4/videos/0/1/'.$parts[1].'.jpg';
-		$arr['small'] = 'http://s.mcstatic.com/thumb/'.$parts[0].'/0/4/sidebar_16x9/0/1/'.$parts[1].'.jpg';
+		$arr['medium'] = 'https://s.mcstatic.com/thumb/'.$parts[0].'.jpg';
+		$arr['large'] = 'https://s.mcstatic.com/thumb/'.$parts[0].'/0/4/videos/0/1/'.$parts[1].'.jpg';
+		$arr['small'] = 'https://s.mcstatic.com/thumb/'.$parts[0].'/0/4/sidebar_16x9/0/1/'.$parts[1].'.jpg';
 		return $arr;
 	}
 		//return size
@@ -763,7 +763,7 @@ class MediaEmbed {
 	//return iframe url
 	private function metacafe_iframe(){
 		$code = ($this->code[strlen($this->code)-1] == '/') ? substr($this->code, 0, strlen($this->code)-1) : $this->code;
-		return 'http://www.metacafe.com/fplayer/'.$code.'.swf';
+		return 'https://www.metacafe.com/fplayer/'.$code.'.swf';
 	}
 	//return embed url
 	private function metacafe_embed(){
@@ -772,11 +772,11 @@ class MediaEmbed {
 	//return canonical url
 	private function metacafe_url(){
 		$code = ($this->code[strlen($this->code)-1] != '/') ? ($this->code).'/' : $this->code;
-		return 'http://www.metacafe.com/watch/'.($code);
+		return 'https://www.metacafe.com/watch/'.($code);
 	}
 	//return website url
 	private function metacafe_site(){
-		return 'http://www.metacafe.com';
+		return 'https://www.metacafe.com';
 	}
 	//return title
 	private function metacafe_title(){
@@ -809,9 +809,9 @@ class MediaEmbed {
 	//return thumbnails
 	private function revver_thumb(){
 		$arr = array();
-		$arr['small'] = 'http://frame.revver.com/frame/120x90/'.($this->revver_decode()).'.jpg';
-		$arr['medium'] = 'http://frame.revver.com/frame/320x240/'.($this->revver_decode()).'.jpg';
-		$arr['large'] = 'http://frame.revver.com/frame/480x360/'.($this->revver_decode()).'.jpg';
+		$arr['small'] = 'https://frame.revver.com/frame/120x90/'.($this->revver_decode()).'.jpg';
+		$arr['medium'] = 'https://frame.revver.com/frame/320x240/'.($this->revver_decode()).'.jpg';
+		$arr['large'] = 'https://frame.revver.com/frame/480x360/'.($this->revver_decode()).'.jpg';
 		return $arr;
 	}
 	//return size
@@ -823,7 +823,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function revver_iframe(){
-		return 'http://flash.revver.com/player/1.0/player.swf?mediaId='.$this->revver_decode();
+		return 'https://flash.revver.com/player/1.0/player.swf?mediaId='.$this->revver_decode();
 	}
 	//return embed url
 	private function revver_embed(){
@@ -831,11 +831,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function revver_url(){
-		return 'http://www.revver.com/video/'.($this->code);
+		return 'https://www.revver.com/video/'.($this->code);
 	}
 	//return website url
 	private function revver_site(){
-		return 'http://www.revver.com';
+		return 'https://www.revver.com';
 	}
 	//return title
 	private function revver_title(){
@@ -863,7 +863,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function fivemin_req(){
-		return 'http://api.5min.com/oembed.xml?url=http://www.5min.com/Video/-'.$this->fivemin_decode();
+		return 'https://api.5min.com/oembed.xml?url=http://www.5min.com/Video/-'.$this->fivemin_decode();
 	}
 	//return thumbnails
 	private function fivemin_thumb($res){
@@ -883,7 +883,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function fivemin_iframe(){
-		return 'http://embed.5min.com/'.$this->fivemin_decode();
+		return 'https://embed.5min.com/'.$this->fivemin_decode();
 	}
 	//return embed url
 	private function fivemin_embed(){
@@ -891,11 +891,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function fivemin_url(){
-		return 'http://www.5min.com/Video/'.($this->code);
+		return 'https://www.5min.com/Video/'.($this->code);
 	}
 	//return website url
 	private function fivemin_site(){
-		return 'http://www.5min.com';
+		return 'https://www.5min.com';
 	}
 	//return title
 	private function fivemin_title($res){
@@ -920,7 +920,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function clickthrough_req(){
-		return 'http://www.clikthrough.com/services/oembed/?url='.$this->clickthrough_url().'%26format%3Djson';
+		return 'https://www.clikthrough.com/services/oembed/?url='.$this->clickthrough_url().'%26format%3Djson';
 	}
 	//return thumbnails
 	private function clickthrough_thumb($res){
@@ -940,7 +940,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function clickthrough_iframe(){
-		return 'http://www.clikthrough.com/clikPlayer.swf?videoId='.$this->code;
+		return 'https://www.clikthrough.com/clikPlayer.swf?videoId='.$this->code;
 	}
 	//return embed url
 	private function clickthrough_embed(){
@@ -948,11 +948,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function clickthrough_url(){
-		return 'http://www.clikthrough.com/theater/video/'.($this->code);
+		return 'https://www.clikthrough.com/theater/video/'.($this->code);
 	}
 	//return website url
 	private function clickthrough_site(){
-		return 'http://www.clikthrough.com';
+		return 'https://www.clikthrough.com';
 	}
 	//return title
 	private function clickthrough_title($res){
@@ -974,16 +974,16 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function dotsub_req(){
-		return 'http://dotsub.com/services/oembed?url='.$this->dotsub_url();
+		return 'https://dotsub.com/services/oembed?url='.$this->dotsub_url();
 	}
 	//return thumbnails
 	private function dotsub_thumb(){
 		$arr = array();
-		$arr['medium'] = 'http://dotsub.com/media/'.$this->code.'/t';
-		$arr['small'] = 'http://dotsub.com/media/'.$this->code.'/t';
-		$arr['large'] = 'http://dotsub.com/media/'.$this->code.'/t';
+		$arr['medium'] = 'https://dotsub.com/media/'.$this->code.'/t';
+		$arr['small'] = 'https://dotsub.com/media/'.$this->code.'/t';
+		$arr['large'] = 'https://dotsub.com/media/'.$this->code.'/t';
 		return $arr;
 	}
 	//return size
@@ -992,7 +992,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function dotsub_iframe(){
-		return 'http://dotsub.com/static/players/portalplayer.swf?uuid='.($this->code).'&lang=eng&plugins=dotsub&embedded=true';
+		return 'https://dotsub.com/static/players/portalplayer.swf?uuid='.($this->code).'&lang=eng&plugins=dotsub&embedded=true';
 	}
 	//return embed url
 	private function dotsub_embed(){
@@ -1000,11 +1000,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function dotsub_url(){
-		return 'http://dotsub.com/view/'.($this->code);
+		return 'https://dotsub.com/view/'.($this->code);
 	}
 	//return website url
 	private function dotsub_site(){
-		return 'http://www.dotsub.com';
+		return 'https://www.dotsub.com';
 	}
 	//return title
 	private function dotsub_title($res){
@@ -1014,7 +1014,7 @@ class MediaEmbed {
 	/**************************
 	* REVISION3 FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function revision_data(){
 		return array(
 			'thumb' => true,
@@ -1026,7 +1026,7 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function revision_req(){
 		return $this->revision_url();
 	}
@@ -1057,11 +1057,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function revision_url(){
-		return 'http://revision3.com/'.($this->code);
+		return 'https://revision3.com/'.($this->code);
 	}
 	//return website url
 	private function revision_site(){
-		return 'http://www.revision3.com';
+		return 'https://www.revision3.com';
 	}
 	//return title
 	private function revision_title($res){
@@ -1071,7 +1071,7 @@ class MediaEmbed {
 	/**************************
 	* VIDEOJUG FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function videojug_data(){
 		return array(
 			'thumb' => true,
@@ -1083,7 +1083,7 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function videojug_req(){
 		return $this->videojug_url();
 	}
@@ -1131,11 +1131,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function videojug_url(){
-		return 'http://www.videojug.com/film/'.($this->code);
+		return 'https://www.videojug.com/film/'.($this->code);
 	}
 	//return website url
 	private function videojug_site(){
-		return 'http://www.videojug.com';
+		return 'https://www.videojug.com';
 	}
 	//return title
 	private function videojug_title($res){
@@ -1151,7 +1151,7 @@ class MediaEmbed {
 	/**************************
 	* BLIP FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function blip_data(){
 		return array(
 			'thumb' => true,
@@ -1163,7 +1163,7 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function blip_req(){
 		return $this->blip_url();
 	}
@@ -1176,8 +1176,8 @@ class MediaEmbed {
 
 			$arr['large'] = $match[1];
 			$file = explode('blip.tv/', $match[1]);
-			$arr['small'] = 'http://i.blip.tv/g?src='.$file[1].'&w=140&h=80';
-			$arr['medium'] = 'http://i.blip.tv/g?src='.$file[1].'&w=300&h=170';
+			$arr['small'] = 'https://i.blip.tv/g?src='.$file[1].'&w=140&h=80';
+			$arr['medium'] = 'https://i.blip.tv/g?src='.$file[1].'&w=300&h=170';
 		}
 		return $arr;
 	}
@@ -1198,11 +1198,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function blip_url(){
-		return 'http://blip.tv/'.($this->code);
+		return 'https://blip.tv/'.($this->code);
 	}
 	//return website url
 	private function blip_site(){
-		return 'http://blip.tv';
+		return 'https://blip.tv';
 	}
 	//return title
 	private function blip_title($res){
@@ -1226,7 +1226,7 @@ class MediaEmbed {
 	}
 	//return http request url where to get data
 	private function viddler_req(){
-		return 'http://lab.viddler.com/services/oembed/?format=json&type=simple&url='.$this->viddler_url();
+		return 'https://lab.viddler.com/services/oembed/?format=json&type=simple&url='.$this->viddler_url();
 	}
 	//return thumbnails
 	private function viddler_thumb($res){
@@ -1264,11 +1264,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function viddler_url(){
-		return 'http://www.viddler.com/explore/'.($this->code);
+		return 'https://www.viddler.com/explore/'.($this->code);
 	}
 	//return website url
 	private function viddler_site(){
-		return 'http://www.viddler.com';
+		return 'https://www.viddler.com';
 	}
 	//return title
 	private function viddler_title($res){
@@ -1278,7 +1278,7 @@ class MediaEmbed {
 	/**************************
 	* SCREENR FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function screenr_data(){
 		return array(
 			'thumb' => true,
@@ -1290,9 +1290,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function screenr_req(){
-		return 'http://www.screenr.com/api/oembed.json?url='.$this->screenr_url();
+		return 'https://www.screenr.com/api/oembed.json?url='.$this->screenr_url();
 	}
 	//return thumbnails
 	private function screenr_thumb($res){
@@ -1312,7 +1312,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function screenr_iframe(){
-		return 'http://www.screenr.com/embed/'.($this->code);
+		return 'https://www.screenr.com/embed/'.($this->code);
 	}
 	//return embed url
 	private function screenr_embed(){
@@ -1320,11 +1320,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function screenr_url(){
-		return 'http://www.screenr.com/'.($this->code);
+		return 'https://www.screenr.com/'.($this->code);
 	}
 	//return website url
 	private function screenr_site(){
-		return 'http://www.screenr.com';
+		return 'https://www.screenr.com';
 	}
 	//return title
 	private function screenr_title($res){
@@ -1334,7 +1334,7 @@ class MediaEmbed {
 	/**************************
 	* SLIDESHARE FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function slideshare_data(){
 		return array(
 			'thumb' => true,
@@ -1346,9 +1346,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function slideshare_req(){
-		return 'http://www.slideshare.net/api/oembed/1?format=json&amp;url='.$this->slideshare_url();
+		return 'https://www.slideshare.net/api/oembed/1?format=json&amp;url='.$this->slideshare_url();
 	}
 	//return thumbnails
 	private function slideshare_thumb($res){
@@ -1369,7 +1369,7 @@ class MediaEmbed {
 	//return iframe url
 	private function slideshare_iframe(){
 		$code = explode('-', $this->code);
-		return 'http://www.slideshare.net/slideshow/embed_code/'.($code[sizeof($code)-1]);
+		return 'https://www.slideshare.net/slideshow/embed_code/'.($code[sizeof($code)-1]);
 	}
 	//return embed url
 	private function slideshare_embed(){
@@ -1377,11 +1377,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function slideshare_url(){
-		return 'http://www.slideshare.net/'.($this->code);
+		return 'https://www.slideshare.net/'.($this->code);
 	}
 	//return website url
 	private function slideshare_site(){
-		return 'http://www.slideshare.net';
+		return 'https://www.slideshare.net';
 	}
 	//return title
 	private function slideshare_title($res){
@@ -1391,7 +1391,7 @@ class MediaEmbed {
 	/**************************
 	* HULU FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function hulu_data(){
 		return array(
 			'thumb' => true,
@@ -1403,9 +1403,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function hulu_req(){
-		return 'http://www.hulu.com/api/oembed.json?url='.$this->hulu_url();
+		return 'https://www.hulu.com/api/oembed.json?url='.$this->hulu_url();
 	}
 	//return thumbnails
 	private function hulu_thumb($res){
@@ -1439,11 +1439,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function hulu_url(){
-		return 'http://www.hulu.com/watch/'.($this->code);
+		return 'https://www.hulu.com/watch/'.($this->code);
 	}
 	//return website url
 	private function hulu_site(){
-		return 'http://www.hulu.com';
+		return 'https://www.hulu.com';
 	}
 	//return title
 	private function hulu_title($res){
@@ -1453,7 +1453,7 @@ class MediaEmbed {
 	/**************************
 	* QIK FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function qik_data(){
 		return array(
 			'thumb' => true,
@@ -1465,9 +1465,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function qik_req(){
-		return 'http://qik.com/api/oembed.json?url='.$this->qik_url();
+		return 'https://qik.com/api/oembed.json?url='.$this->qik_url();
 	}
 	//return thumbnails
 	private function qik_thumb($res){
@@ -1478,9 +1478,9 @@ class MediaEmbed {
 			preg_match( '/FlashVars="streamID=([^&]*)&/i', $res['html'], $match);
 			if(!empty($match))
 			{
-				$arr['large'] = 'http://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
-				$arr['medium'] = 'http://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
-				$arr['small'] = 'http://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
+				$arr['large'] = 'https://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
+				$arr['medium'] = 'https://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
+				$arr['small'] = 'https://qikimg.com/media.thumbnails.128/'.$match[1].'.jpg';
 			}
 		}
 		return $arr;
@@ -1498,7 +1498,7 @@ class MediaEmbed {
 			preg_match( '/FlashVars="([^"]*)"/i', $res["html"], $match);
 			if(!empty($match))
 			{
-				$url = 'http://qik.com/swfs/qikPlayer5.swf?'.$match[1];
+				$url = 'https://qik.com/swfs/qikPlayer5.swf?'.$match[1];
 			}
 		}
 		return $url;
@@ -1509,11 +1509,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function qik_url(){
-		return 'http://www.qik.com/video/'.($this->code);
+		return 'https://www.qik.com/video/'.($this->code);
 	}
 	//return website url
 	private function qik_site(){
-		return 'http://www.qik.com';
+		return 'https://www.qik.com';
 	}
 	//return title
 	private function qik_title($res){
@@ -1535,9 +1535,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function flickr_req(){
-		return 'http://www.flickr.com/services/oembed/?format=json&url='.$this->flickr_url();
+		return 'https://www.flickr.com/services/oembed/?format=json&url='.$this->flickr_url();
 	}
 	//return thumbnails
 	private function flickr_thumb($res){
@@ -1565,11 +1565,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function flickr_url(){
-		return 'http://www.flickr.com/photos/'.($this->code);
+		return 'https://www.flickr.com/photos/'.($this->code);
 	}
 	//return website url
 	private function flickr_site(){
-		return 'http://www.flickr.com';
+		return 'https://www.flickr.com';
 	}
 	//return title
 	private function flickr_title($res){
@@ -1583,7 +1583,7 @@ class MediaEmbed {
 		$parts = explode('/', $this->code);
 		return $parts[0];
 	}
-	//which data needs additional http request
+	//which data needs additional https request
 	private function funnyordie_data(){
 		return array(
 			'thumb' => false,
@@ -1595,16 +1595,16 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function funnyordie_req(){
-		return 'http://www.funnyordie.com/oembed?format=json&url='.$this->funnyordie_url();
+		return 'https://www.funnyordie.com/oembed?format=json&url='.$this->funnyordie_url();
 	}
 	//return thumbnails
 	private function funnyordie_thumb(){
 		$arr = array();
-		$arr['large'] = 'http://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/fullsize_11.jpg';
-		$arr['medium'] = 'http://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/large_11.jpg';
-		$arr['small'] = 'http://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/medium_11.jpg';
+		$arr['large'] = 'https://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/fullsize_11.jpg';
+		$arr['medium'] = 'https://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/large_11.jpg';
+		$arr['small'] = 'https://assets.ordienetworks.com/tmbs/'.($this->funnyordie_decode()).'/medium_11.jpg';
 		return $arr;
 	}
 	//return size
@@ -1613,7 +1613,7 @@ class MediaEmbed {
 	}
 	//return iframe url
 	private function funnyordie_iframe(){
-		return 'http://public0.ordienetworks.com/flash/fodplayer.swf?key='.$this->funnyordie_decode();
+		return 'https://public0.ordienetworks.com/flash/fodplayer.swf?key='.$this->funnyordie_decode();
 	}
 	//return embed url
 	private function funnyordie_embed(){
@@ -1621,11 +1621,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function funnyordie_url(){
-		return 'http://www.funnyordie.com/videos/'.($this->code);
+		return 'https://www.funnyordie.com/videos/'.($this->code);
 	}
 	//return website url
 	private function funnyordie_site(){
-		return 'http://www.funnyordie.com';
+		return 'https://www.funnyordie.com';
 	}
 	//return title
 	private function funnyordie_title($res){
@@ -1635,7 +1635,7 @@ class MediaEmbed {
 	/**************************
 	* TWITPIC FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function twitpic_data(){
 		return array(
 			'thumb' => false,
@@ -1647,16 +1647,16 @@ class MediaEmbed {
 			'title' => false
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function twitpic_req(){
 		return '';
 	}
 	//return thumbnails
 	private function twitpic_thumb(){
 		$arr = array();
-		$arr['large'] = 'http://twitpic.com/show/full/'.($this->code).'.jpg';
-		$arr['medium'] = 'http://twitpic.com/show/large/'.($this->code).'.jpg';
-		$arr['small'] = 'http://twitpic.com/show/thumb/'.($this->code).'.jpg';
+		$arr['large'] = 'https://twitpic.com/show/full/'.($this->code).'.jpg';
+		$arr['medium'] = 'https://twitpic.com/show/large/'.($this->code).'.jpg';
+		$arr['small'] = 'https://twitpic.com/show/thumb/'.($this->code).'.jpg';
 		return $arr;
 	}
 	//return size
@@ -1673,11 +1673,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function twitpic_url(){
-		return 'http://twitpic.com/'.($this->code);
+		return 'https://twitpic.com/'.($this->code);
 	}
 	//return website url
 	private function twitpic_site(){
-		return 'http://twitpic.com';
+		return 'https://twitpic.com';
 	}
 	//return title
 	private function twitpic_title(){
@@ -1687,7 +1687,7 @@ class MediaEmbed {
 	/**************************
 	* YFROG FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function yfrog_data(){
 		return array(
 			'thumb' => true,
@@ -1699,9 +1699,9 @@ class MediaEmbed {
 			'title' => true
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function yfrog_req(){
-		return 'http://www.yfrog.com/api/oembed?url='.$this->yfrog_url();
+		return 'https://www.yfrog.com/api/oembed?url='.$this->yfrog_url();
 	}
 	//return thumbnails
 	private function yfrog_thumb($res){
@@ -1710,14 +1710,14 @@ class MediaEmbed {
 		if(is_array($res) && !empty($res) && isset($res['url']))
 		{
 			$arr['large'] = $res['url'];
-			$arr['medium'] = 'http://yfrog.com/'.($this->code).':medium';
-			$arr['small'] = 'http://yfrog.com/'.($this->code).':small';
+			$arr['medium'] = 'https://yfrog.com/'.($this->code).':medium';
+			$arr['small'] = 'https://yfrog.com/'.($this->code).':small';
 		}
 		else
 		{
-			$arr['large'] = 'http://yfrog.com/'.($this->code).':small';
-			$arr['medium'] = 'http://yfrog.com/'.($this->code).':small';
-			$arr['small'] = 'http://yfrog.com/'.($this->code).':small';
+			$arr['large'] = 'https://yfrog.com/'.($this->code).':small';
+			$arr['medium'] = 'https://yfrog.com/'.($this->code).':small';
+			$arr['small'] = 'https://yfrog.com/'.($this->code).':small';
 		}
 		return $arr;
 	}
@@ -1741,11 +1741,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function yfrog_url(){
-		return 'http://yfrog.com/'.($this->code);
+		return 'https://yfrog.com/'.($this->code);
 	}
 	//return website url
 	private function yfrog_site(){
-		return 'http://yfrog.com';
+		return 'https://yfrog.com';
 	}
 	//return title
 	private function yfrog_title($res){
@@ -1755,7 +1755,7 @@ class MediaEmbed {
 	/**************************
 	* BREAK FUNCTIONS
 	**************************/
-	//which data needs additional http request
+	//which data needs additional https request
 	private function break_data(){
 		return array(
 			'thumb' => true,
@@ -1767,7 +1767,7 @@ class MediaEmbed {
 			'title' => false
 		);
 	}
-	//return http request url where to get data
+	//return https request url where to get data
 	private function break_req(){
 		return $this->break_url();
 	}
@@ -1802,7 +1802,7 @@ class MediaEmbed {
 	private function break_iframe(){
 		$parts = explode('-', $this->code);
         //get the last part of url
-		return 'http://embed.break.com/'.$parts[sizeof($parts)-1];
+		return 'https://embed.break.com/'.$parts[sizeof($parts)-1];
 	}
 	//return embed url
 	private function break_embed(){
@@ -1810,11 +1810,11 @@ class MediaEmbed {
 	}
 	//return canonical url
 	private function break_url(){
-		return 'http://www.break.com/index/'.($this->code);
+		return 'https://www.break.com/index/'.($this->code);
 	}
 	//return website url
 	private function break_site(){
-		return 'http://www.break.com';
+		return 'https://www.break.com';
 	}
 	//return title
 	private function break_title(){
