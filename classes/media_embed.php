@@ -29,7 +29,7 @@ class MediaEmbed {
 	private $default_size = array('w' => 425, 'h' => 344);
 	private $all_types = array(
 		'youtube' => array(
-			'link' => '/https?:\/\/[mw\.]*youtube\.com\/watch\?v=([^&#]*)|https?:\/\/[w\.]*youtube\.com\/watch\?[^&]+&v=([^&#]*)|https?:\/\/[w\.]*youtu\.be\/([^&#]*)/i',
+			'link' => '/https?:\/\/[mw\.]*youtube\.com\/watch\?v=([^&#]*)|https?:\/\/[w\.]*youtube\.com\/watch\?[^&]+&v=([^&#]*)|https?:\/\/[w\.]*youtu\.be\/([^\?&#]*)/i',
 			'embed' => '/https?:\/\/[mw\.]*youtube\.com\/v\/([^?&#"\']*)/is',
 			'iframe' => '/https?:\/\/[mw\.]*youtube\.com\/embed\/([^?&#"\']*)/is'
 		),

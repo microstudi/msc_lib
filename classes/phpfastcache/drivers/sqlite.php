@@ -36,7 +36,7 @@ class phpfastcache_sqlite extends phpFastCache implements phpfastcache_driver  {
         $dir = opendir($this->path);
         while($file = readdir($dir)) {
             if($file != "." && $file!=".." && $file != "indexing" && $file!="dbfastcache") {
-                unlink($this->path."/".$file);
+                @unlink($this->path."/".$file);
             }
         }
 
@@ -321,11 +321,16 @@ class phpfastcache_sqlite extends phpFastCache implements phpfastcache_driver  {
     }
 
     function driver_clean($option = array()) {
+        
+        // close connection
+        $this->instant = array();
+        $this->indexing = NULL;
+    
         // delete everything before reset indexing
         $dir = opendir($this->path);
         while($file = readdir($dir)) {
             if($file != "." && $file!="..") {
-                unlink($this->path."/".$file);
+                @unlink($this->path."/".$file);
             }
         }
     }

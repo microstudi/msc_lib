@@ -20,7 +20,7 @@ global $CONFIG;
 
 ///Global var $CONFIG
 $CONFIG = new stdClass;
-$CONFIG->version = 0.91;
+$CONFIG->version = 0.92;
 ///set to true to show errors
 $CONFIG->debug = true;
 
@@ -28,6 +28,7 @@ $CONFIG->debug = true;
 $CONFIG->db = null;
 ///default database type
 $CONFIG->default_database = 'mysql';
+$CONFIG->database_timezone = null;
 //cache for SELECT clausules
 $CONFIG->database_run_cache = null;
 $CONFIG->database_run_cache_autoclear = false;
@@ -35,6 +36,9 @@ $CONFIG->database_cache = null;
 $CONFIG->database_cache_enabled = false;
 $CONFIG->database_cache_paused = false;
 $CONFIG->database_cache_time = 0;
+$CONFIG->database_log_queries = false;
+$CONFIG->database_log = array('noncached' => array(), 'cached' => array(), 'runcached' => array());
+$CONFIG->database_counter = array('select' => 0, 'cache'=> 0, 'nocache' =>0, 'cached' => 0, 'runcached' => 0);
 
 ///views path
 $CONFIG->views_path = dirname(__FILE__) . '/views';

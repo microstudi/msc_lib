@@ -58,7 +58,7 @@ function m_sql_set_cache($type = 'runtime', $time = 60, $path = '', $options = a
 	if(in_array($type, array('auto', 'apc', 'memcache', 'memcached', 'wincache' ,'files', 'sqlite', 'xcache'))) {
 		require_once(dirname(dirname(__FILE__)) . '/classes/phpfastcache/phpfastcache.php');
 
-		$CONFIG->database_cache = phpFastCache(array('storage' => $type, 'path' => $path) + $options);
+		$CONFIG->database_cache = phpFastCache($type, array('path' => $path) + $options);
 		$CONFIG->database_cache_time = $time;
 	}
 	$CONFIG->database_cache_enabled = true;
@@ -106,6 +106,17 @@ function m_sql_open( ) {
 
 	if( !($CONFIG->db instanceOf mMySQL) ) return false;
 
+	if(!$CONFIG->db->is_open() && is_string($CONFIG->database_timezone)) {
+		try {
+			$CONFIG->db->open();
+			$sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
+			$CONFIG->database_counter['nocache']++;
+			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
+
+			$CONFIG->db->query($sql);
+		}
+		catch(Exception $e) {}
+	}
 	return $CONFIG->db->open();
 }
 
@@ -205,23 +216,36 @@ function m_sql_objects($sql, $class='') {
 
 	//open connection if not opened
 	if(!m_sql_open()) return false;
-	$is_select = false;
+
+	$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'select' || strtolower(rtrim(substr(ltrim($sql),0 ,4))) === 'show' );
+	if($is_select) $CONFIG->database_counter['select']++;
+
 	//cache on select or show only
 	if($CONFIG->database_cache_enabled) {
-		$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'select' || strtolower(rtrim(substr(ltrim($sql),0 ,4))) === 'show' );
 		$is_update = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'update' || strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'delete' );
 		if($is_select) {
 			$id = 'm_sql-' . $CONFIG->db->token. '-' . md5($sql);
 
 			if (is_array($CONFIG->database_run_cache) && array_key_exists($id, $CONFIG->database_run_cache)) {
 				// echo "EXISTS CACHE [$id] [$sql]\n";
+				//runtime query cached
+
 				$ret = unserialize($CONFIG->database_run_cache[$id]);
-				if($ret) return $ret;
+				if($ret) {
+					$CONFIG->database_counter['runcached']++;
+					if($CONFIG->database_log_queries) $CONFIG->database_log['runcached'][] = $sql;
+
+					return $ret;
+				}
 			}
 			if($CONFIG->database_cache) {
 				$rows = $CONFIG->database_cache->get($id);
 				if($rows !== null) {
-					$rows = $CONFIG->database_cache->touch($id, $CONFIG->database_cache_time);
+					// $CONFIG->database_cache->touch($id, $CONFIG->database_cache_time);
+					// disk cached
+					$CONFIG->database_counter['cached']++;
+					if($CONFIG->database_log_queries) $CONFIG->database_log['cached'][] = $sql;
+
 					return $rows;
 				}
 			}
@@ -232,6 +256,13 @@ function m_sql_objects($sql, $class='') {
 	$ret = array();
 	// $t = microtime(true);
 	if($res = $CONFIG->db->query($sql)) {
+		//sql queries that can be cached
+		if($is_select) $CONFIG->database_counter['cache']++;
+		//sql queries that cannot be cached
+		else 	 	   $CONFIG->database_counter['nocache']++;
+
+		if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
+
 		// echo round(microtime(true) - $t, 4)."s :$sql\n";
 		while($ob = $CONFIG->db->fetch($res,false, $class ? $class : 'stdClass')) {
 			$ret[] = $ob;
@@ -343,6 +374,12 @@ function m_sql_exec($sql, $mode='') {
 	global $CONFIG;
 	//open connection if not opened
 	if(!m_sql_open()) return false;
+	$is_select = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'select' || strtolower(rtrim(substr(ltrim($sql),0 ,4))) === 'show' );
+	if($is_select) $CONFIG->database_counter['select']++;
+
+	//sql queries that cannot be cached
+	$CONFIG->database_counter['nocache']++;
+	if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
 
 	$res = $CONFIG->db->query($sql, $mode);
 	if($CONFIG->database_cache_enabled) {
@@ -499,10 +536,50 @@ function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_
 }
 
 /**
+ * tells to log queries
+ */
+function m_sql_log_queries() {
+	global $CONFIG;
+	$CONFIG->database_log_queries = true;
+}
+/**
+ * Sets the timezone
+ */
+function m_sql_timezone($timezone) {
+	global $CONFIG;
+	$CONFIG->database_timezone = $timezone;
+}
+
+/**
+ *  return stats
+ */
+function m_sql_stats() {
+	global $CONFIG;
+	$total = $CONFIG->database_counter['cache'] + $CONFIG->database_counter['nocache'] + $CONFIG->database_counter['cached'] + $CONFIG->database_counter['runcached'];
+	$total_non_cached = $CONFIG->database_counter['cache'] + $CONFIG->database_counter['nocache'];
+	$total_cached = $CONFIG->database_counter['cached'] + $CONFIG->database_counter['runcached'];
+
+
+	//sql queries that can be cached
+	$ret = array('sql_total' => $total,
+				 'sql_select' => $CONFIG->database_counter['select'],
+				 'sql_non_cached' => $total_non_cached,
+				 'sql_cached' => $total_cached,
+				 'sql_disk_cached' => $CONFIG->database_counter['cached'],
+				 'sql_run_cached' => $CONFIG->database_counter['runcached']
+				 );
+
+	if($CONFIG->database_log_queries) {
+		$ret['sql_log_non_cached'] = $CONFIG->database_log['noncached'];
+		$ret['sql_log_cached']     = $CONFIG->database_log['cached'];
+		$ret['sql_log_run_cached'] = $CONFIG->database_log['runcached'];
+	}
+	return $ret;
+}
+/**
  * Returns last error
  */
 function m_sql_error() {
 	global $CONFIG;
 	return $CONFIG->db->getError();
 }
-?>
