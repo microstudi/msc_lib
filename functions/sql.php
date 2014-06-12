@@ -106,17 +106,6 @@ function m_sql_open( ) {
 
 	if( !($CONFIG->db instanceOf mMySQL) ) return false;
 
-	if(!$CONFIG->db->is_open() && is_string($CONFIG->database_timezone)) {
-		try {
-			$CONFIG->db->open();
-			$sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
-			$CONFIG->database_counter['nocache']++;
-			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
-
-			$CONFIG->db->query($sql);
-		}
-		catch(Exception $e) {}
-	}
 	return $CONFIG->db->open();
 }
 
@@ -254,6 +243,19 @@ function m_sql_objects($sql, $class='') {
 	}
 
 	$ret = array();
+
+	if(!$CONFIG->database_timezone_executed && is_string($CONFIG->database_timezone)) {
+		try {
+			$_sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
+			$CONFIG->database_counter['nocache']++;
+			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
+
+			$CONFIG->db->query($_sql);
+			$CONFIG->database_timezone_executed = true;
+		}
+		catch(Exception $e) {}
+	}
+
 	// $t = microtime(true);
 	if($res = $CONFIG->db->query($sql)) {
 		//sql queries that can be cached
@@ -380,6 +382,18 @@ function m_sql_exec($sql, $mode='') {
 	//sql queries that cannot be cached
 	$CONFIG->database_counter['nocache']++;
 	if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
+
+	if(!$CONFIG->database_timezone_executed && is_string($CONFIG->database_timezone)) {
+		try {
+			$_sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
+			$CONFIG->database_counter['nocache']++;
+			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
+
+			$CONFIG->db->query($_sql);
+			$CONFIG->database_timezone_executed = true;
+		}
+		catch(Exception $e) {}
+	}
 
 	$res = $CONFIG->db->query($sql, $mode);
 	if($CONFIG->database_cache_enabled) {
