@@ -161,6 +161,8 @@ class mImage {
 			case IMAGETYPE_XBM :
 				$this->gd = imagecreatefromxbm($file);
 				break;
+			default:
+			$this->throwError("Not found type [$type] for $file!");
 		}
 
 		if(self::is_gd($this->gd)) {
