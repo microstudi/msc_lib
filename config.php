@@ -30,6 +30,8 @@ $CONFIG->db = null;
 $CONFIG->default_database = 'mysql';
 $CONFIG->database_timezone = null;
 $CONFIG->database_timezone_executed = false;
+$CONFIG->database_names = null;
+$CONFIG->database_names_executed = false;
 //cache for SELECT clausules
 $CONFIG->database_run_cache = null;
 $CONFIG->database_run_cache_autoclear = false;

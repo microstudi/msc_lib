@@ -27,6 +27,7 @@ class mRouter {
 	private $route = array();
 	private $base_path = '';
 	private $current_url = null;
+	private $current_uri = null;
 	private $error_action = null;
 	private $last_error = '';
 	private $action = '';
@@ -53,6 +54,8 @@ class mRouter {
 		$this->current_url = $url;
 		if($url{0} != '?') $url = strtok($url, '?');
 		else $url = '';
+		$this->current_uri = $url;
+
 		// echo "[$url]";
         foreach($this->route as $reg_expr => $acts) {
         	$action = $acts[0];
@@ -72,7 +75,7 @@ class mRouter {
                     ob_end_clean();
                 }
                 // echo "match [$reg_expr] [$url] [$action_string]\n";
-                return $url; //return the url match
+                return $this->current_uri; //return the url match
 
 			}
             elseif (@preg_match($reg_expr, $url, $vars)) {
@@ -88,7 +91,7 @@ class mRouter {
                     $this->result = ob_get_contents();
                     ob_end_clean();
                 }
-                return $url; //return the matched patterns
+                return $this->current_uri; //return the matched patterns
             }
         }
         if (!isset($ret) && !$ret) {

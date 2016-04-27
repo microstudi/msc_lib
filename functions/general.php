@@ -23,6 +23,13 @@ function m_forward($path) {
 }
 
 /**
+ * Returns true if is a ajax request
+ * @return boolean
+ */
+function m_is_ajax_request() {
+    return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+}
+/**
  * Sends a header for non-caching
  * @return [type] [description]
  */

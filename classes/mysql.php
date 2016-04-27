@@ -29,6 +29,7 @@ class mMySQL extends mSQL {
 	private $pass = null;
 	private $conn = null;
 	private $utf8 = true;
+	private $driver = 'mysqli';
 	private $utf8_set = false;
 	private $last_error = '';
 	private $sql_results = array(); //all results
@@ -50,6 +51,8 @@ class mMySQL extends mSQL {
 		$this->pass = $pass;
 		$this->utf8 = $utf8;
 		$this->token = "$host-$name";
+
+		if(!function_exists('mysqli_connect'))  $this->driver = 'mysql';
 	}
 
 	/**
@@ -74,16 +77,23 @@ class mMySQL extends mSQL {
 		if($this->is_open()) return $this->conn;
 		try {
 			set_error_handler(array($this,'error_handler'),E_ALL & ~E_NOTICE & ~E_STRICT);
-			if($this->conn = @mysql_connect ($this->host, $this->user, $this->pass, true)) {
-				if(mysql_select_db ($this->name, $this->conn)) {
-					return $this->conn;
-				}
-				else {
+
+			$this->utf8_set = false;
+		    if($this->driver == 'mysqli') {
+		        $this->conn = mysqli_connect($this->host, $this->user, $this->pass, $this->name);
+		    }
+		    else {
+		        $this->conn = mysql_connect($this->host, $this->user, $this->pass, true);
+				if(!mysql_select_db ($this->name, $this->conn)) {
 					$this->throwError('MySQL Connection Database Error: ' . mysql_error(), true);
 				}
+		    }
+
+			if($this->conn) {
+				return $this->conn;
 			}
 			else {
-				$this->throwError('MySQL Connection Database Error: ' . mysql_error(), true);
+				$this->throwError('MySQL Connection Database Error: ' . ($this->driver == 'mysqli' ? $this->conn->error : mysql_error()), true);
 			}
 			restore_error_handler();
 			return $this->conn;
@@ -98,8 +108,10 @@ class mMySQL extends mSQL {
 	 */
 	function close (){
 		if($this->conn){
-			mysql_close($this->conn);
+			if($this->driver == 'mysqli') $this->conn->close();
+			else mysql_close($this->conn);
 			$this->conn = null;
+			$this->utf8_set = false;
 		}
 		else {
 			$this->throwError('Error: No connection has been established to the database. Cannot close connection.');
@@ -117,7 +129,7 @@ class mMySQL extends mSQL {
 	function query ($sql, $mode=''){
 
 		if($this->conn) {
-			if($this->utf8 && !$this->utf8_set) $this->setUTF8();
+			if($this->utf8) $this->setUTF8();
 			if(is_array($sql))  $_sql = $sql;
 			else $_sql = array($sql);
 
@@ -125,25 +137,37 @@ class mMySQL extends mSQL {
 			else $ret = true;
 
 			foreach($_sql as $i => $sql) {
-				if($res = mysql_query($sql, $this->conn)) {
+
+				if($this->driver == 'mysqli') $res = $this->conn->query($sql);
+				else $res = mysql_query($sql, $this->conn);
+
+				if($res) {
 					$this->last_error = '';
 
 					//insert mode, return the new id
 					if($mode == 'insert') {
-						$ret = mysql_insert_id($this->conn);
+						if($this->driver == 'mysqli') $ret = $this->conn->insert_id;
+						else $ret = mysql_insert_id($this->conn);
 					}
 
 					//this mode returns all fi it the the update goes right, no matter if it's really updated or not
 					elseif($mode == 'update') {
-						$info_str = mysql_info($this->conn);
-						$a_rows = mysql_affected_rows($this->conn);
+						if($this->driver == 'mysqli') {
+							$info_str = $this->conn->info;
+							$a_rows = $this->conn->affected_rows;
+						}
+						else {
+							$info_str = mysql_info($this->conn);
+							$a_rows = mysql_affected_rows($this->conn);
+						}
 						preg_match('/Rows matched: ([0-9]*)/', $info_str, $r_matched);
 						//print_r($info_str);echo "<br>\n";print_r($r_matched);echo "<br>\n";die("return: ".(($a_rows < 1)?($r_matched[1]?$r_matched[1]:0):$a_rows));
 						$ret = ($a_rows < 1) ? ($r_matched[1] ? $r_matched[1] : 0) : $a_rows;
 					}
 					//this mode return the number of affected rows
 					elseif($mode == 'affected' || $mode == 'delete') {
-						$ret = mysql_affected_rows($this->conn);
+						if($this->driver == 'mysqli') $ret = $this->conn->affected_rows;
+						else $ret = mysql_affected_rows($this->conn);
 					}
 					else $ret = $res;
 					$this->sql_results[$i] = $ret;
@@ -171,8 +195,11 @@ class mMySQL extends mSQL {
 	 * Sends the SET NAMES UTF8 to the MySQL server to establish data as UTF-8
 	 * */
 	function setUTF8() {
+		if($this->utf8_set) return true;
 		if($this->conn) {
-			if($res = mysql_query('SET NAMES UTF8', $this->conn)) {
+			if($this->driver == 'mysqli') $res = $this->conn->set_charset('utf8');
+			else $res = mysql_query('SET NAMES UTF8', $this->conn);
+			if($res) {
 				$this->last_error = '';
 				$this->utf8_set = true;
 				return $res;
@@ -194,12 +221,14 @@ class mMySQL extends mSQL {
 			if(!($t = $this->query($t))) return false;
 		}
 
-		if(is_resource($t)) {
+		if(($this->driver == 'mysqli' && is_object($t)) || is_resource($t)) {
 			if($class) {
-				return mysql_fetch_object($t, $class);
+				if($this->driver == 'mysqli') return $t->fetch_object($class);
+				else return mysql_fetch_object($t, $class);
 			}
 			else {
-				return mysql_fetch_assoc($t);
+				if($this->driver == 'mysqli') return $t->fetch_assoc();
+				else return mysql_fetch_assoc($t);
 			}
 		}
 		return false;
@@ -208,7 +237,10 @@ class mMySQL extends mSQL {
 	 * Escapes SQL strings
 	 */
 	function escape($val) {
-		if($this instanceOf mMySQL && $this->conn) return mysql_real_escape_string($val, $this->conn);
+		if($this instanceOf mMySQL && $this->conn) {
+			if($this->driver == 'mysqli') return $this->conn->escape_string($val);
+			else return mysql_real_escape_string($val, $this->conn);
+		}
 		return parent::escape($val);
 	}
 
@@ -234,8 +266,13 @@ class mMySQL extends mSQL {
 	 */
 	function throwError($msg='', $die=false) {
 		if(!$msg) {
-			if($this->conn) $msg = mysql_error($this->conn);
-			else $msg = mysql_error();
+			if($this->driver == 'mysqli') {
+				if($this->conn) $msg = $this->conn->error;
+			}
+			else {
+				if($this->conn) $msg = mysql_error($this->conn);
+				else $msg = mysql_error();
+			}
 		}
 		$this->last_error = $msg;
 		if($die) {

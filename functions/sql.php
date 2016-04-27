@@ -127,9 +127,9 @@ function m_sql_escape($val) {
 	global $CONFIG;
 	if($CONFIG->default_database == 'mysql') {
 		if($CONFIG->db instanceOf mMySQL && $CONFIG->db->is_open()) return $CONFIG->db->escape($val);
-		else return mMySQL::escape($val);
+		else return mMySQL::static_escape($val);
 	}
-	return mSQL::escape($val);
+	return mSQL::static_escape($val);
 }
 
 /**
@@ -143,10 +143,10 @@ function m_sql_escape($val) {
  * @param $fulltext 'field1' //FULLTEXT INDEX FIELDS
  * @param $fulltext array('field1','field2') //FULLTEXT INDEX FIELDS
  */
-function m_create_table($table, $keys=array(), $pk='', $unique='', $fulltext='', $engine='MyISAM', $default_charset='utf8') {
+function m_create_table($table, $keys=array(), $pk='', $unique='', $fulltext='', $default_charset='utf8', $engine='') {
 	global $CONFIG;
 
-	$sql = "CREATE TABLE IF NOT EXISTS `$table` (";
+	$sql = "CREATE TABLE `$table` (";
 	$fields = array();
 	foreach($keys as $k => $v) {
 		$fields[] = "`$k` $v";
@@ -210,10 +210,10 @@ function m_sql_objects($sql, $class='') {
 	if($is_select) $CONFIG->database_counter['select']++;
 
 	//cache on select or show only
+	$id = 'm_sql-' . $CONFIG->db->token. '-' . md5($sql);
 	if($CONFIG->database_cache_enabled) {
 		$is_update = ( strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'update' || strtolower(rtrim(substr(ltrim($sql),0 ,6))) === 'delete' );
 		if($is_select) {
-			$id = 'm_sql-' . $CONFIG->db->token. '-' . md5($sql);
 
 			if (is_array($CONFIG->database_run_cache) && array_key_exists($id, $CONFIG->database_run_cache)) {
 				// echo "EXISTS CACHE [$id] [$sql]\n";
@@ -244,14 +244,26 @@ function m_sql_objects($sql, $class='') {
 
 	$ret = array();
 
-	if(!$CONFIG->database_timezone_executed && is_string($CONFIG->database_timezone)) {
+	if($CONFIG->database_timezone_executed !== $CONFIG->database_timezone && is_string($CONFIG->database_timezone)) {
 		try {
 			$_sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
 			$CONFIG->database_counter['nocache']++;
 			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
 
 			$CONFIG->db->query($_sql);
-			$CONFIG->database_timezone_executed = true;
+			$CONFIG->database_timezone_executed = $CONFIG->database_timezone;
+		}
+		catch(Exception $e) {}
+	}
+
+	if($CONFIG->database_names_executed !== $CONFIG->database_names && is_string($CONFIG->database_names)) {
+		try {
+			$_sql = 'SET NAMES ' . str_replace("'",'',$CONFIG->database_names);
+			$CONFIG->database_counter['nocache']++;
+			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
+
+			$CONFIG->db->query($_sql);
+			$CONFIG->database_names_executed = $CONFIG->database_names;
 		}
 		catch(Exception $e) {}
 	}
@@ -383,14 +395,25 @@ function m_sql_exec($sql, $mode='') {
 	$CONFIG->database_counter['nocache']++;
 	if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $sql;
 
-	if(!$CONFIG->database_timezone_executed && is_string($CONFIG->database_timezone)) {
+	if($CONFIG->database_timezone_executed !== $CONFIG->database_timezone && is_string($CONFIG->database_timezone)) {
 		try {
 			$_sql = "SET time_zone = '" . str_replace("'",'',$CONFIG->database_timezone) . "'";
 			$CONFIG->database_counter['nocache']++;
 			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
 
 			$CONFIG->db->query($_sql);
-			$CONFIG->database_timezone_executed = true;
+			$CONFIG->database_timezone_executed = $CONFIG->database_timezone;
+		}
+		catch(Exception $e) {}
+	}
+	if($CONFIG->database_names_executed !== $CONFIG->database_names && is_string($CONFIG->database_names)) {
+		try {
+			$_sql = 'SET NAMES ' . str_replace("'",'',$CONFIG->database_names);
+			$CONFIG->database_counter['nocache']++;
+			if($CONFIG->database_log_queries) $CONFIG->database_log['noncached'][] = $_sql;
+
+			$CONFIG->db->query($_sql);
+			$CONFIG->database_names_executed = $CONFIG->database_names;
 		}
 		catch(Exception $e) {}
 	}
@@ -552,16 +575,27 @@ function m_sql_insert_update($table, $insert=array(), $escape=true, $custom_sql_
 /**
  * tells to log queries
  */
-function m_sql_log_queries() {
+function m_sql_log_queries($log = null) {
 	global $CONFIG;
-	$CONFIG->database_log_queries = true;
+	if($log) $CONFIG->database_log_queries = ($log ? true : false);
+	return $CONFIG->database_log_queries;
 }
 /**
  * Sets the timezone
  */
-function m_sql_timezone($timezone) {
+function m_sql_timezone($timezone = null) {
 	global $CONFIG;
-	$CONFIG->database_timezone = $timezone;
+	if($timezone) $CONFIG->database_timezone = $timezone;
+	return $CONFIG->database_timezone;
+}
+/**
+ * Sets the names charset
+ * @param $names utf8, latin1, etc
+ */
+function m_sql_names($names = null) {
+	global $CONFIG;
+	if($names) $CONFIG->database_names = $names;
+	return $CONFIG->database_names;
 }
 
 /**

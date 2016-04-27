@@ -87,6 +87,7 @@ class mImage {
 
 	public function file($file=''){
 		if($file) {
+			if(substr($file, 0, 2) === '//') $file = 'http:' . $file;
 			$this->file = $file;
 		}
 		return $this->file;
@@ -141,8 +142,8 @@ class mImage {
 			else return $this->gd;
 		}
 
-		if($file) $this->file = $file;
-		else 	  $file = $this->file;
+		if($file) $this->file($file);
+		$file = $this->file;
 		$type = $this->image_type($file);
 
 		switch ($type) {
