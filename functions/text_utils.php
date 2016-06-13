@@ -130,7 +130,10 @@ function m_friendly_time($time, $titles=array(
  * @param  integer $iteration_count_log2 [description]
  * @return [type]         [description]
  */
-function m_password_check($passwd, $hash, $iteration_count_log2 = 8) {
+function m_password_check($passwd, $hash, $iteration_count_log2 = 10) {
+	if(function_exists('password_verify')) {
+		return password_verify($passwd, $hash);
+	}
 	require_once(dirname(dirname(__FILE__)) . '/classes/PasswordHash.php');
 
 	$hasher = new PasswordHash((int)$iteration_count_log2, false);
@@ -145,7 +148,10 @@ function m_password_check($passwd, $hash, $iteration_count_log2 = 8) {
  * @param  integer $iteration_count_log2 [description]
  * @return [type]                        [description]
  */
-function m_password_hash($passwd, $iteration_count_log2 = 8) {
+function m_password_hash($passwd, $iteration_count_log2 = 10) {
+	if(function_exists('password_hash')) {
+		return password_hash($passwd, PASSWORD_DEFAULT, array('cost' => $iteration_count_log2));
+	}
 	require_once(dirname(dirname(__FILE__)) . '/classes/PasswordHash.php');
 
 	$hasher = new PasswordHash((int)$iteration_count_log2, false);
